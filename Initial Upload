@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Park Guide — Best Kid-Friendly Parks in California</title>
+<meta name="description" content="Discover the best kid-friendly parks in California. Curated scores, parent tips, and real reviews.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --sage: #4a6741;
+    --sage-light: #7a9e6d;
+    --sage-pale: #eef3eb;
+    --cream: #faf8f3;
+    --warm-white: #ffffff;
+    --sand: #e8dfc8;
+    --terracotta: #c4654a;
+    --terra-pale: #faf0ec;
+    --ink: #1a1a18;
+    --ink-muted: #4a4a44;
+    --ink-faint: #8a8a82;
+    --gold: #d4a847;
+    --gold-pale: #fdf6e3;
+    --border: rgba(26,26,24,0.1);
+    --border-strong: rgba(26,26,24,0.18);
+    --radius: 16px;
+    --radius-sm: 8px;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--cream); color: var(--ink); min-height: 100vh; overflow-x: hidden; }
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px;
+    background: rgba(250,248,243,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 500; color: var(--sage); letter-spacing: -0.3px; cursor: pointer; }
+  .nav-logo span { color: var(--ink); }
+  .nav-actions { display: flex; align-items: center; gap: 8px; }
+  .nav-btn { padding: 8px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; border: none; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
+  .nav-btn-ghost { background: transparent; color: var(--ink-muted); }
+  .nav-btn-ghost:hover { background: rgba(26,26,24,0.06); }
+  .nav-btn-solid { background: var(--sage); color: white; }
+  .nav-btn-solid:hover { background: #3d5836; }
+
+  /* ===== PAGES ===== */
+  .page { display: none; min-height: 100vh; }
+  .page.active { display: block; }
+  #search.active { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+
+  /* ===== LOCATION MODAL ===== */
+  .location-modal {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(26,26,18,0.6);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex; align-items: flex-end; justify-content: center;
+    padding: 0 0 20px;
+  }
+  .location-modal.hidden { display: none; }
+  .modal-sheet {
+    background: white; border-radius: 20px 20px 16px 16px;
+    padding: 28px 24px 32px; width: 100%; max-width: 480px;
+    text-align: center;
+    animation: slideUp 0.3s ease;
+  }
+  @keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  .modal-icon { font-size: 40px; margin-bottom: 16px; }
+  .modal-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 500; color: var(--ink); margin-bottom: 8px; }
+  .modal-sub { font-size: 14px; color: var(--ink-faint); margin-bottom: 24px; line-height: 1.6; }
+  .modal-btn-primary {
+    width: 100%; padding: 15px; border-radius: 12px;
+    background: var(--sage); color: white; font-size: 15px; font-weight: 500;
+    border: none; cursor: pointer; margin-bottom: 10px;
+    font-family: 'DM Sans', sans-serif; transition: background 0.15s;
+  }
+  .modal-btn-primary:hover { background: #3d5836; }
+  .modal-btn-ghost {
+    width: 100%; padding: 12px; border-radius: 12px;
+    background: transparent; color: var(--ink-muted); font-size: 14px;
+    border: none; cursor: pointer; font-family: 'DM Sans', sans-serif;
+  }
+  .modal-btn-ghost:hover { background: var(--sage-pale); }
+
+  /* ===== HERO ===== */
+  #home { padding-top: 64px; }
+  .hero {
+    position: relative; min-height: 92vh;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 40px 20px; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background: linear-gradient(160deg, #3d5836 0%, #5a7a52 30%, #7a9e6d 60%, #c4a882 100%);
+  }
+  .hero-photo-grid {
+    position: absolute; inset: 0; z-index: 1;
+    display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
+    opacity: 0.3;
+  }
+  .hero-photo-cell { overflow: hidden; background-size: cover; background-position: center; }
+  .hero-photo-cell:nth-child(1) { background-image: url('https://images.unsplash.com/photo-1551632811-561732d1e306?w=600&q=80'); }
+  .hero-photo-cell:nth-child(2) { background-image: url('https://images.unsplash.com/photo-1566153060903-cef5c19a61b4?w=600&q=80'); }
+  .hero-photo-cell:nth-child(3) { background-image: url('https://images.unsplash.com/photo-1540979388789-6cee28a1cdc9?w=600&q=80'); }
+  .hero-photo-cell:nth-child(4) { background-image: url('https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=600&q=80'); }
+  .hero-overlay { position: absolute; inset: 0; z-index: 2; background: linear-gradient(to top, rgba(20,20,14,0.78) 0%, rgba(20,20,14,0.28) 50%, transparent 100%); }
+  .hero-content { position: relative; z-index: 3; }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,0.14); backdrop-filter: blur(8px);
+    border: 0.5px solid rgba(255,255,255,0.28);
+    border-radius: 20px; padding: 5px 12px; margin-bottom: 20px;
+    font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.88); letter-spacing: 0.5px;
+  }
+  .hero-dot { width: 6px; height: 6px; border-radius: 50%; background: #7ed664; flex-shrink: 0; }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(34px, 9vw, 56px); font-weight: 500; line-height: 1.1;
+    color: white; margin-bottom: 14px; letter-spacing: -1px;
+  }
+  .hero-title em { font-style: italic; color: rgba(255,255,255,0.72); }
+  .hero-sub { font-size: 16px; color: rgba(255,255,255,0.68); font-weight: 300; margin-bottom: 28px; line-height: 1.55; max-width: 360px; }
+  .hero-cta-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .cta-primary {
+    flex: 1; min-width: 160px; padding: 14px 20px; border-radius: 12px;
+    background: white; color: var(--sage); font-size: 15px; font-weight: 500;
+    border: none; cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .cta-primary:hover { transform: translateY(-1px); background: #f0f7ee; }
+  .cta-secondary {
+    padding: 14px 20px; border-radius: 12px;
+    background: rgba(255,255,255,0.12); color: white; font-size: 15px; font-weight: 400;
+    border: 0.5px solid rgba(255,255,255,0.28); cursor: pointer; transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .cta-secondary:hover { background: rgba(255,255,255,0.2); }
+  .hero-stats {
+    position: relative; z-index: 3;
+    display: flex; gap: 24px; padding-top: 28px;
+    border-top: 0.5px solid rgba(255,255,255,0.15); margin-top: 28px;
+  }
+  .hero-stat-num { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: white; }
+  .hero-stat-label { font-size: 11px; color: rgba(255,255,255,0.5); font-weight: 400; margin-top: 2px; }
+
+  /* ===== SECTIONS ===== */
+  .section { padding: 44px 20px; }
+  .section-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 20px; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 500; color: var(--ink); letter-spacing: -0.3px; }
+  .section-link { font-size: 13px; color: var(--sage); font-weight: 500; cursor: pointer; background: none; border: none; font-family: 'DM Sans', sans-serif; }
+  .section-link:hover { text-decoration: underline; }
+
+  /* ===== CHIPS ===== */
+  .chip-row { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 20px; scrollbar-width: none; -ms-overflow-style: none; }
+  .chip-row::-webkit-scrollbar { display: none; }
+  .chip {
+    flex-shrink: 0; padding: 7px 14px; border-radius: 20px;
+    font-size: 13px; font-weight: 400; cursor: pointer; transition: all 0.15s;
+    border: 0.5px solid var(--border-strong); background: white; color: var(--ink-muted);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .chip.active, .chip:hover { background: var(--sage); color: white; border-color: var(--sage); }
+
+  /* ===== PARK CARDS (home) ===== */
+  .park-cards { display: flex; flex-direction: column; gap: 14px; }
+  .park-card {
+    background: white; border-radius: var(--radius); border: 0.5px solid var(--border);
+    overflow: hidden; cursor: pointer; transition: all 0.2s;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  }
+  .park-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+  .park-card-img {
+    width: 100%; height: 200px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 56px; position: relative; overflow: hidden;
+  }
+  .park-card-badges { position: absolute; top: 12px; left: 12px; display: flex; gap: 6px; flex-wrap: wrap; }
+  .badge { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 500; backdrop-filter: blur(6px); }
+  .badge-gold { background: rgba(212,168,71,0.92); color: #2a1d00; }
+  .badge-sage { background: rgba(74,103,65,0.9); color: white; }
+  .badge-terra { background: rgba(196,101,74,0.9); color: white; }
+  .badge-white { background: rgba(255,255,255,0.9); color: var(--ink); }
+  .score-pill {
+    position: absolute; top: 12px; right: 12px;
+    width: 44px; height: 44px; border-radius: 50%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    background: white; border: 2px solid;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  .score-pill.excellent { border-color: #4a6741; }
+  .score-pill.great { border-color: #7a9e6d; }
+  .score-pill.good { border-color: #d4a847; }
+  .score-num { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 700; line-height: 1; }
+  .score-pill.excellent .score-num { color: #4a6741; }
+  .score-pill.great .score-num { color: #3d5836; }
+  .score-pill.good .score-num { color: #a07a20; }
+  .score-label { font-size: 7px; font-weight: 500; color: var(--ink-faint); letter-spacing: 0.3px; margin-top: 1px; }
+
+  .park-card-body { padding: 14px 16px 16px; }
+  .park-meta-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+  .park-city { font-size: 11px; color: var(--ink-faint); font-weight: 400; letter-spacing: 0.3px; text-transform: uppercase; }
+  .park-dist { font-size: 11px; color: var(--sage); font-weight: 500; }
+  .park-name { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 500; color: var(--ink); margin-bottom: 8px; letter-spacing: -0.3px; }
+  .park-ages { display: flex; gap: 4px; margin-bottom: 10px; flex-wrap: wrap; }
+  .age-chip { padding: 3px 8px; border-radius: 4px; background: var(--sage-pale); color: var(--sage); font-size: 11px; font-weight: 500; }
+  .park-subscores { display: flex; gap: 12px; }
+  .subscore { text-align: center; flex: 1; }
+  .subscore-bar-wrap { height: 3px; background: var(--sage-pale); border-radius: 2px; margin: 4px 0; overflow: hidden; }
+  .subscore-bar { height: 100%; border-radius: 2px; background: var(--sage); }
+  .subscore-val { font-size: 11px; font-weight: 500; color: var(--ink-muted); }
+  .subscore-lbl { font-size: 9px; color: var(--ink-faint); }
+
+  /* ===== EDITORIAL CARDS ===== */
+  .editorial-row { display: flex; gap: 14px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; -ms-overflow-style: none; }
+  .editorial-row::-webkit-scrollbar { display: none; }
+  .editorial-card {
+    flex-shrink: 0; width: 200px; cursor: pointer;
+    background: white; border-radius: var(--radius); border: 0.5px solid var(--border);
+    overflow: hidden; transition: all 0.2s;
+  }
+  .editorial-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+  .editorial-card-img { width: 100%; height: 130px; display: flex; align-items: center; justify-content: center; font-size: 44px; }
+  .editorial-card-body { padding: 10px 12px 12px; }
+  .editorial-card-tag { font-size: 10px; font-weight: 500; color: var(--sage); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .editorial-card-title { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 500; color: var(--ink); line-height: 1.3; }
+
+  /* ===== SEARCH PAGE ===== */
+  .search-bar-wrap {
+    padding: 12px 16px; background: var(--cream);
+    border-bottom: 0.5px solid var(--border); flex-shrink: 0;
+  }
+  .search-bar {
+    display: flex; align-items: center; gap: 10px;
+    background: white; border: 0.5px solid var(--border-strong);
+    border-radius: 12px; padding: 10px 14px;
+  }
+  .search-icon { font-size: 16px; flex-shrink: 0; }
+  .search-input {
+    flex: 1; border: none; outline: none; font-size: 15px;
+    font-family: 'DM Sans', sans-serif; background: transparent; color: var(--ink);
+  }
+  .search-input::placeholder { color: var(--ink-faint); }
+
+  .filter-row { display: flex; gap: 8px; padding: 10px 16px; overflow-x: auto; scrollbar-width: none; flex-shrink: 0; }
+  .filter-row::-webkit-scrollbar { display: none; }
+
+  .map-container { flex: 0 0 42vh; background: #e0edd8; position: relative; overflow: hidden; }
+  .map-container svg { width: 100%; height: 100%; }
+
+  .results-panel { flex: 1; overflow-y: auto; padding: 14px 16px; background: var(--cream); }
+  .results-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .results-count { font-size: 13px; color: var(--ink-faint); }
+  .sort-select {
+    font-size: 12px; font-family: 'DM Sans', sans-serif; padding: 5px 8px;
+    border: 0.5px solid var(--border-strong); border-radius: 6px;
+    background: white; color: var(--ink-muted); cursor: pointer;
+  }
+
+  /* ===== SEARCH CARDS (compact) ===== */
+  .search-card {
+    background: white; border-radius: var(--radius-sm); border: 0.5px solid var(--border);
+    display: flex; gap: 12px; padding: 12px; margin-bottom: 10px; cursor: pointer;
+    transition: all 0.15s; align-items: flex-start;
+  }
+  .search-card:hover { border-color: var(--sage); background: var(--sage-pale); }
+  .search-card-img {
+    width: 70px; height: 70px; border-radius: 8px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 28px;
+    overflow: hidden;
+  }
+  .search-card-body { flex: 1; min-width: 0; }
+  .search-card-name { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
+  .search-card-meta { font-size: 11px; color: var(--ink-faint); margin-bottom: 6px; }
+  .search-card-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+  .badge-sm { padding: 2px 7px; border-radius: 10px; font-size: 10px; font-weight: 500; }
+  .badge-sm-sage { background: var(--sage-pale); color: var(--sage); }
+  .badge-sm-gold { background: var(--gold-pale); color: #6a4800; }
+  .search-card-score {
+    flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    border: 1.5px solid var(--sage); background: white;
+  }
+  .search-score-num { font-family: 'Playfair Display', serif; font-size: 12px; font-weight: 700; color: var(--sage); line-height: 1; }
+
+  /* ===== DETAIL PAGE ===== */
+  #detail { padding-top: 64px; overflow-y: auto; }
+  .detail-hero {
+    height: 55vw; max-height: 340px; position: relative; overflow: hidden;
+    display: flex; align-items: flex-end;
+  }
+  .detail-hero-bg { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 80px; }
+  .detail-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.62) 0%, transparent 60%); z-index: 1; }
+  .detail-hero-content { position: relative; z-index: 2; padding: 16px 20px; width: 100%; }
+  .detail-back {
+    position: absolute; top: 16px; left: 16px; z-index: 10;
+    width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.88);
+    display: flex; align-items: center; justify-content: center;
+    border: none; cursor: pointer; font-size: 16px;
+    backdrop-filter: blur(8px); transition: background 0.15s;
+  }
+  .detail-back:hover { background: white; }
+  .detail-fav {
+    position: absolute; top: 16px; right: 16px; z-index: 10;
+    width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.88);
+    display: flex; align-items: center; justify-content: center;
+    border: none; cursor: pointer; font-size: 18px;
+    backdrop-filter: blur(8px); transition: all 0.15s;
+  }
+  .detail-fav:hover { transform: scale(1.1); background: white; }
+  .detail-score-big { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .score-circle-big {
+    width: 52px; height: 52px; border-radius: 50%; background: white;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    border: 2.5px solid #4a6741; flex-shrink: 0;
+  }
+  .score-circle-num { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: #4a6741; line-height: 1; }
+  .score-circle-lbl { font-size: 8px; color: var(--ink-faint); letter-spacing: 0.5px; }
+  .detail-badges-wrap { display: flex; gap: 6px; flex-wrap: wrap; }
+  .detail-name { font-family: 'Playfair Display', serif; font-size: clamp(22px,6vw,28px); font-weight: 500; color: white; margin-bottom: 6px; letter-spacing: -0.5px; }
+  .detail-loc { font-size: 13px; color: rgba(255,255,255,0.68); }
+
+  .detail-body { padding: 20px; }
+  .detail-section { margin-bottom: 28px; }
+  .detail-section-title {
+    font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 500; color: var(--ink);
+    margin-bottom: 14px; padding-bottom: 10px; border-bottom: 0.5px solid var(--border);
+  }
+
+  .subscores-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .subscore-card { background: var(--sage-pale); border-radius: var(--radius-sm); padding: 12px; }
+  .subscore-card-label { font-size: 10px; color: var(--sage); font-weight: 500; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.4px; }
+  .subscore-card-val { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 500; color: var(--ink); }
+  .subscore-card-bar-wrap { height: 3px; background: rgba(74,103,65,0.15); border-radius: 2px; margin-top: 6px; }
+  .subscore-card-bar { height: 100%; border-radius: 2px; background: var(--sage); }
+
+  .amenity-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .amenity-item {
+    display: flex; align-items: center; gap: 5px;
+    padding: 6px 12px; border-radius: 20px;
+    background: white; border: 0.5px solid var(--border-strong);
+    font-size: 12px; color: var(--ink-muted); font-weight: 400;
+  }
+
+  .tip-card { background: var(--gold-pale); border-radius: var(--radius-sm); padding: 14px; border-left: 3px solid var(--gold); margin-bottom: 10px; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+  .tip-card p { font-size: 14px; color: var(--ink-muted); line-height: 1.6; }
+  .tip-author { font-size: 11px; color: var(--ink-faint); margin-top: 6px; }
+
+  .photo-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .gallery-img { border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+  .gallery-img:first-child { grid-column: span 2; }
+
+  .review-item { padding: 14px 0; border-bottom: 0.5px solid var(--border); }
+  .review-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .reviewer-avatar {
+    width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 500; background: var(--sage-pale); color: var(--sage);
+  }
+  .reviewer-name { font-size: 13px; font-weight: 500; color: var(--ink); }
+  .review-date { font-size: 11px; color: var(--ink-faint); }
+  .review-stars { display: flex; gap: 1px; margin-bottom: 6px; font-size: 12px; color: var(--gold); }
+  .review-text { font-size: 13px; color: var(--ink-muted); line-height: 1.6; }
+
+  .mini-map {
+    width: 100%; height: 120px; border-radius: var(--radius-sm);
+    background: #d4e8cc; border: 0.5px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .mini-map svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .detail-address { font-size: 13px; color: var(--ink-faint); margin-top: 8px; }
+
+  /* ===== BOTTOM NAV ===== */
+  .bottom-nav {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(250,248,243,0.96);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 0.5px solid var(--border);
+    display: flex; padding: 8px 0 max(12px, env(safe-area-inset-bottom));
+  }
+  .bottom-nav-item {
+    flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+    cursor: pointer; padding: 6px 0; transition: all 0.15s;
+    background: none; border: none; font-family: 'DM Sans', sans-serif;
+  }
+  .bottom-nav-icon { font-size: 20px; line-height: 1; }
+  .bottom-nav-label { font-size: 10px; font-weight: 500; color: var(--ink-faint); }
+  .bottom-nav-item.active .bottom-nav-label { color: var(--sage); }
+
+  .spacer { height: 80px; }
+
+  @media (min-width: 768px) {
+    .hero-title { font-size: 56px; }
+    .park-cards { display: grid; grid-template-columns: 1fr 1fr; }
+    #search.active { flex-direction: row; flex-wrap: wrap; }
+    .search-bar-wrap { width: 100%; }
+    .filter-row { width: 100%; }
+    .map-container { flex: 0 0 50%; height: calc(100vh - 120px); }
+    .results-panel { flex: 0 0 50%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LOCATION MODAL -->
+<div class="location-modal" id="locationModal">
+  <div class="modal-sheet">
+    <div class="modal-icon">🌿</div>
+    <h2 class="modal-title">Find parks near you</h2>
+    <p class="modal-sub">The Park Guide uses your location to show the best rated parks within reach.</p>
+    <button class="modal-btn-primary" onclick="useLocation()">Use my location</button>
+    <button class="modal-btn-ghost" onclick="skipLocation()">Browse all California parks</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" onclick="goPage('home')">The<span> Park Guide</span></div>
+  <div class="nav-actions">
+    <button class="nav-btn nav-btn-ghost" onclick="goPage('search')">Explore</button>
+    <button class="nav-btn nav-btn-solid" onclick="goPage('home')">Discover</button>
+  </div>
+</nav>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <button class="bottom-nav-item active" onclick="goPage('home')" id="btn-home">
+    <span class="bottom-nav-icon">🏡</span>
+    <span class="bottom-nav-label">Discover</span>
+  </button>
+  <button class="bottom-nav-item" onclick="goPage('search')" id="btn-search">
+    <span class="bottom-nav-icon">🗺️</span>
+    <span class="bottom-nav-label">Explore</span>
+  </button>
+  <button class="bottom-nav-item" onclick="goFaves()" id="btn-faves">
+    <span class="bottom-nav-icon">♡</span>
+    <span class="bottom-nav-label">Saved</span>
+  </button>
+</div>
+
+<!-- =================== HOME PAGE =================== -->
+<div class="page active" id="home">
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-photo-grid">
+      <div class="hero-photo-cell"></div>
+      <div class="hero-photo-cell"></div>
+      <div class="hero-photo-cell"></div>
+      <div class="hero-photo-cell"></div>
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow"><span class="hero-dot"></span> California's park guide for families</div>
+      <h1 class="hero-title">The best parks for kids, <em>actually worth the drive.</em></h1>
+      <p class="hero-sub">Curated like Michelin. Discovered like Airbnb.</p>
+      <div class="hero-cta-row">
+        <button class="cta-primary" onclick="goPage('search')">🌿 Find parks near me</button>
+        <button class="cta-secondary" onclick="goPage('search')">Browse all</button>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="hero-stat-num">847</div><div class="hero-stat-label">Parks reviewed</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">4.2k</div><div class="hero-stat-label">Parent tips</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">58</div><div class="hero-stat-label">Cities</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">Top-rated near you</h2>
+      <button class="section-link" onclick="goPage('search')">See all →</button>
+    </div>
+    <div class="chip-row" id="homeChips">
+      <div class="chip active" onclick="setHomeChip(this,'all')">All picks</div>
+      <div class="chip" onclick="setHomeChip(this,'toddler')">Toddler-friendly</div>
+      <div class="chip" onclick="setHomeChip(this,'shaded')">Best shade</div>
+      <div class="chip" onclick="setHomeChip(this,'hidden')">Hidden gems</div>
+      <div class="chip" onclick="setHomeChip(this,'drive')">Worth the drive</div>
+    </div>
+    <div class="park-cards" id="parkCardsList"></div>
+  </div>
+
+  <div class="section" style="padding-top:0">
+    <div class="section-header">
+      <h2 class="section-title">Park collections</h2>
+    </div>
+    <div class="editorial-row">
+      <div class="editorial-card" onclick="goPage('search')">
+        <div class="editorial-card-img" style="background:linear-gradient(135deg,#c8e6c0,#8bc34a);">🌳</div>
+        <div class="editorial-card-body">
+          <div class="editorial-card-tag">Collection</div>
+          <div class="editorial-card-title">Best shaded parks in the Bay Area</div>
+        </div>
+      </div>
+      <div class="editorial-card" onclick="goPage('search')">
+        <div class="editorial-card-img" style="background:linear-gradient(135deg,#ffe0b2,#ff9800);">🧒</div>
+        <div class="editorial-card-body">
+          <div class="editorial-card-tag">For little ones</div>
+          <div class="editorial-card-title">Perfect toddler parks under 30 min away</div>
+        </div>
+      </div>
+      <div class="editorial-card" onclick="goPage('search')">
+        <div class="editorial-card-img" style="background:linear-gradient(135deg,#e1bee7,#9c27b0);">💎</div>
+        <div class="editorial-card-body">
+          <div class="editorial-card-tag">Hidden gems</div>
+          <div class="editorial-card-title">Under-the-radar parks worth the trip</div>
+        </div>
+      </div>
+      <div class="editorial-card" onclick="goPage('search')">
+        <div class="editorial-card-img" style="background:linear-gradient(135deg,#b2dfdb,#009688);">🚗</div>
+        <div class="editorial-card-body">
+          <div class="editorial-card-tag">Road trip worthy</div>
+          <div class="editorial-card-title">Parks that are worth the longer drive</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="spacer"></div>
+</div>
+
+<!-- =================== SEARCH PAGE =================== -->
+<div class="page" id="search">
+  <div class="search-bar-wrap">
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" placeholder="Search parks, cities, or zip…" id="searchInput" oninput="filterParks()">
+    </div>
+  </div>
+  <div class="filter-row">
+    <div class="chip active" onclick="setFilter(this,'all')">All ages</div>
+    <div class="chip" onclick="setFilter(this,'toddler')">Toddlers</div>
+    <div class="chip" onclick="setFilter(this,'kids')">Ages 5–8</div>
+    <div class="chip" onclick="setFilter(this,'older')">Ages 8+</div>
+    <div class="chip" onclick="setFilter(this,'shade')">🌳 Shade</div>
+    <div class="chip" onclick="setFilter(this,'bathrooms')">🚻 Bathrooms</div>
+    <div class="chip" onclick="setFilter(this,'fenced')">🔒 Fenced</div>
+  </div>
+  <div class="map-container">
+    <svg viewBox="0 0 360 220" xmlns="http://www.w3.org/2000/svg">
+      <rect width="360" height="220" fill="#d4e8cc"/>
+      <line x1="0" y1="80" x2="360" y2="80" stroke="#b8d4b0" stroke-width="8"/>
+      <line x1="0" y1="140" x2="360" y2="140" stroke="#b8d4b0" stroke-width="8"/>
+      <line x1="120" y1="0" x2="120" y2="220" stroke="#b8d4b0" stroke-width="6"/>
+      <line x1="240" y1="0" x2="240" y2="220" stroke="#b8d4b0" stroke-width="6"/>
+      <line x1="60" y1="0" x2="60" y2="220" stroke="#c8dcc0" stroke-width="2"/>
+      <line x1="180" y1="0" x2="180" y2="220" stroke="#c8dcc0" stroke-width="2"/>
+      <line x1="300" y1="0" x2="300" y2="220" stroke="#c8dcc0" stroke-width="2"/>
+      <line x1="0" y1="40" x2="360" y2="40" stroke="#c8dcc0" stroke-width="2"/>
+      <line x1="0" y1="110" x2="360" y2="110" stroke="#c8dcc0" stroke-width="2"/>
+      <line x1="0" y1="170" x2="360" y2="170" stroke="#c8dcc0" stroke-width="2"/>
+      <rect x="130" y="50" width="38" height="22" fill="#a8c898" rx="3"/>
+      <rect x="250" y="100" width="33" height="28" fill="#a8c898" rx="3"/>
+      <rect x="30" y="90" width="48" height="38" fill="#a8c898" rx="3"/>
+      <rect x="180" y="150" width="43" height="33" fill="#a8c898" rx="3"/>
+      <!-- Park pins -->
+      <g onclick="openParkById(1)" style="cursor:pointer">
+        <circle cx="148" cy="62" r="10" fill="#4a6741" opacity="0.9"/>
+        <text x="148" y="66" text-anchor="middle" fill="white" font-size="9" font-family="DM Sans,sans-serif" font-weight="500">96</text>
+      </g>
+      <g onclick="openParkById(2)" style="cursor:pointer">
+        <circle cx="75" cy="95" r="9" fill="#7a9e6d" opacity="0.9"/>
+        <text x="75" y="99" text-anchor="middle" fill="white" font-size="9" font-family="DM Sans,sans-serif" font-weight="500">89</text>
+      </g>
+      <g onclick="openParkById(8)" style="cursor:pointer">
+        <circle cx="200" cy="158" r="10" fill="#4a6741" opacity="0.9"/>
+        <text x="200" y="162" text-anchor="middle" fill="white" font-size="9" font-family="DM Sans,sans-serif" font-weight="500">95</text>
+      </g>
+      <g onclick="openParkById(5)" style="cursor:pointer">
+        <circle cx="265" cy="115" r="9" fill="#4a6741" opacity="0.9"/>
+        <text x="265" y="119" text-anchor="middle" fill="white" font-size="9" font-family="DM Sans,sans-serif" font-weight="500">91</text>
+      </g>
+      <!-- User location -->
+      <circle cx="185" cy="108" r="6" fill="#4a6741"/>
+      <circle cx="185" cy="108" r="12" fill="#4a6741" opacity="0.18"/>
+      <circle cx="185" cy="108" r="3" fill="white"/>
+    </svg>
+  </div>
+  <div class="results-panel">
+    <div class="results-header">
+      <span class="results-count" id="resultsCount">10 parks nearby</span>
+      <select class="sort-select" onchange="sortParks(this.value)">
+        <option value="score">Best rated</option>
+        <option value="distance">Nearest</option>
+        <option value="cleanliness">Cleanest</option>
+      </select>
+    </div>
+    <div id="searchCardsList"></div>
+  </div>
+</div>
+
+<!-- =================== DETAIL PAGE =================== -->
+<div class="page" id="detail">
+  <button class="detail-back" onclick="goBack()">←</button>
+  <button class="detail-fav" id="favBtn" onclick="toggleFav()">♡</button>
+  <div class="detail-hero">
+    <div class="detail-hero-bg" id="detailHeroBg"></div>
+    <div class="detail-hero-overlay"></div>
+    <div class="detail-hero-content">
+      <div class="detail-score-big">
+        <div class="score-circle-big">
+          <span class="score-circle-num" id="detailScore">94</span>
+          <span class="score-circle-lbl">SCORE</span>
+        </div>
+        <div class="detail-badges-wrap" id="detailBadges"></div>
+      </div>
+      <h1 class="detail-name" id="detailName">Park Name</h1>
+      <p class="detail-loc" id="detailLoc">City, CA</p>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-section">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;" id="detailAges"></div>
+    </div>
+    <div class="detail-section">
+      <h3 class="detail-section-title">Park scores</h3>
+      <div class="subscores-grid" id="subscoresGrid"></div>
+    </div>
+    <div class="detail-section">
+      <h3 class="detail-section-title">Amenities</h3>
+      <div class="amenity-list" id="amenitiesList"></div>
+    </div>
+    <div class="detail-section">
+      <h3 class="detail-section-title">Parent tips</h3>
+      <div id="tipsList"></div>
+    </div>
+    <div class="detail-section">
+      <h3 class="detail-section-title">Photos</h3>
+      <div class="photo-gallery" id="photoGallery"></div>
+    </div>
+    <div class="detail-section">
+      <h3 class="detail-section-title">Location</h3>
+      <div class="mini-map">
+        <svg viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg">
+          <rect width="300" height="120" fill="#d4e8cc"/>
+          <line x1="0" y1="60" x2="300" y2="60" stroke="#a8c898" stroke-width="6"/>
+          <line x1="150" y1="0" x2="150" y2="120" stroke="#a8c898" stroke-width="4"/>
+          <line x1="0" y1="30" x2="300" y2="30" stroke="#b8d4b0" stroke-width="1.5"/>
+          <line x1="0" y1="90" x2="300" y2="90" stroke="#b8d4b0" stroke-width="1.5"/>
+          <line x1="75" y1="0" x2="75" y2="120" stroke="#b8d4b0" stroke-width="1.5"/>
+          <line x1="225" y1="0" x2="225" y2="120" stroke="#b8d4b0" stroke-width="1.5"/>
+        </svg>
+        <span style="font-size:24px;position:relative;z-index:1;">📍</span>
+      </div>
+      <p class="detail-address" id="detailAddress"></p>
+    </div>
+    <div class="detail-section">
+      <h3 class="detail-section-title">Parent reviews</h3>
+      <div id="reviewsList"></div>
+    </div>
+    <div class="spacer"></div>
+  </div>
+</div>
+
+<script>
+// =================== PARK DATA ===================
+const PARKS = [
+  {
+    id:1, name:"Tilden Regional Park", city:"Berkeley", distance:1.2, score:96,
+    emoji:"🌲", heroColor:"linear-gradient(135deg,#3d5836,#7a9e6d)",
+    badges:["Hidden gem","Best for families","Worth the drive"],
+    ages:["1–3","3–5","5–8","8+"],
+    subscores:{Cleanliness:94,Playground:91,Safety:97,Shade:96,Bathrooms:88,Parking:82,Crowds:79,"Parent comfort":95,"Kid excitement":98},
+    amenities:["🌳 Wooded trails","🚂 Steam train ride","🐄 Little Farm","🌊 Lake Anza","🅿️ Large parking","🚻 Clean restrooms","🍦 Snack stand"],
+    tips:[{text:"Get there before 10am on weekends — the steam train has a wait by 11. The Little Farm is free and kids go wild for the animals.",author:"Sarah M., mom of 3"},{text:"Pack layers! Berkeley hills mornings are foggy. By noon it's perfect. The Environmental Ed Center has free ranger programs.",author:"David K."}],
+    photos:["#7a9e6d","#4a6741","#a8c8a0","#5a7a52"],
+    address:"2501 Grizzly Peak Blvd, Berkeley, CA 94708",
+    reviews:[{name:"Jamie L.",initials:"JL",rating:5,date:"March 2025",text:"Absolutely magical. My 4-year-old didn't want to leave the Little Farm. The steam train is worth the $4 ticket — kids lose their minds."},{name:"Maria S.",initials:"MS",rating:5,date:"Feb 2025",text:"Best park in the East Bay, full stop. Trails, animals, lake — you can spend an entire day here. Bathrooms are surprisingly clean."}]
+  },
+  {
+    id:2, name:"Dolores Park", city:"San Francisco", distance:2.1, score:89,
+    emoji:"☀️", heroColor:"linear-gradient(135deg,#c4a882,#8a6040)",
+    badges:["Best for toddlers","Great playground"],
+    ages:["1–3","3–5","5–8"],
+    subscores:{Cleanliness:85,Playground:94,Safety:88,Shade:72,Bathrooms:80,Parking:55,Crowds:62,"Parent comfort":87,"Kid excitement":95},
+    amenities:["🛝 Epic playground","🌅 City views","🐕 Dog friendly","🌿 Open meadow","🚻 Restrooms","☀️ Very sunny","🚌 Transit nearby"],
+    tips:[{text:"The children's playground is genuinely one of the best in SF. Go on a Tuesday morning to avoid weekend crowds. Bring sunscreen — there's not much shade.",author:"Tanya R."}],
+    photos:["#c4a882","#d4b892","#b89060","#e0c8a0"],
+    address:"Dolores St & 19th St, San Francisco, CA 94114",
+    reviews:[{name:"Alex P.",initials:"AP",rating:4,date:"April 2025",text:"Great playground but can get packed on weekends. Weekday mornings are a dream — mostly nannies and toddlers."}]
+  },
+  {
+    id:3, name:"Muir Woods Picnic Area", city:"Mill Valley", distance:8.4, score:93,
+    emoji:"🌲", heroColor:"linear-gradient(135deg,#2d4a28,#5a7a52)",
+    badges:["Worth the drive","Best shaded park","Hidden gem"],
+    ages:["3–5","5–8","8+"],
+    subscores:{Cleanliness:97,Playground:72,Safety:95,Shade:100,Bathrooms:88,Parking:65,Crowds:60,"Parent comfort":92,"Kid excitement":90},
+    amenities:["🌲 Ancient redwoods","🦌 Wildlife viewing","🥾 Easy trails","🚻 Clean restrooms","🅿️ Reserve required","📷 Incredible photos","🌿 Nature education"],
+    tips:[{text:"Reserve your parking permit 2+ weeks in advance — they sell out fast. The main trail is stroller-friendly. Kids are awed by the giant trees.",author:"Chris W., dad of 2"}],
+    photos:["#2d4a28","#4a6741","#3d5836","#5a7a52"],
+    address:"1 Muir Woods Rd, Mill Valley, CA 94941",
+    reviews:[{name:"Priya N.",initials:"PN",rating:5,date:"March 2025",text:"We drove from Oakland and it was 100% worth it. My kids had never seen redwoods before — genuine awe. Go early on a weekday."}]
+  },
+  {
+    id:4, name:"Guadalupe River Park", city:"San Jose", distance:4.2, score:84,
+    emoji:"🏞️", heroColor:"linear-gradient(135deg,#5a8040,#8ab460)",
+    badges:["Best for big kids","River trail"],
+    ages:["5–8","8+"],
+    subscores:{Cleanliness:82,Playground:80,Safety:85,Shade:78,Bathrooms:75,Parking:88,Crowds:80,"Parent comfort":84,"Kid excitement":86},
+    amenities:["🚲 Bike trail","🌊 River views","🦅 Bird watching","🅿️ Easy parking","🥾 Paved trail","🌳 Tree lined","🐟 Nature center"],
+    tips:[{text:"Perfect for kids on bikes or scooters. The trail is flat and paved for miles. Great bird watching at the Guadalupe River banks.",author:"Ben F."}],
+    photos:["#5a8040","#8ab460","#6a9050","#4a6730"],
+    address:"715 Spring St, San Jose, CA 95110",
+    reviews:[{name:"Karen T.",initials:"KT",rating:4,date:"Jan 2025",text:"Underrated park in SJ. Long paved trail, safe, not too crowded. Perfect for a morning ride."}]
+  },
+  {
+    id:5, name:"Howarth Park", city:"Santa Rosa", distance:12.0, score:91,
+    emoji:"🎠", heroColor:"linear-gradient(135deg,#6a4a8a,#9a6aba)",
+    badges:["Best for families","Hidden gem","Worth the drive"],
+    ages:["1–3","3–5","5–8","8+"],
+    subscores:{Cleanliness:90,Playground:93,Safety:94,Shade:85,Bathrooms:88,Parking:90,Crowds:82,"Parent comfort":93,"Kid excitement":97},
+    amenities:["🎠 Carousel","🚂 Miniature railroad","🎣 Lake fishing","🛶 Paddleboat rental","🎾 Tennis courts","🅿️ Free parking","🚻 Good restrooms"],
+    tips:[{text:"The miniature train and carousel are $2 each — bring quarters and cash. Lake fishing is free for kids under 16. Truly a hidden gem outside the Bay.",author:"Lisa M., mom of 4"}],
+    photos:["#6a4a8a","#9a6aba","#7a5a9a","#8a6aaa"],
+    address:"630 Summerfield Rd, Santa Rosa, CA 95405",
+    reviews:[{name:"Tom B.",initials:"TB",rating:5,date:"April 2025",text:"Drove from Marin — absolutely worth it. My kids could have spent all day there between the train, carousel, and lake."}]
+  },
+  {
+    id:6, name:"Mission Dolores Playground", city:"San Francisco", distance:2.3, score:87,
+    emoji:"🛝", heroColor:"linear-gradient(135deg,#e88040,#f0a860)",
+    badges:["Best for toddlers","Great playground"],
+    ages:["1–3","3–5","5–8"],
+    subscores:{Cleanliness:84,Playground:97,Safety:90,Shade:60,Bathrooms:78,Parking:50,Crowds:65,"Parent comfort":82,"Kid excitement":96},
+    amenities:["🛝 Excellent climbing structure","🪁 Swings all ages","🌅 Bay views","☀️ Sunny","🚌 Transit accessible","🍦 Ice cream nearby","🐕 Dog friendly area"],
+    tips:[{text:"Best modern playground in SF. The climbing structure is ambitious — good for ages 3 to 10. No shade so bring a hat and sunscreen.",author:"Rachel H."}],
+    photos:["#e88040","#f0a860","#d07030","#f8c080"],
+    address:"18th & Church St, San Francisco, CA 94114",
+    reviews:[{name:"James W.",initials:"JW",rating:4,date:"March 2025",text:"Playground is legit top-tier. Gets crowded on sunny weekends but worth it. Kids 3–8 love it."}]
+  },
+  {
+    id:7, name:"Rancho San Antonio Park", city:"Cupertino", distance:5.8, score:92,
+    emoji:"🌄", heroColor:"linear-gradient(135deg,#6a8050,#a0b880)",
+    badges:["Best shaded park","Worth the drive","Hidden gem"],
+    ages:["3–5","5–8","8+"],
+    subscores:{Cleanliness:93,Playground:78,Safety:96,Shade:90,Bathrooms:85,Parking:88,Crowds:75,"Parent comfort":95,"Kid excitement":90},
+    amenities:["🦌 Deer Farm","🥾 55 miles of trails","🌄 Valley views","🅿️ Free parking","🚻 Clean bathrooms","🐄 Working farm","🌿 Guided hikes"],
+    tips:[{text:"Free and underrated. The deer farm section is great for little ones. Loop trail takes about 45 mins and is mostly flat. Go early on weekends.",author:"Andrea S."}],
+    photos:["#6a8050","#a0b880","#7a9060","#8aa870"],
+    address:"22500 Cristo Rey Dr, Cupertino, CA 95014",
+    reviews:[{name:"Neil P.",initials:"NP",rating:5,date:"Feb 2025",text:"My favorite park in Silicon Valley. Wildlife, easy trails, and free. The views of the valley are stunning."}]
+  },
+  {
+    id:8, name:"Children's Fairyland", city:"Oakland", distance:3.1, score:95,
+    emoji:"🧚", heroColor:"linear-gradient(135deg,#e04a7a,#f07aa0)",
+    badges:["Best for toddlers","Hidden gem","Iconic"],
+    ages:["1–3","3–5"],
+    subscores:{Cleanliness:95,Playground:98,Safety:99,Shade:80,Bathrooms:90,Parking:85,Crowds:72,"Parent comfort":98,"Kid excitement":100},
+    amenities:["🧚 Storybook attractions","🎭 Puppet shows","🎠 Rides","🅿️ Easy parking","🚻 Clean restrooms","🍕 Cafe inside","🎫 Admission $12"],
+    tips:[{text:"This is the single best destination for kids under 5 in the Bay Area. It's small but perfectly curated — kids are in complete wonder. $12 admission is worth every penny.",author:"Diana K., mom of 2"}],
+    photos:["#e04a7a","#f07aa0","#c03a6a","#f09ab8"],
+    address:"699 Bellevue Ave, Oakland, CA 94610",
+    reviews:[{name:"Sophie M.",initials:"SM",rating:5,date:"April 2025",text:"Genuinely magical. My 3-year-old has been four times and reacts the same way each time — pure joy. No crowds on Tuesday mornings."}]
+  },
+  {
+    id:9, name:"Will Rogers State Beach", city:"Pacific Palisades", distance:9.2, score:88,
+    emoji:"🏖️", heroColor:"linear-gradient(135deg,#4a8ab0,#70aad0)",
+    badges:["Worth the drive","Best for big kids"],
+    ages:["3–5","5–8","8+"],
+    subscores:{Cleanliness:86,Playground:75,Safety:85,Shade:40,Bathrooms:82,Parking:70,Crowds:68,"Parent comfort":84,"Kid excitement":95},
+    amenities:["🏖️ Beach access","🌊 Swimming","🏄 Surf lessons","🅿️ Metered parking","🚻 Beach restrooms","🍦 Food trucks","🛶 Kayak rental"],
+    tips:[{text:"Go at 9am to get parking. Bring a shade umbrella — there's zero natural shade. The water is calmer here than Santa Monica and the beach is less crowded.",author:"Mark D."}],
+    photos:["#4a8ab0","#70aad0","#3a7aa0","#6098c0"],
+    address:"17000 Pacific Coast Hwy, Pacific Palisades, CA 90272",
+    reviews:[{name:"Linda R.",initials:"LR",rating:4,date:"March 2025",text:"Beautiful beach for families. Not as chaotic as Santa Monica. Kids had a great time in the waves."}]
+  },
+  {
+    id:10, name:"Alum Rock Park", city:"San Jose", distance:6.7, score:82,
+    emoji:"🏕️", heroColor:"linear-gradient(135deg,#8a6030,#c09060)",
+    badges:["Hidden gem","Nature lover"],
+    ages:["5–8","8+"],
+    subscores:{Cleanliness:80,Playground:68,Safety:85,Shade:92,Bathrooms:72,Parking:88,Crowds:90,"Parent comfort":83,"Kid excitement":84},
+    amenities:["🦅 Birdwatching","🥾 Wooded trails","🌡️ Natural hot springs","🅿️ Free parking","🌲 Old growth trees","🦌 Wildlife","🌊 Creek access"],
+    tips:[{text:"One of the most underrated parks in SJ. Almost no crowds. Cool creek access and shaded trails make it perfect in summer. Bring bug spray.",author:"Felix T."}],
+    photos:["#8a6030","#c09060","#7a5020","#b08050"],
+    address:"16240 Alum Rock Ave, San Jose, CA 95127",
+    reviews:[{name:"Ami C.",initials:"AC",rating:4,date:"Jan 2025",text:"Hidden gem. We had the trails almost to ourselves. Kids loved the creek and wildlife spotting."}]
+  }
+];
+
+// =================== STATE ===================
+let currentPage = 'home';
+let prevPage = 'home';
+let currentPark = null;
+let activeFilter = 'all';
+let favorites = new Set();
+let sortBy = 'score';
+let searchQuery = '';
+
+// =================== NAVIGATION ===================
+function goPage(page) {
+  document.querySelectorAll('.page').forEach(p => { p.classList.remove('active'); });
+  document.getElementById(page).classList.add('active');
+  prevPage = currentPage;
+  currentPage = page;
+  document.querySelectorAll('.bottom-nav-item').forEach(b => b.classList.remove('active'));
+  const map = { home:'btn-home', search:'btn-search' };
+  if (map[page]) document.getElementById(map[page]).classList.add('active');
+  if (page === 'search') renderSearchCards();
+  window.scrollTo(0, 0);
+}
+
+function goBack() { goPage(prevPage || 'home'); }
+
+function goFaves() {
+  alert('Sign up to save and sync your favorite parks across devices!');
+}
+
+// =================== HOME ===================
+function renderHomeParkCards(filter) {
+  let parks = [...PARKS];
+  if (filter === 'toddler') parks = parks.filter(p => p.ages.includes('1–3') || p.ages.includes('3–5'));
+  if (filter === 'shaded')  parks = parks.filter(p => p.subscores.Shade >= 85);
+  if (filter === 'hidden')  parks = parks.filter(p => p.badges.some(b => b.toLowerCase().includes('hidden')));
+  if (filter === 'drive')   parks = parks.filter(p => p.badges.some(b => b.toLowerCase().includes('drive')));
+  parks = parks.sort((a,b) => b.score - a.score).slice(0, 4);
+
+  document.getElementById('parkCardsList').innerHTML = parks.map(p => `
+    <div class="park-card" onclick="openPark(${p.id})">
+      <div class="park-card-img" style="background:${p.heroColor};">
+        ${p.emoji}
+        <div class="park-card-badges">
+          ${p.badges.slice(0,2).map((b,i) => `<span class="badge ${i===0?'badge-gold':'badge-sage'}">${b}</span>`).join('')}
+        </div>
+        <div class="score-pill ${p.score>=93?'excellent':p.score>=86?'great':'good'}">
+          <span class="score-num">${p.score}</span>
+          <span class="score-label">SCORE</span>
+        </div>
+      </div>
+      <div class="park-card-body">
+        <div class="park-meta-row">
+          <span class="park-city">${p.city}, CA</span>
+          <span class="park-dist">${p.distance} mi</span>
+        </div>
+        <div class="park-name">${p.name}</div>
+        <div class="park-ages">${p.ages.map(a=>`<span class="age-chip">Ages ${a}</span>`).join('')}</div>
+        <div class="park-subscores">
+          ${['Cleanliness','Playground','Shade'].map(k=>`
+            <div class="subscore">
+              <div class="subscore-val">${p.subscores[k]}</div>
+              <div class="subscore-bar-wrap"><div class="subscore-bar" style="width:${p.subscores[k]}%"></div></div>
+              <div class="subscore-lbl">${k}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function setHomeChip(el, filter) {
+  document.querySelectorAll('#homeChips .chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderHomeParkCards(filter);
+}
+
+// =================== SEARCH ===================
+function renderSearchCards() {
+  let parks = [...PARKS];
+  if (searchQuery) parks = parks.filter(p => p.name.toLowerCase().includes(searchQuery) || p.city.toLowerCase().includes(searchQuery));
+  if (activeFilter === 'toddler')   parks = parks.filter(p => p.ages.includes('1–3') || p.ages.includes('3–5'));
+  if (activeFilter === 'kids')      parks = parks.filter(p => p.ages.includes('5–8'));
+  if (activeFilter === 'older')     parks = parks.filter(p => p.ages.includes('8+'));
+  if (activeFilter === 'shade')     parks = parks.filter(p => p.subscores.Shade >= 85);
+  if (activeFilter === 'bathrooms') parks = parks.filter(p => p.subscores.Bathrooms >= 80);
+  if (activeFilter === 'fenced')    parks = parks.filter(p => p.subscores.Safety >= 95);
+  if (sortBy === 'score')       parks.sort((a,b) => b.score - a.score);
+  if (sortBy === 'distance')    parks.sort((a,b) => a.distance - b.distance);
+  if (sortBy === 'cleanliness') parks.sort((a,b) => b.subscores.Cleanliness - a.subscores.Cleanliness);
+
+  document.getElementById('resultsCount').textContent = parks.length + ' parks nearby';
+  document.getElementById('searchCardsList').innerHTML = parks.map(p => `
+    <div class="search-card" onclick="openPark(${p.id})">
+      <div class="search-card-img" style="background:${p.heroColor};">${p.emoji}</div>
+      <div class="search-card-body">
+        <div class="search-card-name">${p.name}</div>
+        <div class="search-card-meta">${p.city}, CA · ${p.distance} mi away</div>
+        <div class="search-card-badges">
+          ${p.badges.slice(0,2).map((b,i)=>`<span class="badge-sm ${i===0?'badge-sm-gold':'badge-sm-sage'}">${b}</span>`).join('')}
+          ${p.ages.slice(0,2).map(a=>`<span class="badge-sm badge-sm-sage">Ages ${a}</span>`).join('')}
+        </div>
+      </div>
+      <div class="search-card-score"><span class="search-score-num">${p.score}</span></div>
+    </div>
+  `).join('');
+}
+
+function filterParks() {
+  searchQuery = document.getElementById('searchInput').value.toLowerCase();
+  renderSearchCards();
+}
+
+function setFilter(el, filter) {
+  document.querySelectorAll('.filter-row .chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  activeFilter = filter;
+  renderSearchCards();
+}
+
+function sortParks(val) {
+  sortBy = val;
+  renderSearchCards();
+}
+
+// =================== DETAIL ===================
+function openParkById(id) { openPark(id); }
+
+function openPark(id) {
+  const p = PARKS.find(x => x.id === id);
+  if (!p) return;
+  currentPark = p;
+
+  document.getElementById('detailScore').textContent = p.score;
+  document.getElementById('detailName').textContent = p.name;
+  document.getElementById('detailLoc').textContent = p.city + ', CA · ' + p.distance + ' mi away';
+  document.getElementById('detailAddress').textContent = p.address;
+
+  const bg = document.getElementById('detailHeroBg');
+  bg.style.background = p.heroColor;
+  bg.innerHTML = p.emoji;
+
+  document.getElementById('detailBadges').innerHTML = p.badges.slice(0,2).map((b,i)=>`<span class="badge ${i===0?'badge-gold':'badge-white'}">${b}</span>`).join('');
+  document.getElementById('detailAges').innerHTML = p.ages.map(a=>`<span class="badge badge-sage">Ages ${a}</span>`).join('');
+
+  document.getElementById('subscoresGrid').innerHTML = Object.keys(p.subscores).map(k=>`
+    <div class="subscore-card">
+      <div class="subscore-card-label">${k}</div>
+      <div class="subscore-card-val">${p.subscores[k]}</div>
+      <div class="subscore-card-bar-wrap"><div class="subscore-card-bar" style="width:${p.subscores[k]}%"></div></div>
+    </div>
+  `).join('');
+
+  document.getElementById('amenitiesList').innerHTML = p.amenities.map(a=>`<div class="amenity-item">${a}</div>`).join('');
+  document.getElementById('tipsList').innerHTML = p.tips.map(t=>`
+    <div class="tip-card"><p>${t.text}</p><div class="tip-author">— ${t.author}</div></div>
+  `).join('');
+  document.getElementById('photoGallery').innerHTML = p.photos.map((c,i)=>`
+    <div class="gallery-img" style="height:${i===0?'140px':'90px'};background:${c};font-size:${i===0?'48px':'32px'};">${p.emoji}</div>
+  `).join('');
+  document.getElementById('reviewsList').innerHTML = p.reviews.map(r=>`
+    <div class="review-item">
+      <div class="review-header">
+        <div class="reviewer-avatar">${r.initials}</div>
+        <div><div class="reviewer-name">${r.name}</div><div class="review-date">${r.date}</div></div>
+      </div>
+      <div class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
+      <div class="review-text">${r.text}</div>
+    </div>
+  `).join('');
+
+  const favBtn = document.getElementById('favBtn');
+  favBtn.textContent = favorites.has(id) ? '♥' : '♡';
+  favBtn.style.color = favorites.has(id) ? '#c4654a' : '';
+
+  goPage('detail');
+}
+
+function toggleFav() {
+  if (!currentPark) return;
+  const id = currentPark.id;
+  const favBtn = document.getElementById('favBtn');
+  if (favorites.has(id)) {
+    favorites.delete(id);
+    favBtn.textContent = '♡';
+    favBtn.style.color = '';
+  } else {
+    favorites.add(id);
+    favBtn.textContent = '♥';
+    favBtn.style.color = '#c4654a';
+  }
+}
+
+// =================== LOCATION MODAL ===================
+function useLocation() {
+  document.getElementById('locationModal').classList.add('hidden');
+  goPage('search');
+}
+function skipLocation() {
+  document.getElementById('locationModal').classList.add('hidden');
+}
+
+// =================== INIT ===================
+renderHomeParkCards('all');
+</script>
+</body>
+</html>
