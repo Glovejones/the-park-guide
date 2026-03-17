@@ -2,996 +2,995 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>The Park Guide — Best Kid-Friendly Parks in California</title>
 <meta name="description" content="Discover the best kid-friendly parks in California. Curated scores, parent tips, and real reviews.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Cabinet+Grotesk:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBUgf1mE4bC7UQ7sovzlnV21HF_qYUY1tk&callback=onGoogleMapsReady" async defer></script>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --amber:#E8820C;--amber-light:#F5A843;--amber-pale:#FEF3E2;
+  --sage:#3D6B47;--sage-mid:#5A8C64;--sage-pale:#EBF4ED;
+  --offwhite:#FAF8F4;--white:#FFFFFF;--sand:#F0E8D8;--sand-dark:#D4C4A8;
+  --ink:#1C1917;--ink-soft:#3D3530;--ink-muted:#6B5E57;--ink-faint:#9E9089;
+  --border:rgba(28,25,23,0.08);--border-mid:rgba(28,25,23,0.14);--border-strong:rgba(28,25,23,0.22);
+  --shadow-sm:0 1px 4px rgba(28,25,23,0.08),0 4px 16px rgba(28,25,23,0.05);
+  --shadow-md:0 4px 12px rgba(28,25,23,0.1),0 12px 32px rgba(28,25,23,0.08);
+  --shadow-lg:0 8px 24px rgba(28,25,23,0.12),0 24px 64px rgba(28,25,23,0.1);
+  --r-sm:10px;--r:18px;--r-lg:24px;--r-xl:32px;
+  font-family:'Cabinet Grotesk',sans-serif;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--offwhite);color:var(--ink);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
 
-  :root {
-    --sage: #4a6741;
-    --sage-light: #7a9e6d;
-    --sage-pale: #eef3eb;
-    --cream: #faf8f3;
-    --warm-white: #ffffff;
-    --sand: #e8dfc8;
-    --terracotta: #c4654a;
-    --terra-pale: #faf0ec;
-    --ink: #1a1a18;
-    --ink-muted: #4a4a44;
-    --ink-faint: #8a8a82;
-    --gold: #d4a847;
-    --gold-pale: #fdf6e3;
-    --border: rgba(26,26,24,0.1);
-    --border-strong: rgba(26,26,24,0.18);
-    --radius: 16px;
-    --radius-sm: 8px;
-    font-family: 'DM Sans', sans-serif;
-  }
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:60px;background:rgba(250,248,244,0.9);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:0.5px solid var(--border);}
+.nav-logo{font-family:'Fraunces',serif;font-size:17px;font-weight:400;color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:7px;}
+.nav-dot{width:8px;height:8px;border-radius:50%;background:var(--amber);flex-shrink:0;}
+.nav-right{display:flex;gap:8px;}
+.nav-btn{padding:8px 16px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;border:none;font-family:'Cabinet Grotesk',sans-serif;transition:all 0.15s;}
+.nav-ghost{background:transparent;color:var(--ink-muted);}
+.nav-ghost:hover{background:var(--sand);}
+.nav-solid{background:var(--ink);color:white;}
+.nav-solid:hover{background:var(--ink-soft);}
 
-  html { scroll-behavior: smooth; }
-  body { background: var(--cream); color: var(--ink); min-height: 100vh; overflow-x: hidden; }
+/* PAGES */
+.page{display:none;}
+.page.active{display:block;}
+#search.active{display:flex;flex-direction:column;height:100vh;overflow:hidden;padding-top:60px;}
+#detail{overflow-y:auto;}
 
-  /* ===== NAV ===== */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 16px 20px;
-    background: rgba(250,248,243,0.92);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 0.5px solid var(--border);
-  }
-  .nav-logo { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 500; color: var(--sage); letter-spacing: -0.3px; cursor: pointer; }
-  .nav-logo span { color: var(--ink); }
-  .nav-actions { display: flex; align-items: center; gap: 8px; }
-  .nav-btn { padding: 8px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; border: none; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
-  .nav-btn-ghost { background: transparent; color: var(--ink-muted); }
-  .nav-btn-ghost:hover { background: rgba(26,26,24,0.06); }
-  .nav-btn-solid { background: var(--sage); color: white; }
-  .nav-btn-solid:hover { background: #3d5836; }
+/* MODAL */
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;z-index:9999;background:rgba(28,25,23,0.7);display:flex;align-items:center;justify-content:center;padding:24px;}
+.modal-overlay.hidden{display:none;}
+.modal-sheet{background:var(--white);border-radius:var(--r-xl);padding:32px 28px;width:100%;max-width:400px;text-align:center;}
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.modal-handle{width:36px;height:4px;border-radius:2px;background:var(--sand-dark);margin:0 auto 24px;}
+.modal-icon{font-size:44px;margin-bottom:16px;}
+.modal-title{font-family:'Fraunces',serif;font-size:26px;font-weight:400;color:var(--ink);margin-bottom:8px;letter-spacing:-0.5px;}
+.modal-sub{font-size:15px;color:var(--ink-muted);margin-bottom:28px;line-height:1.6;}
+.modal-btn-p{width:100%;padding:17px;border-radius:var(--r);background:var(--ink);color:white;font-size:15px;font-weight:700;border:none;cursor:pointer;margin-bottom:10px;font-family:'Cabinet Grotesk',sans-serif;transition:all 0.15s;}
+.modal-btn-p:hover{background:var(--ink-soft);transform:translateY(-1px);}
+.modal-btn-g{width:100%;padding:14px;border-radius:var(--r);background:transparent;color:var(--ink-muted);font-size:14px;border:none;cursor:pointer;font-family:'Cabinet Grotesk',sans-serif;}
 
-  /* ===== PAGES ===== */
-  .page { display: none; min-height: 100vh; }
-  .page.active { display: block; }
-  #search.active { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+/* HERO */
+#home{padding-top:60px;}
+.hero{position:relative;height:calc(100svh - 60px);min-height:580px;display:flex;flex-direction:column;justify-content:flex-end;padding:0 24px 40px;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(160deg,#2C4A2E 0%,#4A6B35 25%,#7A9B5A 55%,#C4892A 80%,#E8820C 100%);}
+.hero-grid{position:absolute;inset:0;opacity:0.38;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;}
+.hero-cell{overflow:hidden;background-size:cover;background-position:center;}
+.hero-cell:nth-child(1){background-image:url('https://images.unsplash.com/photo-1448375240586-882707db888b?w=600&q=80');}
+.hero-cell:nth-child(2){background-image:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80');}
+.hero-cell:nth-child(3){background-image:url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=80');}
+.hero-cell:nth-child(4){background-image:url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&q=80');}
+.hero-vignette{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,16,10,0.88) 0%,rgba(20,16,10,0.2) 55%,transparent 100%);}
+.hero-content{position:relative;z-index:2;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:20px;margin-bottom:20px;background:rgba(255,255,255,0.1);border:0.5px solid rgba(255,255,255,0.2);}
+.hero-live-dot{width:7px;height:7px;border-radius:50%;background:#7ED664;animation:pulse 2s infinite;flex-shrink:0;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.7;transform:scale(1.2)}}
+.hero-eyebrow span{font-size:11px;font-weight:700;color:rgba(255,255,255,0.85);letter-spacing:1px;text-transform:uppercase;}
+.hero-title{font-family:'Fraunces',serif;font-size:clamp(40px,10vw,66px);font-weight:300;line-height:1.0;color:white;margin-bottom:18px;letter-spacing:-2px;}
+.hero-title em{font-style:italic;color:var(--amber-light);}
+.hero-sub{font-size:16px;color:rgba(255,255,255,0.65);margin-bottom:32px;line-height:1.6;max-width:340px;}
+.hero-cta{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:40px;}
+.btn-amber{flex:1;min-width:160px;padding:16px 24px;border-radius:var(--r);background:var(--amber);color:white;font-size:15px;font-weight:700;border:none;cursor:pointer;font-family:'Cabinet Grotesk',sans-serif;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.btn-amber:hover{background:var(--amber-light);transform:translateY(-2px);box-shadow:0 8px 24px rgba(232,130,12,0.4);}
+.btn-outline-white{padding:16px 24px;border-radius:var(--r);background:rgba(255,255,255,0.1);color:white;font-size:15px;font-weight:500;border:0.5px solid rgba(255,255,255,0.25);cursor:pointer;font-family:'Cabinet Grotesk',sans-serif;backdrop-filter:blur(8px);transition:all 0.2s;}
+.btn-outline-white:hover{background:rgba(255,255,255,0.18);}
+.hero-stats{display:flex;gap:0;padding-top:24px;border-top:0.5px solid rgba(255,255,255,0.12);}
+.hero-stat{flex:1;padding-right:20px;}
+.hero-stat+.hero-stat{padding-left:20px;border-left:0.5px solid rgba(255,255,255,0.12);}
+.hero-stat-num{font-family:'Fraunces',serif;font-size:28px;font-weight:300;color:white;line-height:1;letter-spacing:-1px;}
+.hero-stat-lbl{font-size:11px;color:rgba(255,255,255,0.45);margin-top:3px;font-weight:500;}
 
-  /* ===== LOCATION MODAL ===== */
-  .location-modal {
-    position: fixed; inset: 0; z-index: 200;
-    background: rgba(26,26,18,0.6);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    display: flex; align-items: flex-end; justify-content: center;
-    padding: 0 0 20px;
-  }
-  .location-modal.hidden { display: none; }
-  .modal-sheet {
-    background: white; border-radius: 20px 20px 16px 16px;
-    padding: 28px 24px 32px; width: 100%; max-width: 480px;
-    text-align: center;
-    animation: slideUp 0.3s ease;
-  }
-  @keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-  .modal-icon { font-size: 40px; margin-bottom: 16px; }
-  .modal-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 500; color: var(--ink); margin-bottom: 8px; }
-  .modal-sub { font-size: 14px; color: var(--ink-faint); margin-bottom: 24px; line-height: 1.6; }
-  .modal-btn-primary {
-    width: 100%; padding: 15px; border-radius: 12px;
-    background: var(--sage); color: white; font-size: 15px; font-weight: 500;
-    border: none; cursor: pointer; margin-bottom: 10px;
-    font-family: 'DM Sans', sans-serif; transition: background 0.15s;
-  }
-  .modal-btn-primary:hover { background: #3d5836; }
-  .modal-btn-ghost {
-    width: 100%; padding: 12px; border-radius: 12px;
-    background: transparent; color: var(--ink-muted); font-size: 14px;
-    border: none; cursor: pointer; font-family: 'DM Sans', sans-serif;
-  }
-  .modal-btn-ghost:hover { background: var(--sage-pale); }
+/* SECTIONS */
+.section{padding:48px 24px;}
+.section-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px;gap:12px;}
+.section-eyebrow{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--amber);margin-bottom:6px;}
+.section-title{font-family:'Fraunces',serif;font-size:clamp(24px,5vw,32px);font-weight:300;color:var(--ink);letter-spacing:-0.8px;line-height:1.1;}
+.section-link{font-size:13px;color:var(--sage);font-weight:700;cursor:pointer;background:none;border:none;font-family:'Cabinet Grotesk',sans-serif;white-space:nowrap;flex-shrink:0;}
 
-  /* ===== HERO ===== */
-  #home { padding-top: 64px; }
-  .hero {
-    position: relative; min-height: 92vh;
-    display: flex; flex-direction: column; justify-content: flex-end;
-    padding: 40px 20px; overflow: hidden;
-  }
-  .hero-bg {
-    position: absolute; inset: 0; z-index: 0;
-    background: linear-gradient(160deg, #3d5836 0%, #5a7a52 30%, #7a9e6d 60%, #c4a882 100%);
-  }
-  .hero-photo-grid {
-    position: absolute; inset: 0; z-index: 1;
-    display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
-    opacity: 0.3;
-  }
-  .hero-photo-cell { overflow: hidden; background-size: cover; background-position: center; }
-  .hero-photo-cell:nth-child(1) { background-image: url('https://images.unsplash.com/photo-1551632811-561732d1e306?w=600&q=80'); }
-  .hero-photo-cell:nth-child(2) { background-image: url('https://images.unsplash.com/photo-1566153060903-cef5c19a61b4?w=600&q=80'); }
-  .hero-photo-cell:nth-child(3) { background-image: url('https://images.unsplash.com/photo-1540979388789-6cee28a1cdc9?w=600&q=80'); }
-  .hero-photo-cell:nth-child(4) { background-image: url('https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=600&q=80'); }
-  .hero-overlay { position: absolute; inset: 0; z-index: 2; background: linear-gradient(to top, rgba(20,20,14,0.78) 0%, rgba(20,20,14,0.28) 50%, transparent 100%); }
-  .hero-content { position: relative; z-index: 3; }
-  .hero-eyebrow {
-    display: inline-flex; align-items: center; gap: 6px;
-    background: rgba(255,255,255,0.14); backdrop-filter: blur(8px);
-    border: 0.5px solid rgba(255,255,255,0.28);
-    border-radius: 20px; padding: 5px 12px; margin-bottom: 20px;
-    font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.88); letter-spacing: 0.5px;
-  }
-  .hero-dot { width: 6px; height: 6px; border-radius: 50%; background: #7ed664; flex-shrink: 0; }
-  .hero-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(34px, 9vw, 56px); font-weight: 500; line-height: 1.1;
-    color: white; margin-bottom: 14px; letter-spacing: -1px;
-  }
-  .hero-title em { font-style: italic; color: rgba(255,255,255,0.72); }
-  .hero-sub { font-size: 16px; color: rgba(255,255,255,0.68); font-weight: 300; margin-bottom: 28px; line-height: 1.55; max-width: 360px; }
-  .hero-cta-row { display: flex; gap: 10px; flex-wrap: wrap; }
-  .cta-primary {
-    flex: 1; min-width: 160px; padding: 14px 20px; border-radius: 12px;
-    background: white; color: var(--sage); font-size: 15px; font-weight: 500;
-    border: none; cursor: pointer; transition: all 0.2s;
-    display: flex; align-items: center; justify-content: center; gap: 6px;
-    font-family: 'DM Sans', sans-serif;
-  }
-  .cta-primary:hover { transform: translateY(-1px); background: #f0f7ee; }
-  .cta-secondary {
-    padding: 14px 20px; border-radius: 12px;
-    background: rgba(255,255,255,0.12); color: white; font-size: 15px; font-weight: 400;
-    border: 0.5px solid rgba(255,255,255,0.28); cursor: pointer; transition: all 0.2s;
-    font-family: 'DM Sans', sans-serif;
-  }
-  .cta-secondary:hover { background: rgba(255,255,255,0.2); }
-  .hero-stats {
-    position: relative; z-index: 3;
-    display: flex; gap: 24px; padding-top: 28px;
-    border-top: 0.5px solid rgba(255,255,255,0.15); margin-top: 28px;
-  }
-  .hero-stat-num { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: white; }
-  .hero-stat-label { font-size: 11px; color: rgba(255,255,255,0.5); font-weight: 400; margin-top: 2px; }
+/* CHIPS */
+.chip-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:24px;scrollbar-width:none;}
+.chip-row::-webkit-scrollbar{display:none;}
+.chip{flex-shrink:0;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.15s;font-family:'Cabinet Grotesk',sans-serif;border:1.5px solid var(--border-mid);background:var(--white);color:var(--ink-muted);}
+.chip.active{background:var(--ink);color:white;border-color:var(--ink);}
+.chip:hover:not(.active){border-color:var(--ink);color:var(--ink);}
 
-  /* ===== SECTIONS ===== */
-  .section { padding: 44px 20px; }
-  .section-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 20px; }
-  .section-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 500; color: var(--ink); letter-spacing: -0.3px; }
-  .section-link { font-size: 13px; color: var(--sage); font-weight: 500; cursor: pointer; background: none; border: none; font-family: 'DM Sans', sans-serif; }
-  .section-link:hover { text-decoration: underline; }
+/* PARK CARDS */
+.park-cards{display:flex;flex-direction:column;gap:20px;}
+.park-card{background:var(--white);border-radius:var(--r-lg);overflow:hidden;cursor:pointer;transition:transform 0.25s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.25s;box-shadow:var(--shadow-sm);border:0.5px solid var(--border);}
+.park-card:hover{transform:translateY(-4px) scale(1.005);box-shadow:var(--shadow-lg);}
+.park-card.editors{border:2px solid var(--amber);}
+.card-photo{width:100%;height:230px;position:relative;overflow:hidden;background:linear-gradient(135deg,#4A6B35,#8AB895);display:flex;align-items:center;justify-content:center;font-size:64px;}
+.card-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);}
+.park-card:hover .card-photo img{transform:scale(1.06);}
+.card-photo-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,16,10,0.55) 0%,transparent 55%);}
+.editors-ribbon{position:absolute;top:0;left:0;right:0;z-index:3;background:var(--amber);padding:8px 16px;display:flex;align-items:center;gap:8px;}
+.editors-ribbon span{font-size:11px;font-weight:700;color:white;letter-spacing:0.8px;text-transform:uppercase;}
+.card-score-badge{position:absolute;top:14px;right:14px;z-index:4;width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,0.95);backdrop-filter:blur(8px);display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,0.2);}
+.card-score-num{font-family:'Fraunces',serif;font-size:18px;font-weight:500;line-height:1;color:var(--ink);}
+.card-score-lbl{font-size:8px;font-weight:700;color:var(--ink-faint);letter-spacing:0.8px;text-transform:uppercase;margin-top:1px;}
+.card-tier{position:absolute;bottom:14px;left:14px;z-index:4;padding:5px 10px;border-radius:8px;font-size:10px;font-weight:700;backdrop-filter:blur(8px);}
+.t-editors{background:rgba(232,130,12,0.9);color:white;}
+.t-great{background:rgba(235,244,237,0.95);color:var(--sage);}
+.t-family{background:rgba(232,244,255,0.95);color:#1a4a8a;}
+.t-listed{background:rgba(255,255,255,0.88);color:var(--ink-muted);}
+.card-body{padding:18px 20px 20px;}
+.card-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.card-loc{font-size:11px;font-weight:700;color:var(--ink-faint);letter-spacing:1px;text-transform:uppercase;}
+.card-dist{font-size:12px;color:var(--sage-mid);font-weight:700;}
+.card-name{font-family:'Fraunces',serif;font-size:22px;font-weight:400;color:var(--ink);letter-spacing:-0.5px;margin-bottom:6px;line-height:1.15;}
+.card-quote{font-size:13px;color:var(--ink-muted);line-height:1.6;font-style:italic;margin-bottom:14px;padding-left:12px;border-left:2px solid var(--amber);font-family:'Fraunces',serif;}
+.card-metrics{display:flex;background:var(--offwhite);border-radius:var(--r-sm);overflow:hidden;margin-bottom:14px;}
+.card-metric{flex:1;padding:10px 8px;text-align:center;border-right:0.5px solid var(--border);}
+.card-metric:last-child{border-right:none;}
+.cm-val{font-family:'Fraunces',serif;font-size:17px;font-weight:400;color:var(--ink);line-height:1;}
+.cm-lbl{font-size:9px;font-weight:700;color:var(--ink-faint);letter-spacing:0.8px;text-transform:uppercase;margin-top:3px;}
+.card-tags{display:flex;gap:6px;flex-wrap:wrap;}
+.card-tag{padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;background:var(--sand);color:var(--ink-soft);}
+.card-tag.food{background:var(--amber-pale);color:#7a4000;}
 
-  /* ===== CHIPS ===== */
-  .chip-row { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 20px; scrollbar-width: none; -ms-overflow-style: none; }
-  .chip-row::-webkit-scrollbar { display: none; }
-  .chip {
-    flex-shrink: 0; padding: 7px 14px; border-radius: 20px;
-    font-size: 13px; font-weight: 400; cursor: pointer; transition: all 0.15s;
-    border: 0.5px solid var(--border-strong); background: white; color: var(--ink-muted);
-    font-family: 'DM Sans', sans-serif;
-  }
-  .chip.active, .chip:hover { background: var(--sage); color: white; border-color: var(--sage); }
+/* COLLECTIONS */
+.collections-row{display:flex;gap:14px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;}
+.collections-row::-webkit-scrollbar{display:none;}
+.coll-card{flex-shrink:0;width:210px;border-radius:var(--r);overflow:hidden;cursor:pointer;transition:all 0.2s;box-shadow:var(--shadow-sm);background:var(--white);border:0.5px solid var(--border);}
+.coll-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);}
+.coll-img{height:140px;display:flex;align-items:center;justify-content:center;font-size:52px;}
+.coll-body{padding:12px 14px 14px;}
+.coll-eyebrow{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--amber);margin-bottom:4px;}
+.coll-title{font-family:'Fraunces',serif;font-size:15px;font-weight:400;color:var(--ink);line-height:1.3;letter-spacing:-0.2px;}
 
-  /* ===== PARK CARDS (home) ===== */
-  .park-cards { display: flex; flex-direction: column; gap: 14px; }
-  .park-card {
-    background: white; border-radius: var(--radius); border: 0.5px solid var(--border);
-    overflow: hidden; cursor: pointer; transition: all 0.2s;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
-  }
-  .park-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
-  .park-card-img {
-    width: 100%; height: 200px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 56px; position: relative; overflow: hidden;
-  }
-  .park-card-badges { position: absolute; top: 12px; left: 12px; display: flex; gap: 6px; flex-wrap: wrap; }
-  .badge { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 500; backdrop-filter: blur(6px); }
-  .badge-gold { background: rgba(212,168,71,0.92); color: #2a1d00; }
-  .badge-sage { background: rgba(74,103,65,0.9); color: white; }
-  .badge-terra { background: rgba(196,101,74,0.9); color: white; }
-  .badge-white { background: rgba(255,255,255,0.9); color: var(--ink); }
-  .score-pill {
-    position: absolute; top: 12px; right: 12px;
-    width: 44px; height: 44px; border-radius: 50%;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    background: white; border: 2px solid;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  }
-  .score-pill.excellent { border-color: #4a6741; }
-  .score-pill.great { border-color: #7a9e6d; }
-  .score-pill.good { border-color: #d4a847; }
-  .score-num { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 700; line-height: 1; }
-  .score-pill.excellent .score-num { color: #4a6741; }
-  .score-pill.great .score-num { color: #3d5836; }
-  .score-pill.good .score-num { color: #a07a20; }
-  .score-label { font-size: 7px; font-weight: 500; color: var(--ink-faint); letter-spacing: 0.3px; margin-top: 1px; }
+/* LOADING STATE */
+.loading-state{text-align:center;padding:48px 24px;}
+.loading-spinner{width:32px;height:32px;border:3px solid var(--sand);border-top-color:var(--amber);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-family:'Fraunces',serif;font-size:18px;font-weight:300;color:var(--ink-muted);}
+.loading-sub{font-size:13px;color:var(--ink-faint);margin-top:6px;}
 
-  .park-card-body { padding: 14px 16px 16px; }
-  .park-meta-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
-  .park-city { font-size: 11px; color: var(--ink-faint); font-weight: 400; letter-spacing: 0.3px; text-transform: uppercase; }
-  .park-dist { font-size: 11px; color: var(--sage); font-weight: 500; }
-  .park-name { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 500; color: var(--ink); margin-bottom: 8px; letter-spacing: -0.3px; }
-  .park-ages { display: flex; gap: 4px; margin-bottom: 10px; flex-wrap: wrap; }
-  .age-chip { padding: 3px 8px; border-radius: 4px; background: var(--sage-pale); color: var(--sage); font-size: 11px; font-weight: 500; }
-  .park-subscores { display: flex; gap: 12px; }
-  .subscore { text-align: center; flex: 1; }
-  .subscore-bar-wrap { height: 3px; background: var(--sage-pale); border-radius: 2px; margin: 4px 0; overflow: hidden; }
-  .subscore-bar { height: 100%; border-radius: 2px; background: var(--sage); }
-  .subscore-val { font-size: 11px; font-weight: 500; color: var(--ink-muted); }
-  .subscore-lbl { font-size: 9px; color: var(--ink-faint); }
+/* SEARCH PAGE */
+.search-header{padding:10px 16px;background:var(--offwhite);border-bottom:0.5px solid var(--border);flex-shrink:0;}
+.search-bar{display:flex;align-items:center;gap:10px;background:var(--white);border:1.5px solid var(--border-mid);border-radius:var(--r-sm);padding:11px 16px;box-shadow:var(--shadow-sm);transition:border-color 0.15s;}
+.search-bar:focus-within{border-color:var(--ink);}
+.search-icon{font-size:16px;flex-shrink:0;}
+.search-input{flex:1;border:none;outline:none;font-size:15px;font-weight:500;font-family:'Cabinet Grotesk',sans-serif;background:transparent;color:var(--ink);}
+.search-input::placeholder{color:var(--ink-faint);font-weight:400;}
+.filter-strip{display:flex;gap:8px;padding:10px 16px;overflow-x:auto;scrollbar-width:none;flex-shrink:0;background:var(--offwhite);border-bottom:0.5px solid var(--border);}
+.filter-strip::-webkit-scrollbar{display:none;}
+.map-wrap{flex:0 0 44vh;position:relative;}
+#googleMap{width:100%;height:100%;}
+.map-overlay{position:absolute;inset:0;z-index:10;cursor:pointer;background:transparent;}
+.map-overlay.active{display:none;}
+.map-tap-hint{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);background:rgba(28,25,23,0.72);color:white;padding:7px 16px;border-radius:20px;font-size:12px;font-weight:700;font-family:'Cabinet Grotesk',sans-serif;pointer-events:none;backdrop-filter:blur(6px);white-space:nowrap;letter-spacing:0.2px;display:flex;align-items:center;gap:6px;}
+.map-tap-hint-dot{width:6px;height:6px;border-radius:50%;background:#7ED664;flex-shrink:0;}
+.results-wrap{flex:1;overflow-y:auto;background:var(--offwhite);}
+.results-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:0.5px solid var(--border);background:var(--white);position:sticky;top:0;z-index:2;}
+.results-count{font-size:13px;font-weight:700;color:var(--ink-muted);}
+.sort-select{font-size:12px;font-family:'Cabinet Grotesk',sans-serif;font-weight:700;padding:6px 10px;border:1.5px solid var(--border-mid);border-radius:8px;background:var(--white);color:var(--ink);cursor:pointer;}
+.results-list{padding:12px;display:flex;flex-direction:column;gap:10px;}
 
-  /* ===== EDITORIAL CARDS ===== */
-  .editorial-row { display: flex; gap: 14px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; -ms-overflow-style: none; }
-  .editorial-row::-webkit-scrollbar { display: none; }
-  .editorial-card {
-    flex-shrink: 0; width: 200px; cursor: pointer;
-    background: white; border-radius: var(--radius); border: 0.5px solid var(--border);
-    overflow: hidden; transition: all 0.2s;
-  }
-  .editorial-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
-  .editorial-card-img { width: 100%; height: 130px; display: flex; align-items: center; justify-content: center; font-size: 44px; }
-  .editorial-card-body { padding: 10px 12px 12px; }
-  .editorial-card-tag { font-size: 10px; font-weight: 500; color: var(--sage); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
-  .editorial-card-title { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 500; color: var(--ink); line-height: 1.3; }
+/* SEARCH CARD */
+.search-card{background:var(--white);border-radius:var(--r);display:flex;gap:12px;padding:14px;cursor:pointer;transition:all 0.15s;border:1.5px solid transparent;box-shadow:var(--shadow-sm);}
+.search-card:hover{border-color:var(--amber);transform:translateX(2px);}
+.search-card.editors{border-color:rgba(232,130,12,0.4);}
+.sc-photo{width:76px;height:76px;border-radius:var(--r-sm);overflow:hidden;flex-shrink:0;background:var(--sage-pale);position:relative;display:flex;align-items:center;justify-content:center;font-size:30px;}
+.sc-photo img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+.sc-body{flex:1;min-width:0;}
+.sc-name{font-family:'Fraunces',serif;font-size:16px;font-weight:400;color:var(--ink);margin-bottom:2px;letter-spacing:-0.2px;line-height:1.2;}
+.sc-loc{font-size:11px;color:var(--ink-faint);font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:7px;}
+.sc-badges{display:flex;gap:5px;flex-wrap:wrap;}
+.sc-badge{padding:3px 8px;border-radius:6px;font-size:10px;font-weight:700;}
+.sb-amber{background:var(--amber-pale);color:#7a4000;}
+.sb-sage{background:var(--sage-pale);color:var(--sage);}
+.sb-blue{background:#eaf3ff;color:#1a4a8a;}
+.sc-score{flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;width:44px;height:44px;border-radius:10px;background:var(--offwhite);border:1.5px solid var(--border-mid);}
+.sc-score-num{font-family:'Fraunces',serif;font-size:15px;font-weight:400;color:var(--ink);line-height:1;}
+.sc-score-lbl{font-size:7px;font-weight:700;color:var(--ink-faint);letter-spacing:0.5px;text-transform:uppercase;margin-top:2px;}
 
-  /* ===== SEARCH PAGE ===== */
-  .search-bar-wrap {
-    padding: 12px 16px; background: var(--cream);
-    border-bottom: 0.5px solid var(--border); flex-shrink: 0;
-  }
-  .search-bar {
-    display: flex; align-items: center; gap: 10px;
-    background: white; border: 0.5px solid var(--border-strong);
-    border-radius: 12px; padding: 10px 14px;
-  }
-  .search-icon { font-size: 16px; flex-shrink: 0; }
-  .search-input {
-    flex: 1; border: none; outline: none; font-size: 15px;
-    font-family: 'DM Sans', sans-serif; background: transparent; color: var(--ink);
-  }
-  .search-input::placeholder { color: var(--ink-faint); }
+/* DETAIL */
+#detail{padding-top:60px;background:var(--offwhite);}
+.detail-hero{position:relative;height:58vw;max-height:380px;overflow:hidden;background:var(--sage-pale);display:flex;align-items:flex-end;}
+.detail-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.4s;}
+.detail-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,16,10,0.75) 0%,transparent 55%);z-index:1;}
+.detail-editors-bar{position:absolute;top:0;left:0;right:0;z-index:3;background:var(--amber);padding:9px 20px;display:flex;align-items:center;gap:8px;}
+.detail-editors-bar span{font-size:11px;font-weight:700;color:white;letter-spacing:0.8px;text-transform:uppercase;}
+.detail-back{position:absolute;top:52px;left:16px;z-index:10;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,0.9);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;font-size:17px;font-family:'Cabinet Grotesk',sans-serif;font-weight:700;transition:all 0.15s;box-shadow:var(--shadow-sm);}
+.detail-back:hover{background:white;transform:scale(1.05);}
+.detail-fav{position:absolute;top:52px;right:16px;z-index:10;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,0.9);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;font-size:20px;transition:all 0.2s;box-shadow:var(--shadow-sm);}
+.detail-fav:hover{transform:scale(1.15);}
+.detail-hero-content{position:relative;z-index:2;padding:16px 20px 20px;width:100%;}
+.detail-badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+.detail-name{font-family:'Fraunces',serif;font-size:clamp(26px,7vw,36px);font-weight:300;color:white;letter-spacing:-1px;line-height:1.1;margin-bottom:6px;}
+.detail-loc-text{font-size:13px;color:rgba(255,255,255,0.6);font-weight:700;}
+.score-strip{display:flex;background:var(--white);border-bottom:0.5px solid var(--border);}
+.score-strip-item{flex:1;padding:16px 8px;text-align:center;border-right:0.5px solid var(--border);}
+.score-strip-item:last-child{border-right:none;}
+.score-strip-item.primary{background:var(--ink);}
+.score-strip-item.primary .ssv{color:white;}
+.score-strip-item.primary .ssl{color:rgba(255,255,255,0.5);}
+.ssv{font-family:'Fraunces',serif;font-size:22px;font-weight:300;color:var(--ink);line-height:1;}
+.ssl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--ink-faint);margin-top:4px;}
+.detail-body{padding:24px 20px;}
+.detail-section{margin-bottom:32px;}
+.detail-section-title{font-family:'Fraunces',serif;font-size:20px;font-weight:400;color:var(--ink);margin-bottom:16px;letter-spacing:-0.3px;padding-bottom:12px;border-bottom:0.5px solid var(--border);}
+.editor-review{background:var(--amber-pale);border-radius:var(--r-sm);padding:18px;border-left:3px solid var(--amber);margin-bottom:16px;}
+.er-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--amber);margin-bottom:8px;}
+.er-text{font-family:'Fraunces',serif;font-size:15px;font-weight:300;color:var(--ink-soft);line-height:1.7;font-style:italic;}
+.nbhd-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.nbhd-tile{background:var(--white);border-radius:var(--r-sm);padding:12px 10px;text-align:center;border:0.5px solid var(--border);}
+.nbhd-tile.hl{background:var(--sage-pale);border-color:#b8d8c0;}
+.nbhd-tile.inc{background:#f0f7ff;border-color:#b0d0f0;}
+.nbhd-tile.food{background:var(--amber-pale);border-color:#f0c080;}
+.nt-val{font-family:'Fraunces',serif;font-size:22px;font-weight:300;color:var(--ink);line-height:1;}
+.nt-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--ink-faint);margin-top:4px;}
+.scores-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.score-tile{background:var(--white);border-radius:var(--r-sm);padding:14px;border:0.5px solid var(--border);}
+.st-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--sage-mid);margin-bottom:6px;}
+.st-val{font-family:'Fraunces',serif;font-size:26px;font-weight:300;color:var(--ink);line-height:1;}
+.st-bar{height:3px;background:var(--sand);border-radius:2px;margin-top:8px;overflow:hidden;}
+.st-bar-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--sage),var(--sage-mid));}
+.amenity-list{display:flex;flex-wrap:wrap;gap:8px;}
+.amenity-chip{padding:7px 14px;border-radius:20px;font-size:13px;font-weight:500;background:var(--white);border:1.5px solid var(--border-mid);color:var(--ink-soft);}
+.food-card{background:var(--amber-pale);border-radius:var(--r-sm);padding:16px;border:0.5px solid rgba(232,130,12,0.2);}
+.food-card-title{font-size:12px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:12px;}
+.food-item{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:0.5px solid rgba(232,130,12,0.12);}
+.food-item:last-child{border-bottom:none;}
+.food-icon{font-size:20px;width:30px;text-align:center;flex-shrink:0;}
+.food-name{font-size:14px;font-weight:700;color:var(--ink);}
+.food-type{font-size:11px;color:var(--ink-muted);}
+.food-dist{font-size:12px;color:var(--sage);font-weight:700;margin-left:auto;flex-shrink:0;}
+.tip-card{background:var(--white);border-radius:var(--r-sm);padding:16px;border:0.5px solid var(--border);border-left:3px solid var(--sage);margin-bottom:10px;}
+.tip-text{font-family:'Fraunces',serif;font-size:14px;font-weight:300;color:var(--ink-soft);line-height:1.7;font-style:italic;}
+.tip-author{font-size:11px;color:var(--ink-faint);font-weight:700;margin-top:8px;}
+.photo-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.pg-item{border-radius:var(--r-sm);overflow:hidden;background:var(--sand);}
+.pg-item:first-child{grid-column:span 2;height:180px;}
+.pg-item:not(:first-child){height:110px;}
+.pg-item img{width:100%;height:100%;object-fit:cover;display:block;}
+.review{padding:16px 0;border-bottom:0.5px solid var(--border);}
+.review-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.review-avatar{width:34px;height:34px;border-radius:50%;flex-shrink:0;background:var(--sage-pale);color:var(--sage);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.review-name{font-size:13px;font-weight:700;color:var(--ink);}
+.review-date{font-size:11px;color:var(--ink-faint);}
+.review-stars{font-size:13px;color:var(--amber);margin-bottom:6px;}
+.review-text{font-size:13px;color:var(--ink-muted);line-height:1.6;}
+.mini-map-wrap{border-radius:var(--r-sm);overflow:hidden;height:140px;background:#d4e8cc;}
+#detailMiniMap{width:100%;height:100%;}
+.detail-address{font-size:12px;color:var(--ink-faint);margin-top:8px;font-weight:500;}
+.age-chips{display:flex;gap:8px;flex-wrap:wrap;}
+.age-chip{padding:5px 12px;border-radius:8px;font-size:12px;font-weight:700;background:var(--sage-pale);color:var(--sage);}
 
-  .filter-row { display: flex; gap: 8px; padding: 10px 16px; overflow-x: auto; scrollbar-width: none; flex-shrink: 0; }
-  .filter-row::-webkit-scrollbar { display: none; }
+/* BOTTOM NAV */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(250,248,244,0.95);backdrop-filter:blur(20px);border-top:0.5px solid var(--border);display:flex;padding:8px 0 max(12px,env(safe-area-inset-bottom));}
+.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:6px 0;background:none;border:none;font-family:'Cabinet Grotesk',sans-serif;transition:all 0.15s;}
+.bn-icon{font-size:22px;line-height:1;}
+.bn-lbl{font-size:10px;font-weight:700;color:var(--ink-faint);letter-spacing:0.3px;}
+.bn-item.active .bn-lbl{color:var(--amber);}
+.spacer{height:90px;}
 
-  .map-container { flex: 0 0 42vh; background: #e0edd8; position: relative; overflow: hidden; }
-  .map-container svg { width: 100%; height: 100%; }
-
-  .results-panel { flex: 1; overflow-y: auto; padding: 14px 16px; background: var(--cream); }
-  .results-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
-  .results-count { font-size: 13px; color: var(--ink-faint); }
-  .sort-select {
-    font-size: 12px; font-family: 'DM Sans', sans-serif; padding: 5px 8px;
-    border: 0.5px solid var(--border-strong); border-radius: 6px;
-    background: white; color: var(--ink-muted); cursor: pointer;
-  }
-
-  /* ===== SEARCH CARDS (compact) ===== */
-  .search-card {
-    background: white; border-radius: var(--radius-sm); border: 0.5px solid var(--border);
-    display: flex; gap: 12px; padding: 12px; margin-bottom: 10px; cursor: pointer;
-    transition: all 0.15s; align-items: flex-start;
-  }
-  .search-card:hover { border-color: var(--sage); background: var(--sage-pale); }
-  .search-card-img {
-    width: 70px; height: 70px; border-radius: 8px; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center; font-size: 28px;
-    overflow: hidden;
-  }
-  .search-card-body { flex: 1; min-width: 0; }
-  .search-card-name { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
-  .search-card-meta { font-size: 11px; color: var(--ink-faint); margin-bottom: 6px; }
-  .search-card-badges { display: flex; gap: 4px; flex-wrap: wrap; }
-  .badge-sm { padding: 2px 7px; border-radius: 10px; font-size: 10px; font-weight: 500; }
-  .badge-sm-sage { background: var(--sage-pale); color: var(--sage); }
-  .badge-sm-gold { background: var(--gold-pale); color: #6a4800; }
-  .search-card-score {
-    flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    border: 1.5px solid var(--sage); background: white;
-  }
-  .search-score-num { font-family: 'Playfair Display', serif; font-size: 12px; font-weight: 700; color: var(--sage); line-height: 1; }
-
-  /* ===== DETAIL PAGE ===== */
-  #detail { padding-top: 64px; overflow-y: auto; }
-  .detail-hero {
-    height: 55vw; max-height: 340px; position: relative; overflow: hidden;
-    display: flex; align-items: flex-end;
-  }
-  .detail-hero-bg { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 80px; }
-  .detail-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.62) 0%, transparent 60%); z-index: 1; }
-  .detail-hero-content { position: relative; z-index: 2; padding: 16px 20px; width: 100%; }
-  .detail-back {
-    position: absolute; top: 16px; left: 16px; z-index: 10;
-    width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.88);
-    display: flex; align-items: center; justify-content: center;
-    border: none; cursor: pointer; font-size: 16px;
-    backdrop-filter: blur(8px); transition: background 0.15s;
-  }
-  .detail-back:hover { background: white; }
-  .detail-fav {
-    position: absolute; top: 16px; right: 16px; z-index: 10;
-    width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.88);
-    display: flex; align-items: center; justify-content: center;
-    border: none; cursor: pointer; font-size: 18px;
-    backdrop-filter: blur(8px); transition: all 0.15s;
-  }
-  .detail-fav:hover { transform: scale(1.1); background: white; }
-  .detail-score-big { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-  .score-circle-big {
-    width: 52px; height: 52px; border-radius: 50%; background: white;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    border: 2.5px solid #4a6741; flex-shrink: 0;
-  }
-  .score-circle-num { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: #4a6741; line-height: 1; }
-  .score-circle-lbl { font-size: 8px; color: var(--ink-faint); letter-spacing: 0.5px; }
-  .detail-badges-wrap { display: flex; gap: 6px; flex-wrap: wrap; }
-  .detail-name { font-family: 'Playfair Display', serif; font-size: clamp(22px,6vw,28px); font-weight: 500; color: white; margin-bottom: 6px; letter-spacing: -0.5px; }
-  .detail-loc { font-size: 13px; color: rgba(255,255,255,0.68); }
-
-  .detail-body { padding: 20px; }
-  .detail-section { margin-bottom: 28px; }
-  .detail-section-title {
-    font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 500; color: var(--ink);
-    margin-bottom: 14px; padding-bottom: 10px; border-bottom: 0.5px solid var(--border);
-  }
-
-  .subscores-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .subscore-card { background: var(--sage-pale); border-radius: var(--radius-sm); padding: 12px; }
-  .subscore-card-label { font-size: 10px; color: var(--sage); font-weight: 500; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.4px; }
-  .subscore-card-val { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 500; color: var(--ink); }
-  .subscore-card-bar-wrap { height: 3px; background: rgba(74,103,65,0.15); border-radius: 2px; margin-top: 6px; }
-  .subscore-card-bar { height: 100%; border-radius: 2px; background: var(--sage); }
-
-  .amenity-list { display: flex; flex-wrap: wrap; gap: 8px; }
-  .amenity-item {
-    display: flex; align-items: center; gap: 5px;
-    padding: 6px 12px; border-radius: 20px;
-    background: white; border: 0.5px solid var(--border-strong);
-    font-size: 12px; color: var(--ink-muted); font-weight: 400;
-  }
-
-  .tip-card { background: var(--gold-pale); border-radius: var(--radius-sm); padding: 14px; border-left: 3px solid var(--gold); margin-bottom: 10px; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
-  .tip-card p { font-size: 14px; color: var(--ink-muted); line-height: 1.6; }
-  .tip-author { font-size: 11px; color: var(--ink-faint); margin-top: 6px; }
-
-  .photo-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-  .gallery-img { border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-  .gallery-img:first-child { grid-column: span 2; }
-
-  .review-item { padding: 14px 0; border-bottom: 0.5px solid var(--border); }
-  .review-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-  .reviewer-avatar {
-    width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 12px; font-weight: 500; background: var(--sage-pale); color: var(--sage);
-  }
-  .reviewer-name { font-size: 13px; font-weight: 500; color: var(--ink); }
-  .review-date { font-size: 11px; color: var(--ink-faint); }
-  .review-stars { display: flex; gap: 1px; margin-bottom: 6px; font-size: 12px; color: var(--gold); }
-  .review-text { font-size: 13px; color: var(--ink-muted); line-height: 1.6; }
-
-  .mini-map {
-    width: 100%; height: 120px; border-radius: var(--radius-sm);
-    background: #d4e8cc; border: 0.5px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    position: relative; overflow: hidden;
-  }
-  .mini-map svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .detail-address { font-size: 13px; color: var(--ink-faint); margin-top: 8px; }
-
-  /* ===== BOTTOM NAV ===== */
-  .bottom-nav {
-    position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
-    background: rgba(250,248,243,0.96);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-top: 0.5px solid var(--border);
-    display: flex; padding: 8px 0 max(12px, env(safe-area-inset-bottom));
-  }
-  .bottom-nav-item {
-    flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
-    cursor: pointer; padding: 6px 0; transition: all 0.15s;
-    background: none; border: none; font-family: 'DM Sans', sans-serif;
-  }
-  .bottom-nav-icon { font-size: 20px; line-height: 1; }
-  .bottom-nav-label { font-size: 10px; font-weight: 500; color: var(--ink-faint); }
-  .bottom-nav-item.active .bottom-nav-label { color: var(--sage); }
-
-  .spacer { height: 80px; }
-
-  @media (min-width: 768px) {
-    .hero-title { font-size: 56px; }
-    .park-cards { display: grid; grid-template-columns: 1fr 1fr; }
-    #search.active { flex-direction: row; flex-wrap: wrap; }
-    .search-bar-wrap { width: 100%; }
-    .filter-row { width: 100%; }
-    .map-container { flex: 0 0 50%; height: calc(100vh - 120px); }
-    .results-panel { flex: 0 0 50%; }
-  }
+@media(min-width:768px){
+  .park-cards{display:grid;grid-template-columns:1fr 1fr;}
+  #search.active{flex-direction:row;flex-wrap:wrap;}
+  .search-header,.filter-strip{width:100%;}
+  .map-wrap{flex:0 0 50%;height:calc(100vh - 130px);}
+  .results-wrap{flex:0 0 50%;}
+}
 </style>
 </head>
 <body>
 
-<!-- LOCATION MODAL -->
-<div class="location-modal" id="locationModal">
-  <div class="modal-sheet">
-    <div class="modal-icon">🌿</div>
-    <h2 class="modal-title">Find parks near you</h2>
-    <p class="modal-sub">The Park Guide uses your location to show the best rated parks within reach.</p>
-    <button class="modal-btn-primary" onclick="useLocation()">Use my location</button>
-    <button class="modal-btn-ghost" onclick="skipLocation()">Browse all California parks</button>
-  </div>
-</div>
-
 <!-- NAV -->
 <nav>
-  <div class="nav-logo" onclick="goPage('home')">The<span> Park Guide</span></div>
-  <div class="nav-actions">
-    <button class="nav-btn nav-btn-ghost" onclick="goPage('search')">Explore</button>
-    <button class="nav-btn nav-btn-solid" onclick="goPage('home')">Discover</button>
+  <div class="nav-logo" onclick="goPage('home')"><div class="nav-dot"></div>The Park Guide</div>
+  <div class="nav-right">
+    <button class="nav-btn nav-ghost" onclick="goPage('search')">Explore</button>
+    <button class="nav-btn nav-solid" onclick="goPage('home')">Discover</button>
   </div>
 </nav>
 
 <!-- BOTTOM NAV -->
 <div class="bottom-nav">
-  <button class="bottom-nav-item active" onclick="goPage('home')" id="btn-home">
-    <span class="bottom-nav-icon">🏡</span>
-    <span class="bottom-nav-label">Discover</span>
-  </button>
-  <button class="bottom-nav-item" onclick="goPage('search')" id="btn-search">
-    <span class="bottom-nav-icon">🗺️</span>
-    <span class="bottom-nav-label">Explore</span>
-  </button>
-  <button class="bottom-nav-item" onclick="goFaves()" id="btn-faves">
-    <span class="bottom-nav-icon">♡</span>
-    <span class="bottom-nav-label">Saved</span>
-  </button>
+  <button class="bn-item active" onclick="goPage('home')" id="btn-home"><span class="bn-icon">🏡</span><span class="bn-lbl">Discover</span></button>
+  <button class="bn-item" onclick="goPage('search')" id="btn-search"><span class="bn-icon">🗺️</span><span class="bn-lbl">Explore</span></button>
+  <button class="bn-item" onclick="goFaves()" id="btn-faves"><span class="bn-icon">♡</span><span class="bn-lbl">Saved</span></button>
 </div>
 
-<!-- =================== HOME PAGE =================== -->
+<!-- HOME -->
 <div class="page active" id="home">
   <div class="hero">
     <div class="hero-bg"></div>
-    <div class="hero-photo-grid">
-      <div class="hero-photo-cell"></div>
-      <div class="hero-photo-cell"></div>
-      <div class="hero-photo-cell"></div>
-      <div class="hero-photo-cell"></div>
-    </div>
-    <div class="hero-overlay"></div>
+    <div class="hero-grid"><div class="hero-cell"></div><div class="hero-cell"></div><div class="hero-cell"></div><div class="hero-cell"></div></div>
+    <div class="hero-vignette"></div>
     <div class="hero-content">
-      <div class="hero-eyebrow"><span class="hero-dot"></span> California's park guide for families</div>
-      <h1 class="hero-title">The best parks for kids, <em>actually worth the drive.</em></h1>
-      <p class="hero-sub">Curated like Michelin. Discovered like Airbnb.</p>
-      <div class="hero-cta-row">
-        <button class="cta-primary" onclick="goPage('search')">🌿 Find parks near me</button>
-        <button class="cta-secondary" onclick="goPage('search')">Browse all</button>
+      <div class="hero-eyebrow"><div class="hero-live-dot"></div><span>California's park guide for families</span></div>
+      <h1 class="hero-title">The best parks for kids, <em>worth the drive.</em></h1>
+      <p class="hero-sub">Curated like Michelin. Discovered like Airbnb. Every park in California scored.</p>
+      <div class="hero-cta">
+        <button class="btn-amber" onclick="useLocation()">🌿 Find parks near me</button>
+        <button class="btn-outline-white" onclick="goPage('search')">Browse all</button>
       </div>
-    </div>
-    <div class="hero-stats">
-      <div class="hero-stat"><div class="hero-stat-num">847</div><div class="hero-stat-label">Parks reviewed</div></div>
-      <div class="hero-stat"><div class="hero-stat-num">4.2k</div><div class="hero-stat-label">Parent tips</div></div>
-      <div class="hero-stat"><div class="hero-stat-num">58</div><div class="hero-stat-label">Cities</div></div>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="hero-stat-num" id="parkCountStat">12,619</div><div class="hero-stat-lbl">Parks in California</div></div>
+        <div class="hero-stat"><div class="hero-stat-num">4.2k</div><div class="hero-stat-lbl">Parent tips</div></div>
+        <div class="hero-stat"><div class="hero-stat-num">58</div><div class="hero-stat-lbl">Cities covered</div></div>
+      </div>
     </div>
   </div>
 
   <div class="section">
-    <div class="section-header">
-      <h2 class="section-title">Top-rated near you</h2>
-      <button class="section-link" onclick="goPage('search')">See all →</button>
-    </div>
+    <div class="section-header"><div><div class="section-eyebrow">Curated picks</div><h2 class="section-title">Top-rated near you</h2></div><button class="section-link" onclick="goPage('search')">See all →</button></div>
     <div class="chip-row" id="homeChips">
       <div class="chip active" onclick="setHomeChip(this,'all')">All picks</div>
-      <div class="chip" onclick="setHomeChip(this,'toddler')">Toddler-friendly</div>
+      <div class="chip" onclick="setHomeChip(this,'editors')">🏅 Editor's Picks</div>
+      <div class="chip" onclick="setHomeChip(this,'toddler')">Toddlers</div>
       <div class="chip" onclick="setHomeChip(this,'shaded')">Best shade</div>
-      <div class="chip" onclick="setHomeChip(this,'hidden')">Hidden gems</div>
-      <div class="chip" onclick="setHomeChip(this,'drive')">Worth the drive</div>
+      <div class="chip" onclick="setHomeChip(this,'food')">☕ Food nearby</div>
     </div>
-    <div class="park-cards" id="parkCardsList"></div>
+    <div id="parkCardsList"><div class="loading-state"><div class="loading-spinner"></div><div class="loading-text">Finding parks near you...</div><div class="loading-sub">Searching 12,619 California parks</div></div></div>
   </div>
 
-  <div class="section" style="padding-top:0">
-    <div class="section-header">
-      <h2 class="section-title">Park collections</h2>
-    </div>
-    <div class="editorial-row">
-      <div class="editorial-card" onclick="goPage('search')">
-        <div class="editorial-card-img" style="background:linear-gradient(135deg,#c8e6c0,#8bc34a);">🌳</div>
-        <div class="editorial-card-body">
-          <div class="editorial-card-tag">Collection</div>
-          <div class="editorial-card-title">Best shaded parks in the Bay Area</div>
-        </div>
-      </div>
-      <div class="editorial-card" onclick="goPage('search')">
-        <div class="editorial-card-img" style="background:linear-gradient(135deg,#ffe0b2,#ff9800);">🧒</div>
-        <div class="editorial-card-body">
-          <div class="editorial-card-tag">For little ones</div>
-          <div class="editorial-card-title">Perfect toddler parks under 30 min away</div>
-        </div>
-      </div>
-      <div class="editorial-card" onclick="goPage('search')">
-        <div class="editorial-card-img" style="background:linear-gradient(135deg,#e1bee7,#9c27b0);">💎</div>
-        <div class="editorial-card-body">
-          <div class="editorial-card-tag">Hidden gems</div>
-          <div class="editorial-card-title">Under-the-radar parks worth the trip</div>
-        </div>
-      </div>
-      <div class="editorial-card" onclick="goPage('search')">
-        <div class="editorial-card-img" style="background:linear-gradient(135deg,#b2dfdb,#009688);">🚗</div>
-        <div class="editorial-card-body">
-          <div class="editorial-card-tag">Road trip worthy</div>
-          <div class="editorial-card-title">Parks that are worth the longer drive</div>
-        </div>
-      </div>
+  <div class="section" style="padding-top:0;padding-bottom:16px;">
+    <div class="section-header"><div><div class="section-eyebrow">Explore by theme</div><h2 class="section-title">Park collections</h2></div></div>
+    <div class="collections-row">
+      <div class="coll-card" onclick="goPage('search')"><div class="coll-img" style="background:linear-gradient(135deg,#c47a10,#e8a840);">🏅</div><div class="coll-body"><div class="coll-eyebrow">Curated</div><div class="coll-title">Editor's Picks — the best of California</div></div></div>
+      <div class="coll-card" onclick="goPage('search')"><div class="coll-img" style="background:linear-gradient(135deg,#fff0d0,#f5c060);">☕</div><div class="coll-body"><div class="coll-eyebrow">After the park</div><div class="coll-title">Parks with great coffee and food nearby</div></div></div>
+      <div class="coll-card" onclick="goPage('search')"><div class="coll-img" style="background:linear-gradient(135deg,#c8e6c0,#5a8c64);">🌳</div><div class="coll-body"><div class="coll-eyebrow">Best shade</div><div class="coll-title">Coolest shaded parks for hot days</div></div></div>
+      <div class="coll-card" onclick="goPage('search')"><div class="coll-img" style="background:linear-gradient(135deg,#d0c0e8,#7a5aaa);">💎</div><div class="coll-body"><div class="coll-eyebrow">Hidden gems</div><div class="coll-title">Under-the-radar parks worth the trip</div></div></div>
     </div>
   </div>
   <div class="spacer"></div>
 </div>
 
-<!-- =================== SEARCH PAGE =================== -->
+<!-- SEARCH -->
 <div class="page" id="search">
-  <div class="search-bar-wrap">
-    <div class="search-bar">
-      <span class="search-icon">🔍</span>
-      <input class="search-input" placeholder="Search parks, cities, or zip…" id="searchInput" oninput="filterParks()">
-    </div>
-  </div>
-  <div class="filter-row">
-    <div class="chip active" onclick="setFilter(this,'all')">All ages</div>
+  <div class="search-header"><div class="search-bar"><span class="search-icon">🔍</span><input class="search-input" placeholder="Search parks, cities, or zip…" id="searchInput" oninput="filterParks()"></div></div>
+  <div class="filter-strip">
+    <div class="chip active" onclick="setFilter(this,'all')">All</div>
+    <div class="chip" onclick="setFilter(this,'editors')">🏅 Editor's Pick</div>
+    <div class="chip" onclick="setFilter(this,'great')">🟢 Great neighborhood</div>
     <div class="chip" onclick="setFilter(this,'toddler')">Toddlers</div>
-    <div class="chip" onclick="setFilter(this,'kids')">Ages 5–8</div>
-    <div class="chip" onclick="setFilter(this,'older')">Ages 8+</div>
+    <div class="chip" onclick="setFilter(this,'food')">☕ Food nearby</div>
     <div class="chip" onclick="setFilter(this,'shade')">🌳 Shade</div>
-    <div class="chip" onclick="setFilter(this,'bathrooms')">🚻 Bathrooms</div>
-    <div class="chip" onclick="setFilter(this,'fenced')">🔒 Fenced</div>
   </div>
-  <div class="map-container">
-    <svg viewBox="0 0 360 220" xmlns="http://www.w3.org/2000/svg">
-      <rect width="360" height="220" fill="#d4e8cc"/>
-      <line x1="0" y1="80" x2="360" y2="80" stroke="#b8d4b0" stroke-width="8"/>
-      <line x1="0" y1="140" x2="360" y2="140" stroke="#b8d4b0" stroke-width="8"/>
-      <line x1="120" y1="0" x2="120" y2="220" stroke="#b8d4b0" stroke-width="6"/>
-      <line x1="240" y1="0" x2="240" y2="220" stroke="#b8d4b0" stroke-width="6"/>
-      <line x1="60" y1="0" x2="60" y2="220" stroke="#c8dcc0" stroke-width="2"/>
-      <line x1="180" y1="0" x2="180" y2="220" stroke="#c8dcc0" stroke-width="2"/>
-      <line x1="300" y1="0" x2="300" y2="220" stroke="#c8dcc0" stroke-width="2"/>
-      <line x1="0" y1="40" x2="360" y2="40" stroke="#c8dcc0" stroke-width="2"/>
-      <line x1="0" y1="110" x2="360" y2="110" stroke="#c8dcc0" stroke-width="2"/>
-      <line x1="0" y1="170" x2="360" y2="170" stroke="#c8dcc0" stroke-width="2"/>
-      <rect x="130" y="50" width="38" height="22" fill="#a8c898" rx="3"/>
-      <rect x="250" y="100" width="33" height="28" fill="#a8c898" rx="3"/>
-      <rect x="30" y="90" width="48" height="38" fill="#a8c898" rx="3"/>
-      <rect x="180" y="150" width="43" height="33" fill="#a8c898" rx="3"/>
-      <!-- Park pins -->
-      <g onclick="openParkById(1)" style="cursor:pointer">
-        <circle cx="148" cy="62" r="10" fill="#4a6741" opacity="0.9"/>
-        <text x="148" y="66" text-anchor="middle" fill="white" font-size="9" font-family="DM Sans,sans-serif" font-weight="500">96</text>
-      </g>
-      <g onclick="openParkById(2)" style="cursor:pointer">
-        <circle cx="75" cy="95" r="9" fill="#7a9e6d" opacity="0.9"/>
-        <text x="75" y="99" text-anchor="middle" fill="white" font-size="9" font-family="DM Sans,sans-serif" font-weight="500">89</text>
-      </g>
-      <g onclick="openParkById(8)" style="cursor:pointer">
-        <circle cx="200" cy="158" r="10" fill="#4a6741" opacity="0.9"/>
-        <text x="200" y="162" text-anchor="middle" fill="white" font-size="9" font-family="DM Sans,sans-serif" font-weight="500">95</text>
-      </g>
-      <g onclick="openParkById(5)" style="cursor:pointer">
-        <circle cx="265" cy="115" r="9" fill="#4a6741" opacity="0.9"/>
-        <text x="265" y="119" text-anchor="middle" fill="white" font-size="9" font-family="DM Sans,sans-serif" font-weight="500">91</text>
-      </g>
-      <!-- User location -->
-      <circle cx="185" cy="108" r="6" fill="#4a6741"/>
-      <circle cx="185" cy="108" r="12" fill="#4a6741" opacity="0.18"/>
-      <circle cx="185" cy="108" r="3" fill="white"/>
-    </svg>
-  </div>
-  <div class="results-panel">
-    <div class="results-header">
-      <span class="results-count" id="resultsCount">10 parks nearby</span>
-      <select class="sort-select" onchange="sortParks(this.value)">
-        <option value="score">Best rated</option>
-        <option value="distance">Nearest</option>
-        <option value="cleanliness">Cleanest</option>
-      </select>
+  <div class="map-wrap">
+    <div id="googleMap"></div>
+    <div class="map-overlay" id="mapOverlay" onclick="activateMap()">
+      <div class="map-tap-hint"><div class="map-tap-hint-dot"></div>Tap to explore map</div>
     </div>
-    <div id="searchCardsList"></div>
+  </div>
+  <div class="results-wrap">
+    <div class="results-bar"><span class="results-count" id="resultsCount">Loading parks...</span><select class="sort-select" onchange="sortParks(this.value)"><option value="distance">Nearest</option><option value="score">Best rated</option></select></div>
+    <div class="results-list" id="searchCardsList"><div class="loading-state"><div class="loading-spinner"></div><div class="loading-text">Loading nearby parks...</div></div></div>
   </div>
 </div>
 
-<!-- =================== DETAIL PAGE =================== -->
+<!-- DETAIL -->
 <div class="page" id="detail">
   <button class="detail-back" onclick="goBack()">←</button>
   <button class="detail-fav" id="favBtn" onclick="toggleFav()">♡</button>
   <div class="detail-hero">
-    <div class="detail-hero-bg" id="detailHeroBg"></div>
+    <div id="dEditorBar" class="detail-editors-bar" style="display:none;"><span>🏅 Editor's Pick — The Park Guide</span></div>
+    <img id="dHeroImg" src="" alt=""/>
     <div class="detail-hero-overlay"></div>
     <div class="detail-hero-content">
-      <div class="detail-score-big">
-        <div class="score-circle-big">
-          <span class="score-circle-num" id="detailScore">94</span>
-          <span class="score-circle-lbl">SCORE</span>
-        </div>
-        <div class="detail-badges-wrap" id="detailBadges"></div>
-      </div>
-      <h1 class="detail-name" id="detailName">Park Name</h1>
-      <p class="detail-loc" id="detailLoc">City, CA</p>
+      <div class="detail-badges" id="dBadges"></div>
+      <h1 class="detail-name" id="dName">Park</h1>
+      <p class="detail-loc-text" id="dLoc"></p>
     </div>
   </div>
+  <div class="score-strip" id="dScoreStrip"></div>
   <div class="detail-body">
-    <div class="detail-section">
-      <div style="display:flex;gap:8px;flex-wrap:wrap;" id="detailAges"></div>
-    </div>
-    <div class="detail-section">
-      <h3 class="detail-section-title">Park scores</h3>
-      <div class="subscores-grid" id="subscoresGrid"></div>
-    </div>
-    <div class="detail-section">
-      <h3 class="detail-section-title">Amenities</h3>
-      <div class="amenity-list" id="amenitiesList"></div>
-    </div>
-    <div class="detail-section">
-      <h3 class="detail-section-title">Parent tips</h3>
-      <div id="tipsList"></div>
-    </div>
-    <div class="detail-section">
-      <h3 class="detail-section-title">Photos</h3>
-      <div class="photo-gallery" id="photoGallery"></div>
-    </div>
-    <div class="detail-section">
-      <h3 class="detail-section-title">Location</h3>
-      <div class="mini-map">
-        <svg viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg">
-          <rect width="300" height="120" fill="#d4e8cc"/>
-          <line x1="0" y1="60" x2="300" y2="60" stroke="#a8c898" stroke-width="6"/>
-          <line x1="150" y1="0" x2="150" y2="120" stroke="#a8c898" stroke-width="4"/>
-          <line x1="0" y1="30" x2="300" y2="30" stroke="#b8d4b0" stroke-width="1.5"/>
-          <line x1="0" y1="90" x2="300" y2="90" stroke="#b8d4b0" stroke-width="1.5"/>
-          <line x1="75" y1="0" x2="75" y2="120" stroke="#b8d4b0" stroke-width="1.5"/>
-          <line x1="225" y1="0" x2="225" y2="120" stroke="#b8d4b0" stroke-width="1.5"/>
-        </svg>
-        <span style="font-size:24px;position:relative;z-index:1;">📍</span>
-      </div>
-      <p class="detail-address" id="detailAddress"></p>
-    </div>
-    <div class="detail-section">
-      <h3 class="detail-section-title">Parent reviews</h3>
-      <div id="reviewsList"></div>
-    </div>
+    <div class="detail-section" id="dEditorSection" style="display:none;"><div class="editor-review"><div class="er-label">🏅 Editor's review</div><div class="er-text" id="dEditorText"></div></div></div>
+    <div class="detail-section"><h3 class="detail-section-title">Neighborhood</h3><div class="nbhd-grid" id="dNbhd"></div><div class="age-chips" id="dAges" style="margin-top:12px;"></div></div>
+    <div class="detail-section"><h3 class="detail-section-title">Park scores</h3><div class="scores-grid" id="dScores"></div></div>
+    <div class="detail-section"><h3 class="detail-section-title">Amenities</h3><div class="amenity-list" id="dAmenities"></div></div>
+    <div class="detail-section" id="dFoodSection"><h3 class="detail-section-title">After the park</h3><div class="food-card"><div class="food-card-title">🍦 Food & coffee nearby</div><div id="dFood"></div></div></div>
+    <div class="detail-section"><h3 class="detail-section-title">Parent tips</h3><div id="dTips"></div></div>
+    <div class="detail-section"><h3 class="detail-section-title">Photos</h3><div class="photo-grid" id="dPhotos"></div></div>
+    <div class="detail-section"><h3 class="detail-section-title">Location</h3><div class="mini-map-wrap"><div id="detailMiniMap"></div></div><p class="detail-address" id="dAddress"></p></div>
+    <div class="detail-section"><h3 class="detail-section-title">Parent reviews</h3><div id="dReviews"></div></div>
     <div class="spacer"></div>
   </div>
 </div>
 
 <script>
-// =================== PARK DATA ===================
-const PARKS = [
-  {
-    id:1, name:"Tilden Regional Park", city:"Berkeley", distance:1.2, score:96,
-    emoji:"🌲", heroColor:"linear-gradient(135deg,#3d5836,#7a9e6d)",
-    badges:["Hidden gem","Best for families","Worth the drive"],
-    ages:["1–3","3–5","5–8","8+"],
-    subscores:{Cleanliness:94,Playground:91,Safety:97,Shade:96,Bathrooms:88,Parking:82,Crowds:79,"Parent comfort":95,"Kid excitement":98},
-    amenities:["🌳 Wooded trails","🚂 Steam train ride","🐄 Little Farm","🌊 Lake Anza","🅿️ Large parking","🚻 Clean restrooms","🍦 Snack stand"],
-    tips:[{text:"Get there before 10am on weekends — the steam train has a wait by 11. The Little Farm is free and kids go wild for the animals.",author:"Sarah M., mom of 3"},{text:"Pack layers! Berkeley hills mornings are foggy. By noon it's perfect. The Environmental Ed Center has free ranger programs.",author:"David K."}],
-    photos:["#7a9e6d","#4a6741","#a8c8a0","#5a7a52"],
-    address:"2501 Grizzly Peak Blvd, Berkeley, CA 94708",
-    reviews:[{name:"Jamie L.",initials:"JL",rating:5,date:"March 2025",text:"Absolutely magical. My 4-year-old didn't want to leave the Little Farm. The steam train is worth the $4 ticket — kids lose their minds."},{name:"Maria S.",initials:"MS",rating:5,date:"Feb 2025",text:"Best park in the East Bay, full stop. Trails, animals, lake — you can spend an entire day here. Bathrooms are surprisingly clean."}]
-  },
-  {
-    id:2, name:"Dolores Park", city:"San Francisco", distance:2.1, score:89,
-    emoji:"☀️", heroColor:"linear-gradient(135deg,#c4a882,#8a6040)",
-    badges:["Best for toddlers","Great playground"],
-    ages:["1–3","3–5","5–8"],
-    subscores:{Cleanliness:85,Playground:94,Safety:88,Shade:72,Bathrooms:80,Parking:55,Crowds:62,"Parent comfort":87,"Kid excitement":95},
-    amenities:["🛝 Epic playground","🌅 City views","🐕 Dog friendly","🌿 Open meadow","🚻 Restrooms","☀️ Very sunny","🚌 Transit nearby"],
-    tips:[{text:"The children's playground is genuinely one of the best in SF. Go on a Tuesday morning to avoid weekend crowds. Bring sunscreen — there's not much shade.",author:"Tanya R."}],
-    photos:["#c4a882","#d4b892","#b89060","#e0c8a0"],
-    address:"Dolores St & 19th St, San Francisco, CA 94114",
-    reviews:[{name:"Alex P.",initials:"AP",rating:4,date:"April 2025",text:"Great playground but can get packed on weekends. Weekday mornings are a dream — mostly nannies and toddlers."}]
-  },
-  {
-    id:3, name:"Muir Woods Picnic Area", city:"Mill Valley", distance:8.4, score:93,
-    emoji:"🌲", heroColor:"linear-gradient(135deg,#2d4a28,#5a7a52)",
-    badges:["Worth the drive","Best shaded park","Hidden gem"],
-    ages:["3–5","5–8","8+"],
-    subscores:{Cleanliness:97,Playground:72,Safety:95,Shade:100,Bathrooms:88,Parking:65,Crowds:60,"Parent comfort":92,"Kid excitement":90},
-    amenities:["🌲 Ancient redwoods","🦌 Wildlife viewing","🥾 Easy trails","🚻 Clean restrooms","🅿️ Reserve required","📷 Incredible photos","🌿 Nature education"],
-    tips:[{text:"Reserve your parking permit 2+ weeks in advance — they sell out fast. The main trail is stroller-friendly. Kids are awed by the giant trees.",author:"Chris W., dad of 2"}],
-    photos:["#2d4a28","#4a6741","#3d5836","#5a7a52"],
-    address:"1 Muir Woods Rd, Mill Valley, CA 94941",
-    reviews:[{name:"Priya N.",initials:"PN",rating:5,date:"March 2025",text:"We drove from Oakland and it was 100% worth it. My kids had never seen redwoods before — genuine awe. Go early on a weekday."}]
-  },
-  {
-    id:4, name:"Guadalupe River Park", city:"San Jose", distance:4.2, score:84,
-    emoji:"🏞️", heroColor:"linear-gradient(135deg,#5a8040,#8ab460)",
-    badges:["Best for big kids","River trail"],
-    ages:["5–8","8+"],
-    subscores:{Cleanliness:82,Playground:80,Safety:85,Shade:78,Bathrooms:75,Parking:88,Crowds:80,"Parent comfort":84,"Kid excitement":86},
-    amenities:["🚲 Bike trail","🌊 River views","🦅 Bird watching","🅿️ Easy parking","🥾 Paved trail","🌳 Tree lined","🐟 Nature center"],
-    tips:[{text:"Perfect for kids on bikes or scooters. The trail is flat and paved for miles. Great bird watching at the Guadalupe River banks.",author:"Ben F."}],
-    photos:["#5a8040","#8ab460","#6a9050","#4a6730"],
-    address:"715 Spring St, San Jose, CA 95110",
-    reviews:[{name:"Karen T.",initials:"KT",rating:4,date:"Jan 2025",text:"Underrated park in SJ. Long paved trail, safe, not too crowded. Perfect for a morning ride."}]
-  },
-  {
-    id:5, name:"Howarth Park", city:"Santa Rosa", distance:12.0, score:91,
-    emoji:"🎠", heroColor:"linear-gradient(135deg,#6a4a8a,#9a6aba)",
-    badges:["Best for families","Hidden gem","Worth the drive"],
-    ages:["1–3","3–5","5–8","8+"],
-    subscores:{Cleanliness:90,Playground:93,Safety:94,Shade:85,Bathrooms:88,Parking:90,Crowds:82,"Parent comfort":93,"Kid excitement":97},
-    amenities:["🎠 Carousel","🚂 Miniature railroad","🎣 Lake fishing","🛶 Paddleboat rental","🎾 Tennis courts","🅿️ Free parking","🚻 Good restrooms"],
-    tips:[{text:"The miniature train and carousel are $2 each — bring quarters and cash. Lake fishing is free for kids under 16. Truly a hidden gem outside the Bay.",author:"Lisa M., mom of 4"}],
-    photos:["#6a4a8a","#9a6aba","#7a5a9a","#8a6aaa"],
-    address:"630 Summerfield Rd, Santa Rosa, CA 95405",
-    reviews:[{name:"Tom B.",initials:"TB",rating:5,date:"April 2025",text:"Drove from Marin — absolutely worth it. My kids could have spent all day there between the train, carousel, and lake."}]
-  },
-  {
-    id:6, name:"Mission Dolores Playground", city:"San Francisco", distance:2.3, score:87,
-    emoji:"🛝", heroColor:"linear-gradient(135deg,#e88040,#f0a860)",
-    badges:["Best for toddlers","Great playground"],
-    ages:["1–3","3–5","5–8"],
-    subscores:{Cleanliness:84,Playground:97,Safety:90,Shade:60,Bathrooms:78,Parking:50,Crowds:65,"Parent comfort":82,"Kid excitement":96},
-    amenities:["🛝 Excellent climbing structure","🪁 Swings all ages","🌅 Bay views","☀️ Sunny","🚌 Transit accessible","🍦 Ice cream nearby","🐕 Dog friendly area"],
-    tips:[{text:"Best modern playground in SF. The climbing structure is ambitious — good for ages 3 to 10. No shade so bring a hat and sunscreen.",author:"Rachel H."}],
-    photos:["#e88040","#f0a860","#d07030","#f8c080"],
-    address:"18th & Church St, San Francisco, CA 94114",
-    reviews:[{name:"James W.",initials:"JW",rating:4,date:"March 2025",text:"Playground is legit top-tier. Gets crowded on sunny weekends but worth it. Kids 3–8 love it."}]
-  },
-  {
-    id:7, name:"Rancho San Antonio Park", city:"Cupertino", distance:5.8, score:92,
-    emoji:"🌄", heroColor:"linear-gradient(135deg,#6a8050,#a0b880)",
-    badges:["Best shaded park","Worth the drive","Hidden gem"],
-    ages:["3–5","5–8","8+"],
-    subscores:{Cleanliness:93,Playground:78,Safety:96,Shade:90,Bathrooms:85,Parking:88,Crowds:75,"Parent comfort":95,"Kid excitement":90},
-    amenities:["🦌 Deer Farm","🥾 55 miles of trails","🌄 Valley views","🅿️ Free parking","🚻 Clean bathrooms","🐄 Working farm","🌿 Guided hikes"],
-    tips:[{text:"Free and underrated. The deer farm section is great for little ones. Loop trail takes about 45 mins and is mostly flat. Go early on weekends.",author:"Andrea S."}],
-    photos:["#6a8050","#a0b880","#7a9060","#8aa870"],
-    address:"22500 Cristo Rey Dr, Cupertino, CA 95014",
-    reviews:[{name:"Neil P.",initials:"NP",rating:5,date:"Feb 2025",text:"My favorite park in Silicon Valley. Wildlife, easy trails, and free. The views of the valley are stunning."}]
-  },
-  {
-    id:8, name:"Children's Fairyland", city:"Oakland", distance:3.1, score:95,
-    emoji:"🧚", heroColor:"linear-gradient(135deg,#e04a7a,#f07aa0)",
-    badges:["Best for toddlers","Hidden gem","Iconic"],
-    ages:["1–3","3–5"],
-    subscores:{Cleanliness:95,Playground:98,Safety:99,Shade:80,Bathrooms:90,Parking:85,Crowds:72,"Parent comfort":98,"Kid excitement":100},
-    amenities:["🧚 Storybook attractions","🎭 Puppet shows","🎠 Rides","🅿️ Easy parking","🚻 Clean restrooms","🍕 Cafe inside","🎫 Admission $12"],
-    tips:[{text:"This is the single best destination for kids under 5 in the Bay Area. It's small but perfectly curated — kids are in complete wonder. $12 admission is worth every penny.",author:"Diana K., mom of 2"}],
-    photos:["#e04a7a","#f07aa0","#c03a6a","#f09ab8"],
-    address:"699 Bellevue Ave, Oakland, CA 94610",
-    reviews:[{name:"Sophie M.",initials:"SM",rating:5,date:"April 2025",text:"Genuinely magical. My 3-year-old has been four times and reacts the same way each time — pure joy. No crowds on Tuesday mornings."}]
-  },
-  {
-    id:9, name:"Will Rogers State Beach", city:"Pacific Palisades", distance:9.2, score:88,
-    emoji:"🏖️", heroColor:"linear-gradient(135deg,#4a8ab0,#70aad0)",
-    badges:["Worth the drive","Best for big kids"],
-    ages:["3–5","5–8","8+"],
-    subscores:{Cleanliness:86,Playground:75,Safety:85,Shade:40,Bathrooms:82,Parking:70,Crowds:68,"Parent comfort":84,"Kid excitement":95},
-    amenities:["🏖️ Beach access","🌊 Swimming","🏄 Surf lessons","🅿️ Metered parking","🚻 Beach restrooms","🍦 Food trucks","🛶 Kayak rental"],
-    tips:[{text:"Go at 9am to get parking. Bring a shade umbrella — there's zero natural shade. The water is calmer here than Santa Monica and the beach is less crowded.",author:"Mark D."}],
-    photos:["#4a8ab0","#70aad0","#3a7aa0","#6098c0"],
-    address:"17000 Pacific Coast Hwy, Pacific Palisades, CA 90272",
-    reviews:[{name:"Linda R.",initials:"LR",rating:4,date:"March 2025",text:"Beautiful beach for families. Not as chaotic as Santa Monica. Kids had a great time in the waves."}]
-  },
-  {
-    id:10, name:"Alum Rock Park", city:"San Jose", distance:6.7, score:82,
-    emoji:"🏕️", heroColor:"linear-gradient(135deg,#8a6030,#c09060)",
-    badges:["Hidden gem","Nature lover"],
-    ages:["5–8","8+"],
-    subscores:{Cleanliness:80,Playground:68,Safety:85,Shade:92,Bathrooms:72,Parking:88,Crowds:90,"Parent comfort":83,"Kid excitement":84},
-    amenities:["🦅 Birdwatching","🥾 Wooded trails","🌡️ Natural hot springs","🅿️ Free parking","🌲 Old growth trees","🦌 Wildlife","🌊 Creek access"],
-    tips:[{text:"One of the most underrated parks in SJ. Almost no crowds. Cool creek access and shaded trails make it perfect in summer. Bring bug spray.",author:"Felix T."}],
-    photos:["#8a6030","#c09060","#7a5020","#b08050"],
-    address:"16240 Alum Rock Ave, San Jose, CA 95127",
-    reviews:[{name:"Ami C.",initials:"AC",rating:4,date:"Jan 2025",text:"Hidden gem. We had the trails almost to ourselves. Kids loved the creek and wildlife spotting."}]
+// ═══ CONFIG ═══
+const GOOGLE_KEY = 'AIzaSyBUgf1mE4bC7UQ7sovzlnV21HF_qYUY1tk';
+const SUPABASE_URL = 'https://vyiijqbhezkctkuvgwil.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5aWlqcWJoZXprY3RrdXZnd2lsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3MjIyNjMsImV4cCI6MjA4OTI5ODI2M30.eoH8cCFH8d3i13gI9LO4FlAvMXi64K12lFFWV6yvRsQ';
+
+// ═══ CURATED PARKS (Editor's Picks with full data) ═══
+const CURATED = {
+  1:{name:"Tilden Regional Park",city:"Berkeley",state:"CA",lat:37.8932,lng:-122.2419,tier:"editors",editorReview:"One of the finest family parks in Northern California. The Little Farm, steam train, and Lake Anza make it a genuine all-day destination.",emoji:"🌲",googleQuery:"Tilden Regional Park Berkeley California",nbhd:{safety:96,families:88,schools:91,walkability:84,income:82,food:90},stackBadges:["🌳 Well shaded","🚻 Bathrooms","🚗 Easy parking","☕ Coffee nearby","🍦 Ice cream nearby"],ages:["1–3","3–5","5–8","8+"],subscores:{Cleanliness:94,Playground:91,Safety:97,Shade:96,Bathrooms:88,Parking:82,"Parent comfort":95,"Kid excitement":98},amenities:["🌳 Wooded trails","🚂 Steam train ride","🐄 Little Farm","🌊 Lake Anza","🅿️ Large parking","🚻 Clean restrooms","🍦 Snack stand"],food:[{icon:"☕",name:"Tilden Café",type:"Coffee",dist:"0.2 mi"},{icon:"🍦",name:"Ici Ice Cream",type:"Ice cream",dist:"0.8 mi"},{icon:"🍕",name:"Zachary's Pizza",type:"Restaurant",dist:"1.1 mi"}],tips:[{text:"Get there before 10am on weekends — the steam train has a wait by 11.",author:"Sarah M., mom of 3"}],address:"2501 Grizzly Peak Blvd, Berkeley, CA",reviews:[{name:"Jamie L.",initials:"JL",rating:5,date:"March 2025",text:"Absolutely magical. My 4-year-old didn't want to leave the Little Farm."},{name:"Maria S.",initials:"MS",rating:5,date:"Feb 2025",text:"Best park in the East Bay, full stop."}]},
+  2:{name:"Children's Fairyland",city:"Oakland",state:"CA",lat:37.8077,lng:-122.2530,tier:"editors",editorReview:"The single best destination for kids under 5 in the Bay Area. Storybook rides, puppet shows — small, perfectly curated, completely magical.",emoji:"🧚",googleQuery:"Children's Fairyland Oakland California",nbhd:{safety:88,families:85,schools:84,walkability:82,income:72,food:88},stackBadges:["🧚 Storybook theme","🔒 Fully fenced","🚗 Easy parking","☕ Coffee nearby"],ages:["1–3","3–5"],subscores:{Cleanliness:95,Playground:98,Safety:99,Shade:80,Bathrooms:90,Parking:85,"Parent comfort":98,"Kid excitement":100},amenities:["🧚 Storybook attractions","🎭 Puppet shows","🎠 Rides","🍕 Cafe inside","🎫 Admission $12"],food:[{icon:"☕",name:"Caffe 817",type:"Coffee",dist:"0.5 mi"},{icon:"🍦",name:"Fentons Creamery",type:"Ice cream",dist:"0.7 mi"}],tips:[{text:"$12 admission is worth every penny. Go Tuesday mornings — almost no crowds.",author:"Diana K., mom of 2"}],address:"699 Bellevue Ave, Oakland, CA",reviews:[{name:"Sophie M.",initials:"SM",rating:5,date:"April 2025",text:"Genuinely magical. Pure joy every time."}]},
+  3:{name:"Muir Woods",city:"Mill Valley",state:"CA",lat:37.8970,lng:-122.5811,tier:"editors",editorReview:"Ancient redwoods, stroller-friendly trails, and an atmosphere of genuine wonder. The park that makes kids fall in love with nature.",emoji:"🌲",googleQuery:"Muir Woods National Monument Mill Valley California",nbhd:{safety:95,families:80,schools:90,walkability:60,income:92,food:55},stackBadges:["🌲 Ancient redwoods","🌳 Well shaded","🚻 Bathrooms","🥾 Easy trails"],ages:["3–5","5–8","8+"],subscores:{Cleanliness:97,Playground:72,Safety:95,Shade:100,Bathrooms:88,Parking:65,"Parent comfort":92,"Kid excitement":90},amenities:["🌲 Ancient redwoods","🦌 Wildlife viewing","🥾 Easy trails","🚻 Clean restrooms","🅿️ Reserve required"],food:[{icon:"☕",name:"Muir Woods Trading Co.",type:"Coffee",dist:"On site"}],tips:[{text:"Reserve your parking permit 2+ weeks in advance. The main trail is stroller-friendly.",author:"Chris W., dad of 2"}],address:"1 Muir Woods Rd, Mill Valley, CA",reviews:[{name:"Priya N.",initials:"PN",rating:5,date:"March 2025",text:"My kids had never seen redwoods before — genuine awe."}]},
+  4:{name:"Howarth Park",city:"Santa Rosa",state:"CA",lat:38.4404,lng:-122.6866,tier:"editors",editorReview:"A magical park most Bay Area families don't know about. The miniature railroad, carousel, and lake fishing make it feel like a theme park — largely free.",emoji:"🎠",googleQuery:"Howarth Park Santa Rosa California",nbhd:{safety:90,families:88,schools:86,walkability:70,income:78,food:80},stackBadges:["🎠 Carousel","🚂 Miniature railroad","🌳 Well shaded","🚗 Easy parking"],ages:["1–3","3–5","5–8","8+"],subscores:{Cleanliness:90,Playground:93,Safety:94,Shade:85,Bathrooms:88,Parking:90,"Parent comfort":93,"Kid excitement":97},amenities:["🎠 Carousel","🚂 Miniature railroad","🎣 Lake fishing","🛶 Paddleboat rental","🅿️ Free parking"],food:[{icon:"☕",name:"Flying Goat Coffee",type:"Coffee",dist:"0.9 mi"},{icon:"🍦",name:"Screamin' Mimi's",type:"Ice cream",dist:"1.2 mi"}],tips:[{text:"The miniature train and carousel are $2 each. Lake fishing is free for kids under 16.",author:"Lisa M., mom of 4"}],address:"630 Summerfield Rd, Santa Rosa, CA",reviews:[{name:"Tom B.",initials:"TB",rating:5,date:"April 2025",text:"Drove from Marin — absolutely worth it."}]}
+};
+
+// ═══ STATE ═══
+const photoCache = {};
+let currentPage='home', prevPage='home', currentPark=null;
+let activeFilter='all', favorites=new Set(), sortBy='distance', searchQuery='';
+let userLat=37.7749, userLng=-122.4194; // Default SF
+let allParks=[], nearbyParks=[];
+let googleMap=null, miniMap=null, mapMarkers=[];
+let googleMapsReady=false;
+
+// ═══ SUPABASE ═══
+async function supabaseQuery(path) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+    headers:{
+      'apikey':SUPABASE_KEY,
+      'Authorization':`Bearer ${SUPABASE_KEY}`,
+      'Content-Type':'application/json',
+      'Range-Unit':'items',
+      'Range':'0-999',
+      'Prefer':'count=none'
+    }
+  });
+  return res.json();
+}
+
+async function supabaseQueryAll(path) {
+  // Fetch all results using pagination
+  const pageSize = 1000;
+  let all = [];
+  let from = 0;
+  while(true) {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}&limit=${pageSize}&offset=${from}`, {
+      headers:{
+        'apikey':SUPABASE_KEY,
+        'Authorization':`Bearer ${SUPABASE_KEY}`,
+        'Content-Type':'application/json',
+        'Prefer':'count=none'
+      }
+    });
+    const data = await res.json();
+    if(!data || !Array.isArray(data) || data.length===0) break;
+    all = [...all, ...data];
+    if(data.length < pageSize) break;
+    from += pageSize;
   }
-];
+  return all;
+}
 
-// =================== STATE ===================
-let currentPage = 'home';
-let prevPage = 'home';
-let currentPark = null;
-let activeFilter = 'all';
-let favorites = new Set();
-let sortBy = 'score';
-let searchQuery = '';
+// ═══ DISTANCE ═══
+function dist(lat1,lng1,lat2,lng2) {
+  const R=3959, dLat=(lat2-lat1)*Math.PI/180, dLng=(lng2-lng1)*Math.PI/180;
+  const a=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)*Math.sin(dLng/2);
+  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+}
 
-// =================== NAVIGATION ===================
+// ═══ FETCH NEARBY PARKS FROM SUPABASE ═══
+async function fetchNearbyParks(lat, lng, limit=50) {
+  try {
+    const delta = 0.8;
+    const latMin = (lat-delta).toFixed(6);
+    const latMax = (lat+delta).toFixed(6);
+    const lngMin = (lng-delta).toFixed(6);
+    const lngMax = (lng+delta).toFixed(6);
+
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/parks?lat=gte.${latMin}&lat=lte.${latMax}&lng=gte.${lngMin}&lng=lte.${lngMax}&select=id,name,lat,lng,city,state,nbhd_safety,nbhd_families,nbhd_schools,nbhd_income,nbhd_walkability,nbhd_food&limit=1000`,
+      { headers:{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`} }
+    );
+
+    if(!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    if(!data || !Array.isArray(data) || data.length===0) return buildFallbackParks(lat,lng);
+
+    const results = data
+      .filter(p=>p.lat&&p.lng&&p.name)
+      .map(p=>({
+        id:p.id, name:p.name, lat:p.lat, lng:p.lng,
+        city:p.city||'', state:'CA',
+        distance:Math.round(dist(lat,lng,p.lat,p.lng)*10)/10,
+        emoji:getEmoji(p.name),
+        googleQuery:`${p.name} ${p.city||''} California`,
+        tier:'listed',
+        nbhd:{safety:p.nbhd_safety||0,families:p.nbhd_families||0,schools:p.nbhd_schools||0,walkability:p.nbhd_walkability||0,income:p.nbhd_income||0,food:p.nbhd_food||0},
+        stackBadges:[],ages:[],subscores:{},amenities:[],food:[],tips:[],reviews:[],editorReview:null,
+        ...(getCurated(p.name)||{})
+      }))
+      .sort((a,b)=>a.distance-b.distance)
+      .slice(0,200);
+
+    const curatedList = Object.values(CURATED).map(c=>({
+      ...c, distance:Math.round(dist(lat,lng,c.lat,c.lng)*10)/10,
+      googleQuery:`${c.name} ${c.city} California`
+    }));
+    const curatedNames = new Set(curatedList.map(c=>c.name.toLowerCase()));
+    const supabaseOnly = results.filter(p=>!curatedNames.has(p.name.toLowerCase()));
+    return [...curatedList,...supabaseOnly].sort((a,b)=>a.distance-b.distance);
+
+  } catch(e) {
+    console.error('Fetch error:', e);
+    return buildFallbackParks(lat, lng);
+  }
+}
+
+function buildFallbackParks(lat, lng) {
+  return Object.values(CURATED).map(c=>({
+    ...c,
+    distance: Math.round(dist(lat,lng,c.lat,c.lng)*10)/10,
+    googleQuery:`${c.name} ${c.city} California`
+  })).sort((a,b)=>a.distance-b.distance);
+}
+
+function getCurated(name) {
+  return Object.values(CURATED).find(c=>c.name.toLowerCase()===name.toLowerCase()) || null;
+}
+
+function getEmoji(name='') {
+  const n=name.toLowerCase();
+  if(n.includes('beach')||n.includes('shore')) return '🏖️';
+  if(n.includes('lake')||n.includes('pond')||n.includes('reservoir')) return '🏞️';
+  if(n.includes('wood')||n.includes('forest')||n.includes('redwood')) return '🌲';
+  if(n.includes('dog')) return '🐕';
+  if(n.includes('sports')||n.includes('athletic')) return '⚽';
+  if(n.includes('skate')) return '🛹';
+  if(n.includes('memorial')||n.includes('veteran')) return '🏛️';
+  return '🌿';
+}
+
+function nbhdScore(p) {
+  const n=p.nbhd||{};
+  // If we have real data use it
+  const hasRealData = (n.safety||0)>0||(n.families||0)>0;
+  if(hasRealData){
+    return Math.round(((n.safety||50)*0.30)+((n.families||50)*0.20)+((n.schools||50)*0.20)+((n.walkability||50)*0.10)+((n.income||50)*0.10)+((n.food||50)*0.10));
+  }
+  // For parks without enrichment data yet, show distance-based relevance
+  // Closer parks score higher, capped at 75 to distinguish from real scored parks
+  if(!p.distance) return null;
+  const distScore = Math.max(0, 75 - Math.round(p.distance * 3));
+  return Math.min(75, distScore);
+}
+
+function tierClass(t){return t==='editors'?'t-editors':t==='great'?'t-great':t==='family'?'t-family':'t-listed';}
+function tierLabel(t){return t==='editors'?"🏅 Editor's Pick":t==='great'?'🟢 Great neighborhood':t==='family'?'🚸 Family area':'📍 Listed';}
+
+// ═══ GOOGLE PHOTOS ═══
+async function fetchPhoto(park, count=1) {
+  if(photoCache[park.id]) return photoCache[park.id];
+  try {
+    const res = await fetch('https://places.googleapis.com/v1/places:searchText',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','X-Goog-Api-Key':GOOGLE_KEY,'X-Goog-FieldMask':'places.id,places.photos'},
+      body:JSON.stringify({textQuery:park.googleQuery||`${park.name} ${park.city} California`,maxResultCount:1})
+    });
+    const data=await res.json();
+    if(data.places?.[0]?.photos){
+      const urls=data.places[0].photos.slice(0,count).map(p=>`https://places.googleapis.com/v1/${p.name}/media?maxWidthPx=800&key=${GOOGLE_KEY}`);
+      photoCache[park.id]=urls;
+      return urls;
+    }
+  } catch(e){}
+  return null;
+}
+
+// ═══ NAVIGATION ═══
 function goPage(page) {
-  document.querySelectorAll('.page').forEach(p => { p.classList.remove('active'); });
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById(page).classList.add('active');
-  prevPage = currentPage;
-  currentPage = page;
-  document.querySelectorAll('.bottom-nav-item').forEach(b => b.classList.remove('active'));
-  const map = { home:'btn-home', search:'btn-search' };
-  if (map[page]) document.getElementById(map[page]).classList.add('active');
-  if (page === 'search') renderSearchCards();
-  window.scrollTo(0, 0);
+  prevPage=currentPage; currentPage=page;
+  document.querySelectorAll('.bn-item').forEach(b=>b.classList.remove('active'));
+  const m={home:'btn-home',search:'btn-search'};
+  if(m[page]) document.getElementById(m[page]).classList.add('active');
+  if(page==='search'){renderSearchCards();initMap();}
+  window.scrollTo(0,0);
+}
+function goBack(){goPage(prevPage||'home');}
+function goFaves(){alert('Sign up to save and sync your favorite parks!');}
+
+async function loadNearbyParks() {
+  nearbyParks = await fetchNearbyParks(userLat, userLng, 50);
+  renderHomeCards();
+  renderSearchCards();
+  updateMapMarkers();
 }
 
-function goBack() { goPage(prevPage || 'home'); }
+// ═══ HOME CARDS ═══
+async function renderHomeCards(filter='all') {
+  let parks=[...nearbyParks];
+  if(!parks.length){
+    document.getElementById('parkCardsList').innerHTML='<div class="loading-state"><div class="loading-spinner"></div><div class="loading-text">Loading parks...</div></div>';
+    return;
+  }
+  if(filter==='editors') parks=parks.filter(p=>p.tier==='editors');
+  if(filter==='toddler') parks=parks.filter(p=>(p.ages||[]).includes('1–3')||(p.ages||[]).includes('3–5'));
+  if(filter==='shaded')  parks=parks.filter(p=>(p.subscores?.Shade||0)>=80);
+  if(filter==='food')    parks=parks.filter(p=>(p.stackBadges||[]).some(b=>b.includes('☕')||b.includes('🍦'))||(p.food||[]).length>0);
+  parks=parks.slice(0,4);
 
-function goFaves() {
-  alert('Sign up to save and sync your favorite parks across devices!');
-}
-
-// =================== HOME ===================
-function renderHomeParkCards(filter) {
-  let parks = [...PARKS];
-  if (filter === 'toddler') parks = parks.filter(p => p.ages.includes('1–3') || p.ages.includes('3–5'));
-  if (filter === 'shaded')  parks = parks.filter(p => p.subscores.Shade >= 85);
-  if (filter === 'hidden')  parks = parks.filter(p => p.badges.some(b => b.toLowerCase().includes('hidden')));
-  if (filter === 'drive')   parks = parks.filter(p => p.badges.some(b => b.toLowerCase().includes('drive')));
-  parks = parks.sort((a,b) => b.score - a.score).slice(0, 4);
-
-  document.getElementById('parkCardsList').innerHTML = parks.map(p => `
-    <div class="park-card" onclick="openPark(${p.id})">
-      <div class="park-card-img" style="background:${p.heroColor};">
-        ${p.emoji}
-        <div class="park-card-badges">
-          ${p.badges.slice(0,2).map((b,i) => `<span class="badge ${i===0?'badge-gold':'badge-sage'}">${b}</span>`).join('')}
+  document.getElementById('parkCardsList').innerHTML=parks.map(p=>{
+    const isE=p.tier==='editors';
+    const ns=nbhdScore(p);
+    const fb=(p.stackBadges||[]).filter(b=>b.includes('☕')||b.includes('🍦')).slice(0,2);
+    const ob=(p.stackBadges||[]).filter(b=>!b.includes('☕')&&!b.includes('🍦')).slice(0,2);
+    return `<div class="park-card ${isE?'editors':''}" onclick="openPark(${p.id})">
+      <div class="card-photo" id="hp${p.id}">${p.emoji||'🌿'}
+        <div class="card-photo-overlay"></div>
+        ${isE?'<div class="editors-ribbon"><span>🏅 Editor\'s Pick — The Park Guide</span></div>':''}
+        <div class="card-score-badge"><div class="card-score-num">${ns||'—'}</div><div class="card-score-lbl">${(p.nbhd?.safety||0)>0?'Score':'Near'}</div></div>
+        <div class="card-tier ${tierClass(p.tier)}">${tierLabel(p.tier)}</div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta"><span class="card-loc">${p.city||'California'}, CA</span><span class="card-dist">${p.distance} mi</span></div>
+        <div class="card-name">${p.name}</div>
+        ${isE&&p.editorReview?`<div class="card-quote">${p.editorReview.split('.')[0]}.</div>`:''}
+        <div class="card-metrics">
+          <div class="card-metric"><div class="cm-val">${p.nbhd?.safety||'—'}</div><div class="cm-lbl">Safety</div></div>
+          <div class="card-metric"><div class="cm-val">${p.nbhd?.families||'—'}</div><div class="cm-lbl">Families</div></div>
+          <div class="card-metric"><div class="cm-val">${p.nbhd?.schools||'—'}</div><div class="cm-lbl">Schools</div></div>
+          <div class="card-metric"><div class="cm-val">${p.distance} mi</div><div class="cm-lbl">Away</div></div>
         </div>
-        <div class="score-pill ${p.score>=93?'excellent':p.score>=86?'great':'good'}">
-          <span class="score-num">${p.score}</span>
-          <span class="score-label">SCORE</span>
+        ${ob.length||fb.length?`<div class="card-tags">${ob.map(b=>`<span class="card-tag">${b}</span>`).join('')}${fb.map(b=>`<span class="card-tag food">${b}</span>`).join('')}</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+
+  for(const p of parks){
+    const urls=await fetchPhoto(p,1);
+    if(urls?.[0]){
+      const box=document.getElementById(`hp${p.id}`);
+      if(box){const img=document.createElement('img');img.src=urls[0];img.alt=p.name;img.onload=()=>{const ph=box.querySelector('.card-photo-placeholder');if(ph)ph.style.display='none';};box.insertBefore(img,box.firstChild);}
+    }
+    await new Promise(r=>setTimeout(r,200));
+  }
+}
+
+function setHomeChip(el,f){document.querySelectorAll('#homeChips .chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');renderHomeCards(f);}
+
+// ═══ SEARCH CARDS ═══
+let searchPage = 1;
+const PAGE_SIZE = 25;
+let filteredParks = [];
+
+async function renderSearchCards() {
+  filteredParks=[...nearbyParks];
+  if(searchQuery) filteredParks=filteredParks.filter(p=>p.name?.toLowerCase().includes(searchQuery)||p.city?.toLowerCase().includes(searchQuery));
+  if(activeFilter==='editors') filteredParks=filteredParks.filter(p=>p.tier==='editors');
+  if(activeFilter==='great')   filteredParks=filteredParks.filter(p=>p.tier==='editors'||p.tier==='great');
+  if(activeFilter==='toddler') filteredParks=filteredParks.filter(p=>(p.ages||[]).includes('1–3')||(p.ages||[]).includes('3–5'));
+  if(activeFilter==='food')    filteredParks=filteredParks.filter(p=>(p.stackBadges||[]).some(b=>b.includes('☕')||b.includes('🍦'))||(p.food||[]).length>0);
+  if(activeFilter==='shade')   filteredParks=filteredParks.filter(p=>(p.subscores?.Shade||0)>=80);
+  if(sortBy==='distance') filteredParks.sort((a,b)=>a.distance-b.distance);
+  else filteredParks.sort((a,b)=>(nbhdScore(b)||0)-(nbhdScore(a)||0));
+
+  searchPage = 1;
+  document.getElementById('resultsCount').textContent=`${filteredParks.length} parks nearby`;
+  renderSearchPage();
+}
+
+async function renderSearchPage() {
+  const totalPages = Math.ceil(filteredParks.length / PAGE_SIZE);
+  const start = (searchPage-1) * PAGE_SIZE;
+  const end = start + PAGE_SIZE;
+  const parks = filteredParks.slice(start, end);
+  const hasMore = searchPage < totalPages;
+
+  document.getElementById('searchCardsList').innerHTML=parks.map(p=>{
+    const isE=p.tier==='editors';
+    const ns=nbhdScore(p);
+    const hasRealScore=(p.nbhd?.safety||0)>0;
+    return `<div class="search-card ${isE?'editors':''}" onclick="openPark(${p.id})">
+      <div class="sc-photo" id="sp${p.id}">${p.emoji||'🌿'}</div>
+      <div class="sc-body">
+        <div class="sc-name">${p.name}</div>
+        <div class="sc-loc">${p.city||'California'} · ${p.distance} mi</div>
+        <div class="sc-badges">
+          ${isE?'<span class="sc-badge sb-amber">🏅 Editor\'s Pick</span>':''}
+          ${p.tier==='great'?'<span class="sc-badge sb-sage">🟢 Great neighborhood</span>':''}
+          ${p.tier==='family'?'<span class="sc-badge sb-blue">🚸 Family area</span>':''}
+          ${!hasRealScore&&p.tier==='listed'?'<span class="sc-badge" style="background:var(--sand);color:var(--ink-muted);">📍 Listed</span>':''}
         </div>
       </div>
-      <div class="park-card-body">
-        <div class="park-meta-row">
-          <span class="park-city">${p.city}, CA</span>
-          <span class="park-dist">${p.distance} mi</span>
-        </div>
-        <div class="park-name">${p.name}</div>
-        <div class="park-ages">${p.ages.map(a=>`<span class="age-chip">Ages ${a}</span>`).join('')}</div>
-        <div class="park-subscores">
-          ${['Cleanliness','Playground','Shade'].map(k=>`
-            <div class="subscore">
-              <div class="subscore-val">${p.subscores[k]}</div>
-              <div class="subscore-bar-wrap"><div class="subscore-bar" style="width:${p.subscores[k]}%"></div></div>
-              <div class="subscore-lbl">${k}</div>
-            </div>
-          `).join('')}
-        </div>
+      <div class="sc-score">
+        <div class="sc-score-num">${ns||'—'}</div>
+        <div class="sc-score-lbl">${hasRealScore?'Score':'Dist'}</div>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
+
+  // Pagination controls
+  const totalPages = Math.ceil(filteredParks.length / PAGE_SIZE);
+  if(totalPages > 1){
+    const pager = document.createElement('div');
+    pager.style.cssText='display:flex;align-items:center;justify-content:center;gap:8px;padding:16px 0 8px;flex-wrap:wrap;';
+
+    // Prev button
+    if(searchPage > 1){
+      const prev = document.createElement('button');
+      prev.style.cssText='padding:10px 18px;border-radius:20px;background:var(--white);border:1.5px solid var(--border-mid);font-family:Cabinet Grotesk,sans-serif;font-size:13px;font-weight:700;color:var(--ink);cursor:pointer;transition:all 0.15s;';
+      prev.textContent='← Prev';
+      prev.onclick=()=>changePage(searchPage-1);
+      pager.appendChild(prev);
+    }
+
+    // Page numbers
+    const start = Math.max(1, searchPage-2);
+    const end = Math.min(totalPages, start+4);
+    for(let i=start;i<=end;i++){
+      const pg = document.createElement('button');
+      const isActive = i===searchPage;
+      pg.style.cssText=`width:38px;height:38px;border-radius:50%;border:1.5px solid ${isActive?'var(--amber)':'var(--border-mid)'};background:${isActive?'var(--amber)':'var(--white)'};font-family:Cabinet Grotesk,sans-serif;font-size:13px;font-weight:700;color:${isActive?'white':'var(--ink-muted)'};cursor:pointer;transition:all 0.15s;`;
+      pg.textContent=i;
+      const pageNum=i;
+      pg.onclick=()=>changePage(pageNum);
+      pager.appendChild(pg);
+    }
+
+    // Next button
+    if(hasMore){
+      const next = document.createElement('button');
+      next.style.cssText='padding:10px 18px;border-radius:20px;background:var(--amber);border:none;font-family:Cabinet Grotesk,sans-serif;font-size:13px;font-weight:700;color:white;cursor:pointer;transition:all 0.15s;';
+      next.textContent='Next →';
+      next.onclick=()=>changePage(searchPage+1);
+      pager.appendChild(next);
+    }
+
+    // Page info
+    const info = document.createElement('div');
+    info.style.cssText='width:100%;text-align:center;font-size:11px;font-weight:700;color:var(--ink-faint);letter-spacing:0.5px;text-transform:uppercase;margin-top:4px;';
+    info.textContent=`Page ${searchPage} of ${totalPages} · ${filteredParks.length} parks total`;
+    pager.appendChild(info);
+
+    document.getElementById('searchCardsList').appendChild(pager);
+  }
+
+  // Load photos for visible cards only
+  for(const p of parks.slice(0,10)){
+    const urls=await fetchPhoto(p,1);
+    if(urls?.[0]){
+      const box=document.getElementById(`sp${p.id}`);
+      if(box){const img=document.createElement('img');img.src=urls[0];box.insertBefore(img,box.firstChild);}
+    }
+    await new Promise(r=>setTimeout(r,150));
+  }
 }
 
-function setHomeChip(el, filter) {
-  document.querySelectorAll('#homeChips .chip').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-  renderHomeParkCards(filter);
+function changePage(page){
+  searchPage=page;
+  renderSearchPage();
+  document.querySelector('.results-wrap')?.scrollTo(0,0);
 }
 
-// =================== SEARCH ===================
-function renderSearchCards() {
-  let parks = [...PARKS];
-  if (searchQuery) parks = parks.filter(p => p.name.toLowerCase().includes(searchQuery) || p.city.toLowerCase().includes(searchQuery));
-  if (activeFilter === 'toddler')   parks = parks.filter(p => p.ages.includes('1–3') || p.ages.includes('3–5'));
-  if (activeFilter === 'kids')      parks = parks.filter(p => p.ages.includes('5–8'));
-  if (activeFilter === 'older')     parks = parks.filter(p => p.ages.includes('8+'));
-  if (activeFilter === 'shade')     parks = parks.filter(p => p.subscores.Shade >= 85);
-  if (activeFilter === 'bathrooms') parks = parks.filter(p => p.subscores.Bathrooms >= 80);
-  if (activeFilter === 'fenced')    parks = parks.filter(p => p.subscores.Safety >= 95);
-  if (sortBy === 'score')       parks.sort((a,b) => b.score - a.score);
-  if (sortBy === 'distance')    parks.sort((a,b) => a.distance - b.distance);
-  if (sortBy === 'cleanliness') parks.sort((a,b) => b.subscores.Cleanliness - a.subscores.Cleanliness);
-
-  document.getElementById('resultsCount').textContent = parks.length + ' parks nearby';
-  document.getElementById('searchCardsList').innerHTML = parks.map(p => `
-    <div class="search-card" onclick="openPark(${p.id})">
-      <div class="search-card-img" style="background:${p.heroColor};">${p.emoji}</div>
-      <div class="search-card-body">
-        <div class="search-card-name">${p.name}</div>
-        <div class="search-card-meta">${p.city}, CA · ${p.distance} mi away</div>
-        <div class="search-card-badges">
-          ${p.badges.slice(0,2).map((b,i)=>`<span class="badge-sm ${i===0?'badge-sm-gold':'badge-sm-sage'}">${b}</span>`).join('')}
-          ${p.ages.slice(0,2).map(a=>`<span class="badge-sm badge-sm-sage">Ages ${a}</span>`).join('')}
-        </div>
-      </div>
-      <div class="search-card-score"><span class="search-score-num">${p.score}</span></div>
-    </div>
-  `).join('');
-}
-
-function filterParks() {
-  searchQuery = document.getElementById('searchInput').value.toLowerCase();
+async function filterParks(){
+  searchQuery=document.getElementById('searchInput').value.toLowerCase().trim();
+  if(searchQuery.length>=2){
+    // Search all of California in Supabase
+    try{
+      const data=await supabaseQuery(`parks?name=ilike.*${encodeURIComponent(searchQuery)}*&limit=50&select=id,name,lat,lng,city,state,tier,osm_id`);
+      if(data&&Array.isArray(data)&&data.length){
+        const searched=data.map(p=>{
+          const curated=getCurated(p.name);
+          return {
+            id:p.id,name:p.name,lat:p.lat,lng:p.lng,city:p.city||'',state:'CA',
+            distance:Math.round(dist(userLat,userLng,p.lat,p.lng)*10)/10,
+            emoji:getEmoji(p.name),googleQuery:`${p.name} ${p.city||''} California`,
+            tier:'listed',nbhd:{safety:0,families:0,schools:0,walkability:0,income:0,food:0},
+            stackBadges:[],ages:[],subscores:{},amenities:[],food:[],tips:[],reviews:[],editorReview:null,
+            ...(curated?curated:{})
+          };
+        }).sort((a,b)=>a.distance-b.distance);
+        nearbyParks=[...new Map([...searched,...nearbyParks].map(p=>[p.id,p])).values()];
+      }
+    }catch(e){}
+  }
   renderSearchCards();
 }
+function setFilter(el,f){document.querySelectorAll('.filter-strip .chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');activeFilter=f;renderSearchCards();}
+function sortParks(v){sortBy=v;renderSearchCards();}
 
-function setFilter(el, filter) {
-  document.querySelectorAll('.filter-row .chip').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-  activeFilter = filter;
-  renderSearchCards();
+// ═══ GOOGLE MAP ═══
+function activateMap() {
+  const overlay = document.getElementById('mapOverlay');
+  if(overlay) overlay.classList.add('active');
+  setTimeout(()=>{
+    document.addEventListener('click', function deactivate(e) {
+      const mapWrap = document.querySelector('.map-wrap');
+      if(mapWrap && !mapWrap.contains(e.target)) {
+        const overlay = document.getElementById('mapOverlay');
+        if(overlay) overlay.classList.remove('active');
+        document.removeEventListener('click', deactivate);
+      }
+    });
+  }, 100);
 }
 
-function sortParks(val) {
-  sortBy = val;
-  renderSearchCards();
+function onGoogleMapsReady(){googleMapsReady=true;if(currentPage==='search')initMap();}
+window.onGoogleMapsReady=onGoogleMapsReady;
+
+function initMap(){
+  if(!googleMapsReady||googleMap) {updateMapMarkers();return;}
+  googleMap=new google.maps.Map(document.getElementById('googleMap'),{
+    center:{lat:userLat,lng:userLng},zoom:11,
+    disableDefaultUI:true,zoomControl:true,
+    styles:[
+      {featureType:'all',elementType:'geometry',stylers:[{color:'#f0ece4'}]},
+      {featureType:'water',elementType:'geometry',stylers:[{color:'#c8dce8'}]},
+      {featureType:'road',elementType:'geometry',stylers:[{color:'#ffffff'}]},
+      {featureType:'road',elementType:'geometry.stroke',stylers:[{color:'#e8e0d4'}]},
+      {featureType:'park',elementType:'geometry',stylers:[{color:'#d4e8cc'}]},
+      {featureType:'poi',elementType:'labels',stylers:[{visibility:'off'}]},
+      {featureType:'transit',stylers:[{visibility:'off'}]},
+      {featureType:'administrative',elementType:'labels.text.fill',stylers:[{color:'#6b5e57'}]}
+    ]
+  });
+  // User location dot
+  new google.maps.Marker({
+    position:{lat:userLat,lng:userLng},map:googleMap,
+    icon:{path:google.maps.SymbolPath.CIRCLE,scale:8,fillColor:'#E8820C',fillOpacity:1,strokeColor:'white',strokeWeight:2}
+  });
+  updateMapMarkers();
 }
 
-// =================== DETAIL ===================
-function openParkById(id) { openPark(id); }
+function updateMapMarkers(){
+  if(!googleMap) return;
+  mapMarkers.forEach(m=>m.setMap(null));
+  mapMarkers=[];
 
-function openPark(id) {
-  const p = PARKS.find(x => x.id === id);
-  if (!p) return;
-  currentPark = p;
+  nearbyParks.forEach(p=>{
+    const isE=p.tier==='editors';
+    const isGreat=p.tier==='great';
 
-  document.getElementById('detailScore').textContent = p.score;
-  document.getElementById('detailName').textContent = p.name;
-  document.getElementById('detailLoc').textContent = p.city + ', CA · ' + p.distance + ' mi away';
-  document.getElementById('detailAddress').textContent = p.address;
+    // Color by tier
+    const bgColor = isE?'#E8820C':isGreat?'#3D6B47':'#7A9B6A';
+    const iconSize = isE?36:28;
 
-  const bg = document.getElementById('detailHeroBg');
-  bg.style.background = p.heroColor;
-  bg.innerHTML = p.emoji;
+    // Leaf SVG for regular parks, star-leaf for Editor's Picks
+    const leafSvg = isE
+      ? `<svg xmlns="http://www.w3.org/2000/svg" width="${iconSize}" height="${iconSize}" viewBox="0 0 36 36">
+          <circle cx="18" cy="18" r="17" fill="${bgColor}" stroke="white" stroke-width="2"/>
+          <text x="18" y="23" text-anchor="middle" font-size="16" fill="white">🏅</text>
+        </svg>`
+      : `<svg xmlns="http://www.w3.org/2000/svg" width="${iconSize}" height="${iconSize}" viewBox="0 0 28 28">
+          <circle cx="14" cy="14" r="13" fill="${bgColor}" stroke="white" stroke-width="1.5"/>
+          <path d="M14 6 C14 6 8 10 8 16 C8 19.3 10.7 22 14 22 C17.3 22 20 19.3 20 16 C20 10 14 6 14 6Z" fill="white" opacity="0.9"/>
+          <line x1="14" y1="16" x2="14" y2="21" stroke="${bgColor}" stroke-width="1.2"/>
+        </svg>`;
 
-  document.getElementById('detailBadges').innerHTML = p.badges.slice(0,2).map((b,i)=>`<span class="badge ${i===0?'badge-gold':'badge-white'}">${b}</span>`).join('');
-  document.getElementById('detailAges').innerHTML = p.ages.map(a=>`<span class="badge badge-sage">Ages ${a}</span>`).join('');
+    const icon = {
+      url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(leafSvg),
+      scaledSize: new google.maps.Size(iconSize, iconSize),
+      anchor: new google.maps.Point(iconSize/2, iconSize/2)
+    };
 
-  document.getElementById('subscoresGrid').innerHTML = Object.keys(p.subscores).map(k=>`
-    <div class="subscore-card">
-      <div class="subscore-card-label">${k}</div>
-      <div class="subscore-card-val">${p.subscores[k]}</div>
-      <div class="subscore-card-bar-wrap"><div class="subscore-card-bar" style="width:${p.subscores[k]}%"></div></div>
-    </div>
-  `).join('');
+    const marker = new google.maps.Marker({
+      position:{lat:p.lat,lng:p.lng},
+      map:googleMap,
+      title:p.name,
+      icon,
+      zIndex: isE?10:isGreat?5:1
+    });
+    marker.addListener('click',()=>openPark(p.id));
+    mapMarkers.push(marker);
+  });
+}
 
-  document.getElementById('amenitiesList').innerHTML = p.amenities.map(a=>`<div class="amenity-item">${a}</div>`).join('');
-  document.getElementById('tipsList').innerHTML = p.tips.map(t=>`
-    <div class="tip-card"><p>${t.text}</p><div class="tip-author">— ${t.author}</div></div>
-  `).join('');
-  document.getElementById('photoGallery').innerHTML = p.photos.map((c,i)=>`
-    <div class="gallery-img" style="height:${i===0?'140px':'90px'};background:${c};font-size:${i===0?'48px':'32px'};">${p.emoji}</div>
-  `).join('');
-  document.getElementById('reviewsList').innerHTML = p.reviews.map(r=>`
-    <div class="review-item">
-      <div class="review-header">
-        <div class="reviewer-avatar">${r.initials}</div>
-        <div><div class="reviewer-name">${r.name}</div><div class="review-date">${r.date}</div></div>
-      </div>
-      <div class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
-      <div class="review-text">${r.text}</div>
-    </div>
-  `).join('');
+// ═══ DETAIL ═══
+async function openPark(id) {
+  const p=nearbyParks.find(x=>x.id===id)||Object.values(CURATED).find(x=>x.id===id);
+  if(!p) return;
+  currentPark=p;
+  const isE=p.tier==='editors';
+  const ns=nbhdScore(p);
 
-  const favBtn = document.getElementById('favBtn');
-  favBtn.textContent = favorites.has(id) ? '♥' : '♡';
-  favBtn.style.color = favorites.has(id) ? '#c4654a' : '';
+  document.getElementById('dName').textContent=p.name;
+  document.getElementById('dLoc').textContent=`${p.city||'California'}, CA · ${p.distance||'—'} mi away`;
+  document.getElementById('dAddress').textContent=p.address||`${p.name}, ${p.city||''}, CA`;
+  document.getElementById('dEditorBar').style.display=isE?'flex':'none';
+  document.getElementById('dBadges').innerHTML=`<div class="card-tier ${tierClass(p.tier)}" style="position:relative;bottom:auto;left:auto;">${tierLabel(p.tier)}</div>`;
+  document.getElementById('dEditorSection').style.display=isE&&p.editorReview?'block':'none';
+  if(isE&&p.editorReview) document.getElementById('dEditorText').textContent=`"${p.editorReview}"`;
+
+  const hasRealNbhd=(p.nbhd?.safety||0)>0;
+
+  document.getElementById('dScoreStrip').innerHTML=`
+    <div class="score-strip-item primary"><div class="ssv">${ns||'—'}</div><div class="ssl">${hasRealNbhd?'Score':'Nearby'}</div></div>
+    <div class="score-strip-item"><div class="ssv">${hasRealNbhd?p.nbhd.safety:'—'}</div><div class="ssl">Safety</div></div>
+    <div class="score-strip-item"><div class="ssv">${hasRealNbhd?p.nbhd.schools:'—'}</div><div class="ssl">Schools</div></div>
+    <div class="score-strip-item"><div class="ssv">${p.distance||'—'}</div><div class="ssl">Miles</div></div>`;
+  document.getElementById('dNbhd').innerHTML=hasRealNbhd?`
+    <div class="nbhd-tile hl"><div class="nt-val">${p.nbhd.safety}</div><div class="nt-lbl">Safety</div></div>
+    <div class="nbhd-tile hl"><div class="nt-val">${p.nbhd.families}</div><div class="nt-lbl">Families</div></div>
+    <div class="nbhd-tile hl"><div class="nt-val">${p.nbhd.schools}</div><div class="nt-lbl">Schools</div></div>
+    <div class="nbhd-tile inc"><div class="nt-val">${p.nbhd.income}</div><div class="nt-lbl">Income index</div></div>
+    <div class="nbhd-tile"><div class="nt-val">${p.nbhd.walkability}</div><div class="nt-lbl">Walkability</div></div>
+    <div class="nbhd-tile food"><div class="nt-val">${p.nbhd.food}</div><div class="nt-lbl">Food nearby</div></div>`
+  :`<div style="grid-column:span 3;background:var(--sand);border-radius:var(--r-sm);padding:16px;text-align:center;">
+    <div style="font-size:20px;margin-bottom:8px;">📊</div>
+    <div style="font-family:Fraunces,serif;font-size:15px;font-weight:400;color:var(--ink);margin-bottom:4px;">Neighborhood data coming soon</div>
+    <div style="font-size:12px;color:var(--ink-faint);line-height:1.5;">We're enriching every California park with Census, school rating, and safety data. Check back soon.</div>
+  </div>`;
+
+  document.getElementById('dAges').innerHTML=(p.ages||[]).map(a=>`<div class="age-chip">Ages ${a}</div>`).join('');
+
+  const scores=p.subscores&&Object.keys(p.subscores).length?p.subscores:{};
+  document.getElementById('dScores').innerHTML=Object.keys(scores).length
+    ?Object.keys(scores).map(k=>`<div class="score-tile"><div class="st-lbl">${k}</div><div class="st-val">${scores[k]}</div><div class="st-bar"><div class="st-bar-fill" style="width:${scores[k]}%"></div></div></div>`).join('')
+    :'<div style="grid-column:span 2;font-size:13px;color:var(--ink-faint);padding:8px 0;">Detailed scores coming soon as we review this park.</div>';
+
+  document.getElementById('dAmenities').innerHTML=(p.amenities||[]).length
+    ?(p.amenities||[]).map(a=>`<div class="amenity-chip">${a}</div>`).join('')
+    :'<div style="font-size:13px;color:var(--ink-faint);">Amenity details coming soon.</div>';
+
+  if(p.food?.length){
+    document.getElementById('dFoodSection').style.display='block';
+    document.getElementById('dFood').innerHTML=p.food.map(f=>`<div class="food-item"><div class="food-icon">${f.icon}</div><div><div class="food-name">${f.name}</div><div class="food-type">${f.type}</div></div><div class="food-dist">${f.dist}</div></div>`).join('');
+  } else { document.getElementById('dFoodSection').style.display='none'; }
+
+  document.getElementById('dTips').innerHTML=(p.tips||[]).length
+    ?(p.tips||[]).map(t=>`<div class="tip-card"><div class="tip-text">${t.text}</div><div class="tip-author">— ${t.author}</div></div>`).join('')
+    :'<div style="font-size:13px;color:var(--ink-faint);padding:8px 0;">Be the first to leave a tip for this park!</div>';
+
+  document.getElementById('dReviews').innerHTML=(p.reviews||[]).length
+    ?(p.reviews||[]).map(r=>`<div class="review"><div class="review-header"><div class="review-avatar">${r.initials}</div><div><div class="review-name">${r.name}</div><div class="review-date">${r.date}</div></div></div><div class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div><div class="review-text">${r.text}</div></div>`).join('')
+    :'<div style="font-size:13px;color:var(--ink-faint);padding:8px 0;">No reviews yet — be the first!</div>';
+
+  const fb=document.getElementById('favBtn');
+  fb.textContent=favorites.has(id)?'♥':'♡';
+  fb.style.color=favorites.has(id)?'#E8820C':'';
 
   goPage('detail');
-}
 
-function toggleFav() {
-  if (!currentPark) return;
-  const id = currentPark.id;
-  const favBtn = document.getElementById('favBtn');
-  if (favorites.has(id)) {
-    favorites.delete(id);
-    favBtn.textContent = '♡';
-    favBtn.style.color = '';
+  // Load photos
+  const heroImg=document.getElementById('dHeroImg');
+  heroImg.style.opacity='0';
+  const urls=await fetchPhoto(p,5);
+  if(urls?.[0]){
+    heroImg.src=urls[0];heroImg.alt=p.name;
+    heroImg.onload=()=>heroImg.style.opacity='1';
+    document.getElementById('dPhotos').innerHTML=urls.map((u,i)=>`<div class="pg-item ${i===0?'':''}"><img src="${u}" alt="${p.name}"/></div>`).join('');
   } else {
-    favorites.add(id);
-    favBtn.textContent = '♥';
-    favBtn.style.color = '#c4654a';
+    document.getElementById('dPhotos').innerHTML='<div style="grid-column:span 2;font-size:13px;color:var(--ink-faint);padding:16px 0;text-align:center;">Photos loading...</div>';
+  }
+
+  // Mini map
+  if(googleMapsReady&&p.lat&&p.lng){
+    setTimeout(()=>{
+      miniMap=new google.maps.Map(document.getElementById('detailMiniMap'),{
+        center:{lat:p.lat,lng:p.lng},zoom:15,disableDefaultUI:true,
+        styles:[{featureType:'all',elementType:'geometry',stylers:[{color:'#f0ece4'}]},{featureType:'water',elementType:'geometry',stylers:[{color:'#c8dce8'}]},{featureType:'road',elementType:'geometry',stylers:[{color:'#ffffff'}]},{featureType:'park',elementType:'geometry',stylers:[{color:'#d4e8cc'}]}]
+      });
+      new google.maps.Marker({position:{lat:p.lat,lng:p.lng},map:miniMap,icon:{path:google.maps.SymbolPath.CIRCLE,scale:10,fillColor:'#E8820C',fillOpacity:1,strokeColor:'white',strokeWeight:2}});
+    },200);
   }
 }
 
-// =================== LOCATION MODAL ===================
-function useLocation() {
-  document.getElementById('locationModal').classList.add('hidden');
-  goPage('search');
-}
-function skipLocation() {
-  document.getElementById('locationModal').classList.add('hidden');
+function toggleFav(){
+  if(!currentPark) return;
+  const id=currentPark.id,fb=document.getElementById('favBtn');
+  favorites.has(id)?(favorites.delete(id),fb.textContent='♡',fb.style.color=''):(favorites.add(id),fb.textContent='♥',fb.style.color='#E8820C');
 }
 
-// =================== INIT ===================
-renderHomeParkCards('all');
+// ═══ INIT ═══
+
+function useLocation() {
+  if(navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      pos => { userLat=pos.coords.latitude; userLng=pos.coords.longitude; loadNearbyParks(); goPage('search'); },
+      () => { loadNearbyParks(); goPage('search'); },
+      { enableHighAccuracy:true, timeout:8000, maximumAge:0 }
+    );
+  } else { loadNearbyParks(); goPage('search'); }
+}
+
+function skipLocation() { loadNearbyParks(); goPage('search'); }
+
+// ═══ INIT — request location silently, load parks immediately ═══
+if(navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(
+    pos => { userLat=pos.coords.latitude; userLng=pos.coords.longitude; loadNearbyParks(); },
+    () => loadNearbyParks(),
+    { enableHighAccuracy:false, timeout:8000, maximumAge:300000 }
+  );
+} else { loadNearbyParks(); }
 </script>
 </body>
 </html>
