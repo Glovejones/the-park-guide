@@ -63,7 +63,6 @@ nav.scrolled{background:rgba(250,248,244,0.97);border-bottom-color:var(--border)
 .empty-state-btn{padding:12px 24px;border-radius:20px;background:var(--ink);color:white;font-family:'Cabinet Grotesk',sans-serif;font-size:14px;font-weight:700;border:none;cursor:pointer;}
 
 /* ── CARD VISIBILITY ── */
-.park-card.visible,.park-card.fallback{opacity:1!important;transform:translateY(0)!important;}
 .nav-logo{font-size:20px;font-weight:400;color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:8px;letter-spacing:-0.5px;}
 .nav-dot{width:11px;height:11px;border-radius:50%;background:var(--amber);flex-shrink:0;box-shadow:0 0 0 3px var(--amber-pale);}
 .nav-right{display:flex;gap:8px;}
@@ -85,7 +84,7 @@ nav.scrolled{background:rgba(250,248,244,0.97);border-bottom-color:var(--border)
 .drag-handle-wrap{height:20px;flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:ns-resize;background:var(--offwhite);border-top:0.5px solid var(--border);touch-action:none;transition:height 0.32s cubic-bezier(0.4,0,0.2,1);}
 .map-wrap.collapsed+.drag-handle-wrap{border-top-color:transparent;}
 .drag-handle{width:32px;height:3px;border-radius:2px;background:var(--sand-dark);}
-.results-wrap{flex:1;overflow-y:auto;overflow-x:hidden;background:var(--offwhite);-webkit-overflow-scrolling:touch;min-height:0;padding-bottom:80px;}
+.results-wrap{flex:1;overflow-y:auto;overflow-x:hidden;background:var(--offwhite);-webkit-overflow-scrolling:touch;min-height:0;padding-bottom:max(100px,calc(env(safe-area-inset-bottom) + 90px));}
 
 /* Map expand button — appears when map is collapsed */
 .map-expand-btn{position:sticky;top:0;z-index:10;display:none;width:100%;padding:7px 16px;background:var(--white);border:none;border-bottom:0.5px solid var(--border);font-family:'Cabinet Grotesk',sans-serif;font-size:12px;font-weight:700;color:var(--sage);cursor:pointer;text-align:left;gap:6px;align-items:center;}
@@ -94,7 +93,6 @@ nav.scrolled{background:rgba(250,248,244,0.97);border-bottom-color:var(--border)
 
 /* ── 2. SAFE AREA ── */
 nav{padding-top:max(0px,env(safe-area-inset-top));}
-.bottom-nav{padding:8px 8px max(18px,calc(env(safe-area-inset-bottom) + 8px));padding-bottom:max(18px,calc(env(safe-area-inset-bottom) + 8px));}
 .spacer{height:max(70px,calc(env(safe-area-inset-bottom) + 60px));background:#0F1F12;}
 
 /* ── 3. TAP TARGETS — min 44px ── */
@@ -168,8 +166,8 @@ nav{padding-top:max(0px,env(safe-area-inset-top));}
 .chip:hover:not(.active){background:var(--sand);border-color:var(--amber);color:var(--ink);}
 
 .park-cards{display:flex;flex-direction:column;gap:20px;}
-.park-card{background:var(--white);border-radius:var(--r-lg);overflow:hidden;cursor:pointer;transition:transform 0.25s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.25s,opacity 0.4s;box-shadow:var(--shadow-sm);border:0.5px solid var(--border);opacity:0;transform:translateY(12px);}
-.park-card.visible,.park-card.fallback{opacity:1!important;transform:translateY(0)!important;}
+.park-card{background:var(--white);border-radius:var(--r-lg);overflow:hidden;cursor:pointer;transition:transform 0.25s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.25s;box-shadow:var(--shadow-sm);border:0.5px solid var(--border);}
+.park-card.visible,.park-card.fallback{opacity:1;transform:translateY(0);}
 .park-card:hover{transform:translateY(-4px)!important;box-shadow:var(--shadow-lg);}
 .park-card.editors{border:2px solid var(--amber);}
 .card-photo{width:100%;height:260px;position:relative;overflow:hidden;background:linear-gradient(135deg,#4A6B35,#8AB895);display:flex;align-items:center;justify-content:center;font-size:64px;}
@@ -415,7 +413,7 @@ nav{padding-top:max(0px,env(safe-area-inset-top));}
 .coll-park-score-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--ink-faint);}
 .coll-park-dist{font-size:11px;font-weight:700;color:var(--terracotta);}
 
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(250,248,244,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:0.5px solid var(--border);display:flex;padding:4px 8px max(10px,env(safe-area-inset-bottom));}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(250,248,244,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:0.5px solid var(--border);display:flex;padding:6px 8px;padding-bottom:max(14px,env(safe-area-inset-bottom));}
 .bn-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:6px 6px;background:none;border:none;font-family:'Cabinet Grotesk',sans-serif;border-radius:10px;transition:all 0.15s;min-height:44px;justify-content:center;color:var(--ink-faint);}
 .bn-svg{width:20px;height:20px;stroke:currentColor;transition:stroke 0.15s;}
 .bn-lbl{font-size:10px;font-weight:700;color:inherit;}
@@ -606,7 +604,6 @@ nav{padding-top:max(0px,env(safe-area-inset-top));}
     <div class="footer-rule" style="margin-bottom:16px;"></div>
     <div class="footer-legal">© 2026 Wildside · Free for families, always · California</div>
   </footer>
-  <div style="height:max(80px,calc(env(safe-area-inset-bottom) + 70px));background:#0F1F12;"></div>
 </div>
 
 <!-- COLLECTION PAGE -->
@@ -892,7 +889,8 @@ async function openCollection(key){
   // Add by curated name list
   if(c.curatedNames){
     c.curatedNames.forEach(name=>{
-      const p=allParks.find(x=>x.name.toLowerCase()===name.toLowerCase()&&!usedIds.has(x.id));
+      const normalizedName=name.toLowerCase().replace(/['']/g,"'");
+      const p=allParks.find(x=>x.name.toLowerCase().replace(/['']/g,"'")=== normalizedName&&!usedIds.has(x.id));
       if(p){curatedParks.push(p);usedIds.add(p.id);}
     });
   }
@@ -1176,9 +1174,12 @@ function applyFilters(){
   // Always start from parks sorted by distance
   let parks=[...allParks].sort((a,b)=>(a.distance||99)-(b.distance||99));
 
-  if(searchQuery) parks=parks.filter(p=>
-    p.name?.toLowerCase().includes(searchQuery)||
-    p.city?.toLowerCase().includes(searchQuery));
+  // When searching, only filter by name — geo results already loaded by bounding box
+  if(searchQuery){
+    const nameMatches=parks.filter(p=>p.name?.toLowerCase().includes(searchQuery));
+    // If few name matches, show all loaded parks (geo search already narrowed them)
+    parks=nameMatches.length>=3 ? nameMatches : parks;
+  }
 
   if(activeFilter==='editors'){
     parks=parks.filter(p=>p.tier==='editors');
@@ -1278,33 +1279,46 @@ async function onSearch(){
   if(searchQuery.length>=2){
     try{
       const headers={'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`};
-      const sel='select=id,name,lat,lng,city,nbhd_safety,nbhd_families,nbhd_schools,nbhd_income,nbhd_walkability,nbhd_food&limit=200';
+      const sel='select=id,name,lat,lng,city,nbhd_safety,nbhd_families,nbhd_schools,nbhd_income,nbhd_walkability,nbhd_food&limit=500';
       const q=encodeURIComponent(searchQuery);
-      const [r1,r2]=await Promise.all([
-        fetch(`${SUPABASE_URL}/rest/v1/parks?name=ilike.*${q}*&${sel}`,{headers}),
-        fetch(`${SUPABASE_URL}/rest/v1/parks?city=ilike.*${q}*&${sel}`,{headers})
-      ]);
-      const [d1,d2]=await Promise.all([r1.json(),r2.json()]);
-      const combined=[...(Array.isArray(d1)?d1:[]),...(Array.isArray(d2)?d2:[])];
+
+      // Search by name always
+      const r1=await fetch(`${SUPABASE_URL}/rest/v1/parks?name=ilike.*${q}*&${sel}`,{headers});
+      const d1=await r1.json();
+
+      // Also geocode the query to get a location — load all parks near that point
+      let geoParks=[];
+      if(mapReady){
+        const geocoder=new google.maps.Geocoder();
+        await new Promise(resolve=>{
+          geocoder.geocode({address:searchQuery+', California',region:'us'},async(results,status)=>{
+            if(status==='OK'&&results[0]){
+              const loc=results[0].geometry.location;
+              const sLat=loc.lat(), sLng=loc.lng();
+              const delta=0.3; // ~20 mile radius around searched city
+              const r=await fetch(`${SUPABASE_URL}/rest/v1/parks?lat=gte.${(sLat-delta).toFixed(4)}&lat=lte.${(sLat+delta).toFixed(4)}&lng=gte.${(sLng-delta).toFixed(4)}&lng=lte.${(sLng+delta).toFixed(4)}&${sel}`,{headers});
+              geoParks=await r.json()||[];
+              // Pan map to searched location
+              if(googleMap){
+                googleMap.panTo({lat:sLat,lng:sLng});
+                googleMap.setZoom(12);
+              }
+            }
+            resolve();
+          });
+        });
+      }
+
+      const combined=[...(Array.isArray(d1)?d1:[]),...geoParks];
       const seen=new Set();
       const existingIds=new Set(allParks.map(p=>String(p.id)));
-      const newParks=[];
       combined.filter(p=>!seen.has(p.id)&&seen.add(p.id)&&p.lat&&p.lng&&p.name).forEach(p=>{
         if(!existingIds.has(String(p.id))){
-          const np={id:p.id,name:p.name,lat:p.lat,lng:p.lng,city:p.city||'',tier:'listed',distance:Math.round(dist(userLat,userLng,p.lat,p.lng)*10)/10,emoji:getEmoji(p.name),nbhd:{safety:p.nbhd_safety||0,families:p.nbhd_families||0,schools:p.nbhd_schools||0,walkability:p.nbhd_walkability||0,income:p.nbhd_income||0,food:p.nbhd_food||0},stackBadges:[],ages:[],food:[],subscores:{},amenities:[],tips:[],reviews:[]};
-          allParks.push(np);
-          newParks.push(np);
+          allParks.push({id:p.id,name:p.name,lat:p.lat,lng:p.lng,city:p.city||'',tier:'listed',distance:Math.round(dist(userLat,userLng,p.lat,p.lng)*10)/10,emoji:getEmoji(p.name),nbhd:{safety:p.nbhd_safety||0,families:p.nbhd_families||0,schools:p.nbhd_schools||0,walkability:p.nbhd_walkability||0,income:p.nbhd_income||0,food:p.nbhd_food||0},stackBadges:[],ages:[],food:[],subscores:{},amenities:[],tips:[],reviews:[]});
           existingIds.add(String(p.id));
         }
       });
-
-      // Pan map to first result's city
-      const firstResult=combined.find(p=>p.lat&&p.lng);
-      if(firstResult&&googleMap){
-        googleMap.panTo({lat:firstResult.lat,lng:firstResult.lng});
-        googleMap.setZoom(12);
-        updateMapMarkers();
-      }
+      updateMapMarkers();
     }catch(e){console.log('Search error:',e);}
   }
   renderSearch();
@@ -1332,8 +1346,8 @@ function updateMapMarkers(){
   mapMarkers.forEach(m=>m.setMap(null));mapMarkers=[];
   // Show filtered parks on map if searching, otherwise show nearby
   const toShow=searchQuery
-    ? filteredParks.filter(p=>p.lat&&p.lng).slice(0,100)
-    : allParks.filter(p=>p.lat&&p.lng&&(p.distance||99)<=10);
+    ? filteredParks.filter(p=>p.lat&&p.lng).slice(0,200)
+    : allParks.filter(p=>p.lat&&p.lng&&(p.distance||999)<=30).slice(0,200);
   toShow.forEach(p=>{
     const isE=p.tier==='editors';
     const isGreat=p.tier==='great';
@@ -1724,10 +1738,28 @@ async function loadSupabaseParks(){
     // Update home eyebrow with nearest city
     const nearestCity=allParks.find(p=>p.city)?.city;
     const eyebrow=document.getElementById('homeEyebrow');
-    if(eyebrow&&nearestCity) eyebrow.textContent=`Parks near ${nearestCity}`;
+    if(eyebrow){
+      if(locationKnown&&mapReady){
+        // Use reverse geocode to get user's actual city
+        const geocoder=new google.maps.Geocoder();
+        geocoder.geocode({location:{lat:userLat,lng:userLng}},(results,status)=>{
+          if(status==='OK'&&results[0]){
+            const cityComp=results[0].address_components.find(c=>c.types.includes('locality'));
+            const city=cityComp?.long_name||nearestCity;
+            if(city) eyebrow.textContent=`Parks near ${city}`;
+          }
+        });
+      } else if(nearestCity){
+        eyebrow.textContent=`Parks near ${nearestCity}`;
+      }
+    }
     renderHome();
     renderSearch();
     updateMapMarkers();
+    if(googleMap&&locationKnown){
+      googleMap.panTo({lat:userLat,lng:userLng});
+      googleMap.setZoom(12);
+    }
   }catch(e){console.error('Supabase error:',e);}
 }
 
@@ -1736,19 +1768,38 @@ allParks=CURATED.map(c=>({...c,distance:Math.round(dist(userLat,userLng,c.lat,c.
 renderHome();
 renderSearch();
 
-// Get location then load nearby parks
+// Wait up to 3 seconds for location, then load parks once with best available coords
+let locationResolved=false;
+const locationTimeout=setTimeout(()=>{
+  if(!locationResolved){
+    locationResolved=true;
+    loadSupabaseParks(); // timed out — load with SF default
+  }
+},3000);
+
 if(navigator.geolocation){
   navigator.geolocation.getCurrentPosition(
     pos=>{
+      if(locationResolved)return; // already loaded, ignore
+      clearTimeout(locationTimeout);
+      locationResolved=true;
       userLat=pos.coords.latitude;
       userLng=pos.coords.longitude;
       locationKnown=true;
-      loadSupabaseParks();
+      loadSupabaseParks(); // load once with real coords
     },
-    ()=>loadSupabaseParks(), // location denied — load near SF default
-    {enableHighAccuracy:false,timeout:5000,maximumAge:0}
+    ()=>{
+      if(locationResolved)return;
+      clearTimeout(locationTimeout);
+      locationResolved=true;
+      loadSupabaseParks(); // denied — load with SF default
+    },
+    {enableHighAccuracy:false,timeout:3000,maximumAge:0}
   );
-} else { loadSupabaseParks(); }
+} else {
+  clearTimeout(locationTimeout);
+  loadSupabaseParks();
+}
 
 // Nav scroll blur
 window.addEventListener('scroll',function(){
