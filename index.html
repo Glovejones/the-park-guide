@@ -442,9 +442,11 @@ nav{padding-top:max(0px,env(safe-area-inset-top));}
   .park-cards{display:grid;grid-template-columns:1fr 1fr;}
   #search.active{display:flex;flex-direction:row;flex-wrap:wrap;height:100vh;height:100dvh;overflow:hidden;}
   .search-header,.filter-strip{width:100%;flex-shrink:0;}
-  .map-wrap{flex:0 0 50%;height:calc(100vh - 130px);min-height:0;}
+  .map-wrap{flex:0 0 50%;height:calc(100vh - 130px);min-height:0;position:sticky;top:60px;transition:none;}
+  .map-wrap.collapsed{height:calc(100vh - 130px)!important;min-height:0!important;}
   .drag-handle-wrap{display:none;}
   .results-wrap{flex:0 0 50%;height:calc(100vh - 130px);overflow-y:scroll;min-height:0;padding-bottom:0;}
+  .map-expand-btn{display:none!important;}
 }
 </style>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBUgf1mE4bC7UQ7sovzlnV21HF_qYUY1tk&callback=onMapsReady" async defer></script>
@@ -1004,6 +1006,7 @@ function initDragHandle(){
 
 // ── MAP AUTO-COLLAPSE ON SCROLL ──
 function initMapCollapse(){
+  if(window.innerWidth>=768)return; // desktop: map stays static
   const resultsWrap=document.getElementById('resultsWrap');
   const mapWrap=document.querySelector('.map-wrap');
   const expandBtn=document.getElementById('mapExpandBtn');
@@ -1174,9 +1177,9 @@ function applyFilters(){
   let parks=[...allParks].sort((a,b)=>(a.distance||99)-(b.distance||99));
 
   if(searchQuery){
-    // Show parks whose name matches, OR all loaded parks if it looks like a city search
     const nameMatches=parks.filter(p=>p.name?.toLowerCase().includes(searchQuery));
-    parks=nameMatches.length>0 ? nameMatches : parks;
+    // If enough name matches exist show them, otherwise show all loaded parks (geo search results)
+    parks=nameMatches.length>=5 ? nameMatches : parks;
   }
 
   if(activeFilter==='editors'){
@@ -1280,39 +1283,47 @@ async function onSearch(){
       const sel='select=id,name,lat,lng,city,nbhd_safety,nbhd_families,nbhd_schools,nbhd_income,nbhd_walkability,nbhd_food&limit=500';
       const q=encodeURIComponent(searchQuery);
 
-      // Search by name always
+      // Search by park name
       const r1=await fetch(`${SUPABASE_URL}/rest/v1/parks?name=ilike.*${q}*&${sel}`,{headers});
-      const d1=await r1.json();
+      const nameResults=await r1.json()||[];
 
-      // Also geocode the query to get a location — load all parks near that point
-      let geoParks=[];
-      if(mapReady){
+      // Geocode the search term to get coordinates, then load all parks in that area
+      let geoResults=[];
+      await new Promise(resolve=>{
         const geocoder=new google.maps.Geocoder();
-        await new Promise(resolve=>{
-          geocoder.geocode({address:searchQuery+', California',region:'us'},async(results,status)=>{
-            if(status==='OK'&&results[0]){
-              const loc=results[0].geometry.location;
-              const sLat=loc.lat(), sLng=loc.lng();
-              const delta=0.3; // ~20 mile radius around searched city
-              const r=await fetch(`${SUPABASE_URL}/rest/v1/parks?lat=gte.${(sLat-delta).toFixed(4)}&lat=lte.${(sLat+delta).toFixed(4)}&lng=gte.${(sLng-delta).toFixed(4)}&lng=lte.${(sLng+delta).toFixed(4)}&${sel}`,{headers});
-              geoParks=await r.json()||[];
-              // Pan map to searched location
-              if(googleMap){
-                googleMap.panTo({lat:sLat,lng:sLng});
-                googleMap.setZoom(12);
-              }
+        geocoder.geocode({address:searchQuery+', California, USA'}, async(results,status)=>{
+          if(status==='OK'&&results[0]){
+            const loc=results[0].geometry.location;
+            const sLat=loc.lat(), sLng=loc.lng();
+            const delta=0.25; // ~17 mile radius
+            const r=await fetch(
+              `${SUPABASE_URL}/rest/v1/parks?lat=gte.${(sLat-delta).toFixed(4)}&lat=lte.${(sLat+delta).toFixed(4)}&lng=gte.${(sLng-delta).toFixed(4)}&lng=lte.${(sLng+delta).toFixed(4)}&${sel}`,
+              {headers}
+            );
+            geoResults=await r.json()||[];
+            console.log(`Geocoded "${searchQuery}" to [${sLat.toFixed(3)},${sLng.toFixed(3)}], got ${geoResults.length} parks`);
+            if(googleMap){
+              googleMap.panTo({lat:sLat,lng:sLng});
+              googleMap.setZoom(12);
             }
-            resolve();
-          });
+          }
+          resolve();
         });
-      }
+      });
 
-      const combined=[...(Array.isArray(d1)?d1:[]),...geoParks];
+      // Merge results, add any new parks to allParks
+      const combined=[...nameResults,...geoResults];
       const seen=new Set();
       const existingIds=new Set(allParks.map(p=>String(p.id)));
       combined.filter(p=>!seen.has(p.id)&&seen.add(p.id)&&p.lat&&p.lng&&p.name).forEach(p=>{
         if(!existingIds.has(String(p.id))){
-          allParks.push({id:p.id,name:p.name,lat:p.lat,lng:p.lng,city:p.city||'',tier:'listed',distance:Math.round(dist(userLat,userLng,p.lat,p.lng)*10)/10,emoji:getEmoji(p.name),nbhd:{safety:p.nbhd_safety||0,families:p.nbhd_families||0,schools:p.nbhd_schools||0,walkability:p.nbhd_walkability||0,income:p.nbhd_income||0,food:p.nbhd_food||0},stackBadges:[],ages:[],food:[],subscores:{},amenities:[],tips:[],reviews:[]});
+          allParks.push({
+            id:p.id,name:p.name,lat:p.lat,lng:p.lng,city:p.city||'',tier:'listed',
+            distance:Math.round(dist(userLat,userLng,p.lat,p.lng)*10)/10,
+            emoji:getEmoji(p.name),
+            nbhd:{safety:p.nbhd_safety||0,families:p.nbhd_families||0,schools:p.nbhd_schools||0,walkability:p.nbhd_walkability||0,income:p.nbhd_income||0,food:p.nbhd_food||0},
+            stackBadges:[],ages:[],food:[],subscores:{},amenities:[],tips:[],reviews:[]
+          });
           existingIds.add(String(p.id));
         }
       });
@@ -1708,7 +1719,8 @@ function toggleFav(){
 // ── LOAD SUPABASE PARKS ──
 async function loadSupabaseParks(){
   try{
-    const delta=0.8;
+    // Use tight 0.3° box (~20mi) to get the most local parks reliably
+    const delta=0.3;
     const q=`${SUPABASE_URL}/rest/v1/parks?lat=gte.${(userLat-delta).toFixed(4)}&lat=lte.${(userLat+delta).toFixed(4)}&lng=gte.${(userLng-delta).toFixed(4)}&lng=lte.${(userLng+delta).toFixed(4)}&select=id,name,lat,lng,city,nbhd_safety,nbhd_families,nbhd_schools,nbhd_income,nbhd_walkability,nbhd_food&limit=2000`;
     console.log('Fetching nearby parks...');
     const r=await fetch(q,{headers:{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`,'Accept':'application/json'}});
@@ -1732,19 +1744,9 @@ async function loadSupabaseParks(){
       ...CURATED.map(c=>({...c,distance:Math.round(dist(userLat,userLng,c.lat,c.lng)*10)/10})),
       ...extra
     ].sort((a,b)=>a.distance-b.distance);
-    console.log('Total parks loaded:',allParks.length);
-    // Update eyebrow with user's real city via reverse geocode
+    console.log('Total parks loaded:',allParks.length,'nearest:',allParks[0]?.name,allParks[0]?.distance+'mi');
     const eyebrow=document.getElementById('homeEyebrow');
-    if(eyebrow&&locationKnown&&mapReady){
-      new google.maps.Geocoder().geocode({location:{lat:userLat,lng:userLng}},(results,status)=>{
-        if(status==='OK'){
-          const city=results[0]?.address_components?.find(c=>c.types.includes('locality'))?.long_name;
-          if(city)eyebrow.textContent=`Parks near ${city}`;
-        }
-      });
-    } else if(eyebrow&&allParks[0]?.city){
-      eyebrow.textContent=`Parks near ${allParks[0].city}`;
-    }
+    if(eyebrow&&allParks[0]?.city) eyebrow.textContent=`Parks near ${allParks[0].city}`;
     renderHome();
     renderSearch();
     updateMapMarkers();
@@ -1764,7 +1766,7 @@ if(navigator.geolocation){
   navigator.geolocation.getCurrentPosition(
     pos=>{userLat=pos.coords.latitude;userLng=pos.coords.longitude;locationKnown=true;loadSupabaseParks();},
     ()=>loadSupabaseParks(),
-    {enableHighAccuracy:false,timeout:8000,maximumAge:300000}
+    {enableHighAccuracy:false,timeout:8000,maximumAge:0}
   );
 } else { loadSupabaseParks(); }
 
