@@ -84,7 +84,7 @@ nav.scrolled{background:rgba(250,248,244,0.97);border-bottom-color:var(--border)
 .drag-handle-wrap{height:20px;flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:ns-resize;background:var(--offwhite);border-top:0.5px solid var(--border);touch-action:none;transition:height 0.32s cubic-bezier(0.4,0,0.2,1);}
 .map-wrap.collapsed+.drag-handle-wrap{border-top-color:transparent;}
 .drag-handle{width:32px;height:3px;border-radius:2px;background:var(--sand-dark);}
-.results-wrap{flex:1;overflow-y:auto;overflow-x:hidden;background:var(--offwhite);-webkit-overflow-scrolling:touch;min-height:0;padding-bottom:max(100px,calc(env(safe-area-inset-bottom) + 90px));}
+.results-wrap{flex:1;overflow-y:auto;overflow-x:hidden;background:var(--offwhite);-webkit-overflow-scrolling:touch;min-height:0;padding-bottom:120px;}
 
 /* Map expand button — appears when map is collapsed */
 .map-expand-btn{position:sticky;top:0;z-index:10;display:none;width:100%;padding:7px 16px;background:var(--white);border:none;border-bottom:0.5px solid var(--border);font-family:'Cabinet Grotesk',sans-serif;font-size:12px;font-weight:700;color:var(--sage);cursor:pointer;text-align:left;gap:6px;align-items:center;}
@@ -432,7 +432,6 @@ nav{padding-top:max(0px,env(safe-area-inset-top));}
 .footer-col-link{font-size:12px;color:rgba(255,255,255,0.55);margin-bottom:7px;cursor:pointer;transition:color 0.15s;font-weight:500;}
 .footer-col-link:hover{color:white;}
 .footer-legal{font-size:10px;color:rgba(255,255,255,0.2);font-weight:500;letter-spacing:0.3px;}
-.spacer{height:90px;}
 
 .pending-msg{background:var(--sand);border-radius:var(--r-sm);padding:16px;text-align:center;grid-column:span 3;}
 .pending-msg-icon{font-size:24px;margin-bottom:8px;}
@@ -1174,11 +1173,10 @@ function applyFilters(){
   // Always start from parks sorted by distance
   let parks=[...allParks].sort((a,b)=>(a.distance||99)-(b.distance||99));
 
-  // When searching, only filter by name — geo results already loaded by bounding box
   if(searchQuery){
+    // Show parks whose name matches, OR all loaded parks if it looks like a city search
     const nameMatches=parks.filter(p=>p.name?.toLowerCase().includes(searchQuery));
-    // If few name matches, show all loaded parks (geo search already narrowed them)
-    parks=nameMatches.length>=3 ? nameMatches : parks;
+    parks=nameMatches.length>0 ? nameMatches : parks;
   }
 
   if(activeFilter==='editors'){
@@ -1712,12 +1710,12 @@ async function loadSupabaseParks(){
   try{
     const delta=0.8;
     const q=`${SUPABASE_URL}/rest/v1/parks?lat=gte.${(userLat-delta).toFixed(4)}&lat=lte.${(userLat+delta).toFixed(4)}&lng=gte.${(userLng-delta).toFixed(4)}&lng=lte.${(userLng+delta).toFixed(4)}&select=id,name,lat,lng,city,nbhd_safety,nbhd_families,nbhd_schools,nbhd_income,nbhd_walkability,nbhd_food&limit=2000`;
-    console.log(`Fetching parks near [${userLat.toFixed(3)},${userLng.toFixed(3)}]...`);
+    console.log('Fetching nearby parks...');
     const r=await fetch(q,{headers:{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`,'Accept':'application/json'}});
     console.log('Status:',r.status);
     if(!r.ok){console.error('Error:',await r.text());return;}
     const data=await r.json();
-    console.log(`Got ${data?.length} parks`);
+    console.log('Got',data?.length,'parks from Supabase');
     if(!data?.length)return;
     const curatedNames=new Set(CURATED.map(c=>c.name.toLowerCase()));
     const extra=data
@@ -1734,24 +1732,18 @@ async function loadSupabaseParks(){
       ...CURATED.map(c=>({...c,distance:Math.round(dist(userLat,userLng,c.lat,c.lng)*10)/10})),
       ...extra
     ].sort((a,b)=>a.distance-b.distance);
-    console.log(`✓ ${allParks.length} total parks, nearest: ${allParks[0]?.name} (${allParks[0]?.distance}mi)`);
-    // Update home eyebrow with nearest city
-    const nearestCity=allParks.find(p=>p.city)?.city;
+    console.log('Total parks loaded:',allParks.length);
+    // Update eyebrow with user's real city via reverse geocode
     const eyebrow=document.getElementById('homeEyebrow');
-    if(eyebrow){
-      if(locationKnown&&mapReady){
-        // Use reverse geocode to get user's actual city
-        const geocoder=new google.maps.Geocoder();
-        geocoder.geocode({location:{lat:userLat,lng:userLng}},(results,status)=>{
-          if(status==='OK'&&results[0]){
-            const cityComp=results[0].address_components.find(c=>c.types.includes('locality'));
-            const city=cityComp?.long_name||nearestCity;
-            if(city) eyebrow.textContent=`Parks near ${city}`;
-          }
-        });
-      } else if(nearestCity){
-        eyebrow.textContent=`Parks near ${nearestCity}`;
-      }
+    if(eyebrow&&locationKnown&&mapReady){
+      new google.maps.Geocoder().geocode({location:{lat:userLat,lng:userLng}},(results,status)=>{
+        if(status==='OK'){
+          const city=results[0]?.address_components?.find(c=>c.types.includes('locality'))?.long_name;
+          if(city)eyebrow.textContent=`Parks near ${city}`;
+        }
+      });
+    } else if(eyebrow&&allParks[0]?.city){
+      eyebrow.textContent=`Parks near ${allParks[0].city}`;
     }
     renderHome();
     renderSearch();
@@ -1760,7 +1752,7 @@ async function loadSupabaseParks(){
       googleMap.panTo({lat:userLat,lng:userLng});
       googleMap.setZoom(12);
     }
-  }catch(e){console.error('Supabase error:',e);}
+  }catch(e){console.error('Supabase load error:',e);}
 }
 
 // ── INIT ──
@@ -1768,38 +1760,13 @@ allParks=CURATED.map(c=>({...c,distance:Math.round(dist(userLat,userLng,c.lat,c.
 renderHome();
 renderSearch();
 
-// Wait up to 3 seconds for location, then load parks once with best available coords
-let locationResolved=false;
-const locationTimeout=setTimeout(()=>{
-  if(!locationResolved){
-    locationResolved=true;
-    loadSupabaseParks(); // timed out — load with SF default
-  }
-},3000);
-
 if(navigator.geolocation){
   navigator.geolocation.getCurrentPosition(
-    pos=>{
-      if(locationResolved)return; // already loaded, ignore
-      clearTimeout(locationTimeout);
-      locationResolved=true;
-      userLat=pos.coords.latitude;
-      userLng=pos.coords.longitude;
-      locationKnown=true;
-      loadSupabaseParks(); // load once with real coords
-    },
-    ()=>{
-      if(locationResolved)return;
-      clearTimeout(locationTimeout);
-      locationResolved=true;
-      loadSupabaseParks(); // denied — load with SF default
-    },
-    {enableHighAccuracy:false,timeout:3000,maximumAge:0}
+    pos=>{userLat=pos.coords.latitude;userLng=pos.coords.longitude;locationKnown=true;loadSupabaseParks();},
+    ()=>loadSupabaseParks(),
+    {enableHighAccuracy:false,timeout:8000,maximumAge:300000}
   );
-} else {
-  clearTimeout(locationTimeout);
-  loadSupabaseParks();
-}
+} else { loadSupabaseParks(); }
 
 // Nav scroll blur
 window.addEventListener('scroll',function(){
